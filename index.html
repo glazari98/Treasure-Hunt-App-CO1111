@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="design.css" />
     <title>Landing Page</title>
     <script src="js/index.js"></script>
@@ -11,44 +12,59 @@
     </script>
 </head>
 <body>
-    <section id="welcome" class="hidden">
-        <img src="resources/photo_2024-02-19_03-58-59.jpg" alt="logo" id="logo">
-        <h1 class="hidden">Welcome</h1>
-        <div id="game">
-            <input type="button" name="start" value="START" onclick="window.location.href += `/app.html`" id="start">
-            <p>Here goes our <b>Treasure Hunt game</b></p>
-        </div>
-        <p>Scroll down to learn more about the project</p>
-    </section>
-    <section id="aims" class="hidden">
-        <h2 class="hidden">Project aims:</h2>
+    <main>
+        <section id="welcome" class="hidden">
+            <img src="resources/logo.png" alt="logo" id="logo">
+            <div id="picture">
+                <h1 class="hidden">Welcome</h1>
+                <img src="resources/Picture1.png" alt="" id="ll">
+            </div>
+            
+            <div id="game">
+                <input type="button" name="start" value="START" onclick="window.location.href += `/app.html`" id="start">
+                <p>Here goes our <b>Treasure Hunt game</b></p>
+            </div>
+            <p id="scroll">Scroll to learn more about the project</p>
+        </section>
+        <section id="aims" class="hidden">
+            <h2 class="hidden">Project aims:</h2>
+            <ul>
+                <li class="hidden">To build an appropriate Mobile Web App to use for playing a treasure hunt.</li>
+                <li class="hidden">Access a variety of different treasure hunts</li>
+                <li class="hidden">Each treasure hunt consists of online quiz where the answers depend on you finding information at specific locations.</li>
+            </ul>
+        </section>
+        <section id="team" class="hidden">
+        <h2 class="hidden">Team members:</h2>
         <ul>
-            <li class="hidden">To build an appropriate Mobile Web App to use for playing a treasure hunt.</li>
-            <li class="hidden">Access a variety of different treasure hunts</li>
-            <li class="hidden">Each treasure hunt consists of online quiz where the answers depend on you finding information at specific locations.</li>
+            <li class="hidden">Georgios Lazari</li>
+            <li class="hidden">Rafaella Katsiari</li>
+            <li class="hidden">Daria Chystiakova</li>
+            <li class="hidden">Vasilii Telnov</li>
+            <li class="hidden">Ahmed Mohammed Samir</li>
         </ul>
-    </section>
-    <section id="team" class="hidden">
-    <h2 class="hidden">Team members:</h2>
-    <ul>
-        <li class="hidden">Georgios Lazari</li>
-        <li class="hidden">Rafaella Katsiari</li>
-        <li class="hidden">Daria Chystiakova</li>
-        <li class="hidden">Vasilii Telnov</li>
-        <li class="hidden">Ahmed Mohammed Samir</li>
-    </ul>
-    </section>
-    <section id="contact" class="hidden">
-        <div id="twitter" class="hidden">
-            <h2>Twitter/X</h2>
-            <!--Twitter post-->
-            <a class="twitter-timeline" href="https://twitter.com/groupA2GRAD?ref_src=twsrc%5Etfw">Tweets by groupA2GRAD</a>
-            <!--Twitter share button-->
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Hi! This is Team 2." data-via="groupA2GRAD" data-hashtags="CO1111" data-show-count="false">Tweet</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-        </div>
-    </section>
-   
+        </section>
+        <section id="contact" class="hidden">
+            <div id="twitter" class="hidden">
+                <h3>Twitter/X</h3>
+                <!--Twitter post-->
+                <a class="twitter-timeline" href="https://twitter.com/groupA2GRAD?ref_src=twsrc%5Etfw">Tweets by groupA2GRAD</a>
+                <!--Twitter share button-->
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Hi! This is Team 2." data-via="groupA2GRAD" data-hashtags="CO1111" data-show-count="false">Tweet</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            <div id="facebook" class="hidden">
+                <!-- Facebook content -->
+                <h3>Facebook</h3>
+
+            </div>
+            <div id="instagram" class="hidden">
+                <!-- Instagram content -->
+                <h3>Instagram</h3>
+
+            </div>
+        </section>
+    </main>
 </body>
 <footer>
     Copyright © 2024 UCLan Cyprus, All rights reserved. 

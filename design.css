@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700;800&display=swap');
 body {
-    background-color: #f5f5f3;
     align-items: center;
     align-content: center;
     align-self: center;
@@ -8,60 +7,140 @@ body {
     padding: 0px;
     background: rgb(5,1,71);
     background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%); 
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+main {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
 }
 
 section {
-    display: grid;
-    /* place-items: center; */
-    align-content: center;
-    font-family: 'Poppins', sans-serif;
-    color: white;
-    width: 100%;
     height: 100vh;
-    margin: 0%;
+    scroll-snap-align: start;
+    font-size: 1.5vw;
+    
 }
 
 section h1 {
+    margin-top: 15%;
+    margin-left: 10%;
     font-weight: 800;
-    font-size: 10vw;
-    margin-bottom: 10%;
+    font-size: 9vw;
+    /* margin-bottom: 10%; */
+}
+
+section h2 {
+    font-size: 7vw;
+    margin-top: 20%;
+    padding: 5%;
+    /* position: absolute;/ */
+}
+
+section ul {
+    padding-left: 5%;
+    position: relative;
 }
 
 
 footer {
-    align-items: center;
-    align-content: center;
-    background-color: #000000;
-    color:#f5f5f3;
-    align-self: center;
-    margin: 0 auto;
-    padding: 0;
-    height: 7vh;
-    text-align: center;
-    width: 100%;
-    top: 50%;
     display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 7vh;
+    width: 100%;
+    align-items: center;
+    text-align: center;
     justify-content: center;
-
+    scroll-snap-stop: always;
 }
 
-#logo {
-    width: 20%;
-    top: 0;
-    position: absolute;
 
-}
-
-#game {
+#welcome div {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
+}
+
+/* #picture {
+    height: 30%;
+} */
+
+#logo {
+    width: 20%;
+    min-width: 300px;
+    top: 0;
+    position: absolute;
+}
+
+#ll {
+    width: 30%;
+    height: 30%;
+    /* position: absolute;
+    right: 10%;
+    top: 10%; */
+}
+
+
+
+#game {
+    justify-self: center; /* Horizontally center the item within its grid cell */
+    align-self: center; /* Vertically center the item within its grid cell */
 }
 
 #start {
-    width: 10%;
-    min-width: 50px;
+    width: 15%;
+    min-width: 100px;
     margin: 20px;
+    border-radius: 10px;
+    background-color: rgb(44, 8, 110);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+#start::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 80%);
+    transform: rotate(45deg);
+    pointer-events: none;
+    z-index: 1; /* Ensure the glare appears above the button */
+}
+
+
+#start:hover {
+    background-color: rgb(93, 8, 110); /*Изменяем цвет кнопки при наведении курсора */
+    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); */
+}
+
+#scroll{
+    position: absolute;
+    right: 10%;
+    bottom: 5%;
+}
+
+#contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#contact div{
+    width: 30%;
+    min-width: 300px;
 }
 
 .hidden {
@@ -77,7 +156,25 @@ footer {
     transform: translateX(0);
 }
 
+@media (max-width: 700px) {
 
-.twitter-timeline{
-    width: 10%;
+    #ll{
+        margin-left: 50%;
+        /* position:absolute;
+        top: 30%;
+        right: 5%; */
+    }
+    
+    
+    section h1 {
+        margin-left: 0;
+        margin-top: 45%;
+        font-size: 70px;
+    }
+    section h2 {
+        font-size: 50px;
+    }
+    section {
+        font-size: 20px;
+    }
 }
