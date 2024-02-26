@@ -155,7 +155,6 @@ footer {
     filter: blur(0);
     transform: translateX(0);
 }
-
 @media (max-width: 700px) {
 
     #ll{

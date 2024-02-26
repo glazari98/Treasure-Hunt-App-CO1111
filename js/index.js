@@ -22,3 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gtag('config', 'G-529VLQPE0H');
 });
+
+
+
