@@ -1,0 +1,11 @@
+body {
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(5,1,71);
+    background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
