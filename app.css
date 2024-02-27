@@ -1,4 +1,4 @@
-body {
+body{
     align-items: center;
     align-content: center;
     justify-content: center;
@@ -13,7 +13,23 @@ body {
     height: 100vh;
     font-size: 2vw;
 }
-
+main {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+}
+main .leaderboard{
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+}
 ul {
     list-style-type: none;
 }
