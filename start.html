@@ -19,7 +19,7 @@
     let string = "&app=treasureHuntGroupA2&treasure-hunt-id=" + id;
     let session = "";
    async function startTH(){
-
+        event.preventDefault();
        let player = document.getElementById("player").value;
        await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
            .then(jsonObject => {
