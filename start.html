@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method='get' onsubmit="startTH()">
+    <input type="text"  id="player">
+    <input type="submit" name="submit">
+</form>
+<script>
+    const params = new URLSearchParams(location.search);
+    let id = "";
+    if(params.has("treasure-hunt-id")){
+        id = params.get("treasure-hunt-id");
+    }
+
+    let string = "&app=treasureHuntGroupA2&treasure-hunt-id=" + id;
+    let session = "";
+   async function startTH(){
+
+       let player = document.getElementById("player").value;
+       await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
+           .then(jsonObject => {
+               window.location.href = "question.html?session=" + jsonObject.session;
+           });
+
+    }
+
+
+</script>
+</body>
+</html>

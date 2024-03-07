@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions</title>
+</head>
+<body>
+
+<div id="question">
+
+</div>
+<form id="field" onsubmit="getQuestion()"><input type="text" id="answer"><input type="submit"></form>
+<script>
+    const params = new URLSearchParams(location.search);
+    let ok = "";
+    if(params.has("session")){
+        ok = params.get("session");
+    }
+    let question = document.getElementById('question');
+    let answerForm = document.getElementById('field');
+    function getQuestion() {
+        let answer = document.getElementById('answer').value;
+        fetch("https://codecyprus.org/th/api/question?session=" + ok).then(response => response.json()) //Parse JSON text to JavaScript object
+            .then(jsonObject => {
+                console.log(jsonObject);
+                question.innerText = jsonObject.questionText;
+            });
+    }
+    getQuestion();
+
+    answerForm.addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        let answer = document.getElementById('answer').value;
+
+        await fetch("https://codecyprus.org/th/api/answer?session=" + ok + "&answer=" + encodeURIComponent(answer))
+            .then(response => response.json())
+            .then(jsonObject => {
+                console.log(jsonObject);
+                // Handle the response as needed
+            });
+
+        // Get the next question after submitting the answer
+        await getQuestion();
+    });
+
+
+
+
+
+</script>
+</body>
+</html>

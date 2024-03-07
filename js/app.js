@@ -23,6 +23,7 @@ fetch("https://codecyprus.org/th/api/list").then(response => response.json()) //
         let huntName = li.textContent; // Retrieve the inner text of the clicked element
         console.log(huntName);
         if(valid) alert("Starting treasure hunt " + huntName);
+        window.location.href = "start.html?treasure-hunt-id=" + element.uuid;
       });
 });
 });
