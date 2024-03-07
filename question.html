@@ -15,6 +15,7 @@
     let ok = "";
     if(params.has("session")){
         ok = params.get("session");
+        sessionStorage.setItem('session', ok);
     }
     let question = document.getElementById('question');
     let formElement = document.getElementById('answer');
