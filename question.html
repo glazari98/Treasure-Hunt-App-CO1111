@@ -34,7 +34,7 @@
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
         event.preventDefault();
         let answer = document.getElementById('inputField').value;
-        //fetch
+        //check if the user's answer is correct
         await fetch("https://codecyprus.org/th/api/answer?session=" + ok + "&answer=" + answer)
             .then(response => response.json())
             .then(jsonObject => {
