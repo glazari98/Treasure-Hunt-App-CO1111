@@ -1,4 +1,4 @@
-fetch("https://codecyprus.org/th/api/list").then(response => response.json()) //Parse JSON text to JavaScript object
+fetch("https://codecyprus.org/th/api/list").then(response => response.json())
 .then(jsonObject => {
     console.log(jsonObject.treasureHunts); 
     //TODO - Success, do something with the data.
@@ -20,7 +20,7 @@ fetch("https://codecyprus.org/th/api/list").then(response => response.json()) //
     
 
       li.addEventListener('click', function() {
-        let huntName = li.textContent; // Retrieve the inner text of the clicked element
+        let huntName = li.textContent;
         console.log(huntName);
         if(valid) alert("Starting treasure hunt " + huntName);
         window.location.href = "start.html?treasure-hunt-id=" + element.uuid;

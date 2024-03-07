@@ -12,13 +12,16 @@
 <script>
     const params = new URLSearchParams(location.search);
     let id = "";
+    //get the treasure hunt id from the url to use it for the fetch funnction
     if(params.has("treasure-hunt-id")){
         id = params.get("treasure-hunt-id");
     }
 
     let string = "&app=treasureHuntGroupA2&treasure-hunt-id=" + id;
     let session = "";
+    //prompt the user to enter it;s username so the treasure hunt questions can start
    async function startTH(){
+       //prevent the page from refreshing when submit button is pressed
         event.preventDefault();
        let player = document.getElementById("player").value;
        await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
