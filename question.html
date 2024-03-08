@@ -2,37 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>cookies</title>
+</head>
+<body>
+<script>
+    function setCookie(cookieName, cookieValue, expireDays) {
+        let date = new Date();
+        date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + date.toUTCString();
+        document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    }
+    setCookie("username", "John", 10);
+    setCookie("lastname", "Oneil", 10);
+    var cookies = document.cookie;
+    console.log(cookies);
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <title>Questions</title>
 </head>
 <body>
 
 <script>
+    // function setCookie(cookieName, cookieValue, expireDays) {
+    //     let date = new Date();
+    //     date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
+    //     let expires = "expires=" + date.toUTCString();
+    //     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    // }
+    // setCookie("username", "John", 10);
+    // var cookies = document.cookie;
+    // console.log(cookies);
 
-    function askForLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        }
-        else {
-            //TODO - Geolocation is NOT supported by browser.
-        }
-    }
 
-
-
-    function showPosition(position) {
-        position.coords.latitude //Get the latitude
-        position.coords.longitude //Get the longitude
-        console.log(position.coords.latitude);
-        console.log(position.coords.longitude);
-
-    }
 
 </script>
 
 <div id="question">
 </div>
 <form id="answer" onsubmit="getQuestion()"><input type="text" id="inputField" ><input type="submit"></form>
+<button id="skipButton">Skip</button>
 <script>
+    let skip =  document.getElementById('skipButton')
+    skip.addEventListener('click',skipped);
+
     const params = new URLSearchParams(location.search);
     //get the session from the url
     let ok = "";
@@ -42,12 +59,50 @@
     }
     let question = document.getElementById('question');
     let formElement = document.getElementById('answer');
+
+    async function locationK(){
+        function askForLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+            else {
+                //TODO - Geolocation is NOT supported by browser.
+            }
+        }
+
+        let latitude = "";
+        let longitude = "";
+        async function showPosition(position) {
+            latitude = position.coords.latitude //Get the latitude
+            longitude = position.coords.longitude //Get the longitude
+
+            await fetch("https://codecyprus.org/th/api/location?session=" + ok + "&latitude=" + latitude + "&longitude=" + longitude)
+                .then(response => response.json())
+                .then(jsonObject => {
+                    console.log(jsonObject);
+                });
+        }
+        askForLocation();
+
+    }
+    locationK();
+    setInterval(locationK, 35000);
     //receive the question information and display the question
     function getQuestion() {
         fetch("https://codecyprus.org/th/api/question?session=" + ok).then(response => response.json())
-            .then(jsonObject => {
+            .then(async jsonObject => {
                 console.log(jsonObject);
                 question.innerHTML = jsonObject.questionText;
+                if (jsonObject.requiresLocation == true) {
+                    alert("We need your location for this question");
+                    await locationK();
+                }
+                if(jsonObject.canBeSkipped == false){
+                    skip.disabled = true;
+                }
+                else{
+                    skip.disabled = false;
+                }
             });
     }
     getQuestion();
@@ -60,7 +115,7 @@
         let answer = document.getElementById('inputField').value;
         document.getElementById("inputField").value = "";
         //check if the user's answer is correct
-        await fetch("https://codecyprus.org/th/api/answer?session=" + ok + "&answer=" + answer)
+        await fetch("https://codecyprus.org/th/api/answer?session=" + ok  + "&answer=" + answer)
             .then(response => response.json())
             .then(jsonObject => {
                 console.log(jsonObject);
@@ -70,7 +125,15 @@
         await getQuestion();
     }
 
+    async function skipped(){
+        await fetch("https://codecyprus.org/th/api/skip?session=" + ok)
+            .then(response => response.json())
+            .then(jsonObject => {
+                skip.removeEventListener('click',skipped);
+                getQuestion();
+            });
 
+    }
 
 
 </script>
