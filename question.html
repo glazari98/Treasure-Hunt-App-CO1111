@@ -73,8 +73,8 @@
     }
 
     //receive the question information and display the question
-    function getQuestion() {
-        fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
+    async function getQuestion() {
+        await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(async jsonObject => {
                 console.log(jsonObject);
                 question.innerHTML = jsonObject.questionText;
@@ -104,7 +104,9 @@
             .then(jsonObject => {
                 console.log(jsonObject);
                 if(jsonObject.complete == false ){
+                    getScore();
                     getQuestion();
+
                 }
             });
 
