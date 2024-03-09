@@ -93,7 +93,6 @@
     getScore();
     getQuestion();
     formElement.addEventListener('submit', getAnswer);
-    formElement.addEventListener('submit', window.location.reload);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer(){
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
