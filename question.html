@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question</title>
-</head>
-<body>
-<script>
-    function setCookie(cookieName, cookieValue, expireDays) {
-        let date = new Date();
-        date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
-        let expires = "expires=" + date.toUTCString();
-        document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
-    }
-    setCookie("username", "John", 10);
-    setCookie("lastname", "Oneil", 10);
-    var cookies = document.cookie;
-    console.log(cookies);
-</script>
-</body>
-</html>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,36 +7,32 @@
 </head>
 <body>
 
-<script>
-    // function setCookie(cookieName, cookieValue, expireDays) {
-    //     let date = new Date();
-    //     date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
-    //     let expires = "expires=" + date.toUTCString();
-    //     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
-    // }
-    // setCookie("username", "John", 10);
-    // var cookies = document.cookie;
-    // console.log(cookies);
-
-
-
-</script>
 
 <div id="question">
 </div>
+<div id="score"></div>
 <form id="answer" onsubmit="getQuestion()"><input type="text" id="inputField" ><input type="submit"></form>
 <button id="skipButton">Skip</button>
 <script>
+    var cookies1 = document.cookie;
+    console.log(cookies1);
+    function getCookieValue(cookieName){
+        let array = cookieName.split("; ");
+        for(let i=0; i < array.length; i++){
+            let cookie = array[i];
+            let [name,value] =  cookie.split("=");
+            if (name == "session"){
+                return value;
+            }
+        }
+
+    }
+    let sessionID = getCookieValue(cookies1);
+
     let skip =  document.getElementById('skipButton')
     skip.addEventListener('click',skipped);
 
-    const params = new URLSearchParams(location.search);
-    //get the session from the url
-    let ok = "";
-    if(params.has("session")){
-        ok = params.get("session");
-        sessionStorage.setItem('session', ok);
-    }
+
     let question = document.getElementById('question');
     let formElement = document.getElementById('answer');
 
@@ -76,7 +52,7 @@
             latitude = position.coords.latitude //Get the latitude
             longitude = position.coords.longitude //Get the longitude
 
-            await fetch("https://codecyprus.org/th/api/location?session=" + ok + "&latitude=" + latitude + "&longitude=" + longitude)
+            await fetch("https://codecyprus.org/th/api/location?session=" + sessionID + "&latitude=" + latitude + "&longitude=" + longitude)
                 .then(response => response.json())
                 .then(jsonObject => {
                     console.log(jsonObject);
@@ -87,9 +63,18 @@
     }
     locationK();
     setInterval(locationK, 35000);
+    let scoreElement = document.getElementById('score');
+    async function getScore(){
+        await fetch("https://codecyprus.org/th/api/score?session=" + sessionID)
+            .then(response => response.json())
+            .then(jsonObject => {
+                scoreElement.innerText = "Score: " + jsonObject.score;
+            });
+    }
+
     //receive the question information and display the question
     function getQuestion() {
-        fetch("https://codecyprus.org/th/api/question?session=" + ok).then(response => response.json())
+        fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(async jsonObject => {
                 console.log(jsonObject);
                 question.innerHTML = jsonObject.questionText;
@@ -97,43 +82,44 @@
                     alert("We need your location for this question");
                     await locationK();
                 }
-                if(jsonObject.canBeSkipped == false){
+                if (jsonObject.canBeSkipped == false) {
                     skip.disabled = true;
-                }
-                else{
+                } else {
                     skip.disabled = false;
                 }
+
             });
     }
+    getScore();
     getQuestion();
-
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer(){
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
-        event.preventDefault();
         let answer = document.getElementById('inputField').value;
         document.getElementById("inputField").value = "";
         //check if the user's answer is correct
-        await fetch("https://codecyprus.org/th/api/answer?session=" + ok  + "&answer=" + answer)
+        await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID  + "&answer=" + answer)
             .then(response => response.json())
             .then(jsonObject => {
                 console.log(jsonObject);
+                if(jsonObject.complete == false ){
+                    getQuestion();
+                }
             });
 
-        //go to the next question only if you submit a correct answer
-        await getQuestion();
     }
 
     async function skipped(){
-        await fetch("https://codecyprus.org/th/api/skip?session=" + ok)
+        await fetch("https://codecyprus.org/th/api/skip?session=" + sessionID)
             .then(response => response.json())
             .then(jsonObject => {
-                skip.removeEventListener('click',skipped);
                 getQuestion();
+                getScore();
             });
 
     }
+
 
 
 </script>

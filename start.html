@@ -10,6 +10,15 @@
     <input type="submit" name="submit">
 </form>
 <script>
+    function setCookie(cookieName, cookieValue, expireDays) {
+        let date = new Date();
+        date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + date.toUTCString();
+        document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+    }
+
+
+
     const params = new URLSearchParams(location.search);
     let id = "";
     //get the treasure hunt id from the url to use it for the fetch funnction
@@ -26,11 +35,12 @@
        let player = document.getElementById("player").value;
        await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
            .then(jsonObject => {
-               window.location.href = "question.html?session=" + jsonObject.session;
+               setCookie("session", jsonObject.session, 10);
+               window.location.href = "question.html";
            });
 
     }
-
+    var cookies1 = document.cookie;
 
 </script>
 </body>
