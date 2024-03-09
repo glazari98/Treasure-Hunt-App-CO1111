@@ -87,8 +87,8 @@
                 } else {
                     skip.disabled = false;
                 }
-
             });
+
     }
     getScore();
     getQuestion();
@@ -106,10 +106,9 @@
                 if(jsonObject.complete == false ){
                     getScore();
                     getQuestion();
-
                 }
             });
-
+        window.location.reload();
     }
 
     async function skipped(){
@@ -118,8 +117,8 @@
             .then(jsonObject => {
                 getQuestion();
                 getScore();
-            });
 
+            });
     }
 
 
