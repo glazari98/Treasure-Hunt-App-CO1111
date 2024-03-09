@@ -29,15 +29,7 @@
 
     }
     let sessionID = getCookieValue(cookies1);
-    const params = new URLSearchParams(location.search);
-    let ok = "";
-    //get the treasure hunt id from the url to use it for the fetch funnction
-    if(params.has("numOfQuestion")){
-        ok = params.get("numOfQuestion");
-    }
-    if(ok == 0){
-        getQuestion();
-    }
+
     let skip =  document.getElementById('skipButton')
     skip.addEventListener('click',skipped);
 
@@ -79,13 +71,13 @@
             .then(jsonObject => {
                 scoreElement.innerText = "Score: " + jsonObject.score;
             });
+
     }
 
     //receive the question information and display the question
     async function getQuestion() {
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(jsonObject => {
-                getScore();
                 console.log(jsonObject);
                 question.innerHTML = jsonObject.questionText;
                 if (jsonObject.requiresLocation == true) {
@@ -97,13 +89,15 @@
                 } else {
                     skip.disabled = false;
                 }
+                getScore();
             });
     }
 
-
+    getQuestion();
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer(){
+        event.preventDefault();
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
         let answer = document.getElementById('inputField').value;
         document.getElementById("inputField").value = "";
@@ -112,10 +106,10 @@
             .then(response => response.json())
             .then(jsonObject => {
                 console.log(jsonObject);
-                if(jsonObject.complete == false ){
-                    getQuestion();
-                }
+                getQuestion();
+                location.reload();
             });
+
 
     }
 
@@ -124,7 +118,6 @@
             .then(response => response.json())
             .then(jsonObject => {
                 getQuestion();
-                getScore();
             });
         window.location.reload();
     }
