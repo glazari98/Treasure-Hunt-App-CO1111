@@ -14,6 +14,7 @@
 <form id="answer" onsubmit="getQuestion()"><input type="text" id="inputField" ><input type="submit"></form>
 <button id="skipButton">Skip</button>
 <script>
+
     var cookies1 = document.cookie;
     console.log(cookies1);
     function getCookieValue(cookieName){
@@ -28,7 +29,15 @@
 
     }
     let sessionID = getCookieValue(cookies1);
-
+    const params = new URLSearchParams(location.search);
+    let ok = "";
+    //get the treasure hunt id from the url to use it for the fetch funnction
+    if(params.has("numOfQuestion")){
+        ok = params.get("numOfQuestion");
+    }
+    if(ok == 0){
+        getQuestion();
+    }
     let skip =  document.getElementById('skipButton')
     skip.addEventListener('click',skipped);
 
@@ -73,14 +82,15 @@
     }
 
     //receive the question information and display the question
-    function getQuestion() {
-        fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
-            .then(async jsonObject => {
+    async function getQuestion() {
+        await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
+            .then(jsonObject => {
+                getScore();
                 console.log(jsonObject);
                 question.innerHTML = jsonObject.questionText;
                 if (jsonObject.requiresLocation == true) {
                     alert("We need your location for this question");
-                    await locationK();
+                    locationK();
                 }
                 if (jsonObject.canBeSkipped == false) {
                     skip.disabled = true;
@@ -88,10 +98,9 @@
                     skip.disabled = false;
                 }
             });
-
     }
-    getScore();
-    getQuestion();
+
+
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer(){
@@ -104,11 +113,10 @@
             .then(jsonObject => {
                 console.log(jsonObject);
                 if(jsonObject.complete == false ){
-                    getScore();
                     getQuestion();
                 }
             });
-        window.location.reload();
+
     }
 
     async function skipped(){
