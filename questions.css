@@ -2,19 +2,16 @@
 body {
     background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%);
     font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    /*align-items: center;*/ /*if we want it in the middle of the screen (vertically)*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
     height: 100vh; /* Ensure the body takes up the full height of the viewport */
     margin: 0; /* Remove default body margin */
+    color: white;
 }
 
-#player{
-    background: #c2c9ef;
-    font-family: 'Poppins', sans-serif;
-}
-
-.submitButton{
-    background: #c2c9ef;
-    font-family: 'Poppins', sans-serif;
-}
+/*#question{*/
+/*    display: flex;*/
+/*    flex-direction: column; !* Stack items vertically *!*/
+/*    align-items: center;*/
+/*}*/
