@@ -8,10 +8,12 @@ body {
     height: 100vh; /* Ensure the body takes up the full height of the viewport */
     margin: 0; /* Remove default body margin */
     color: white;
+    text-align: center;
+
 }
 
-/*#question{*/
-/*    display: flex;*/
-/*    flex-direction: column; !* Stack items vertically *!*/
-/*    align-items: center;*/
-/*}*/
+#answer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
