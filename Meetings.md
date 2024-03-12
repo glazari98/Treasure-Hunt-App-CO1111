@@ -35,6 +35,19 @@ Daria will manage the input field of answering the question depending on data ty
 Vasili will impliment showing the score when the quiz ends.
 George will impliment the skip question and geolocation for getting the location of the user when the question asks for it. Also try to use cookies for the session of the treasure hunt instead of using it from the url.
 
+# Meeting 5 Date(March 12th 2024)
+Members present: George, Vasili, Daria, Rafaella, Ahmed
+## What has been done from last meeting:
+George completed the task of setting the app to track your location once a treasure hunt begins and also when a question requires your location there is an alert popping to ask the user for their location again. Moreover he implimneted the skiipping of a question whenever the question can be skipped and added the score to show and the points to be added or dedacted when a question is worng or is skipped.Instead of retrieving the session id from murl he changed it to be taken from cookies.
+Daria added the leaderboard button to be shown in the question page, whenever a user completes the quiz they can access the leaderboard and also she added the qr code reader. Moreover, she changed the input field for the answer to reflect the question type.
+Rafaella added some design to the question.html and start.html like the background and colour of text and making everyhting show in the center of the window
+
+## Tasks set until next meeting:
+Ahmed will create the testing page and try to do some unit testing for the function used so far
+George will try and show an alert every time time the user submit an answer showing if it;s correct or not
+Daria will add a plceholder in the input field of 'text' to show if to the user if they shoudl type text or a number. Also, she has to text to the leaderboard page when there a treasure hunt is not active to inform the user.
+Vasili has to impliment the scoreboard to show when a quiz finishes and the leaderboard buttion for the user to access the leaderboard.
+Rafaella has to improve the design buy adding proper font sizes and headings for the start.html and question.html to make the design more user firendly and also place the text not center up in the window but center fo the screen.
 
 
 
