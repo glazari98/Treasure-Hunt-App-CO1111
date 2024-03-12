@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="questions.css" />
     <title>Questions</title>
     <script src="js/instascan.min.js"></script>
@@ -15,8 +16,7 @@
 </div>
 <div id="score"></div>
 <form id="answer" onsubmit="getQuestion()">
-    <input type="text" id="inputField" >
-    <input type="submit"></form>
+</form>
 <button id="skipButton">Skip</button>
 <button id="QR" onclick="QR()"><i class="fa-solid fa-qrcode"></i></button>
 <!-- <video id="preview"></video> -->
@@ -121,8 +121,8 @@
         askForLocation();
 
     }
-    locationK();
-    setInterval(locationK, 35000);
+    // locationK();
+    // setInterval(locationK, 35000);
     let scoreElement = document.getElementById('score');
     async function getScore(){
         await fetch("https://codecyprus.org/th/api/score?session=" + sessionID)
@@ -132,7 +132,7 @@
             });
 
     }
-
+    let questionType;
     //receive the question information and display the question
     async function getQuestion() {
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
@@ -143,6 +143,64 @@
                     alert("We need your location for this question");
                     locationK();
                 }
+                let input = document.createElement('input');
+                input.type = "submit";
+                input.value = "Submit";
+                questionType = jsonObject.questionType;
+                switch(questionType) {
+                    case 'BOOLEAN':
+                        let labelTrue = document.createElement('label');
+                        let inputTrue = document.createElement('input');
+                        inputTrue.type = "radio";
+                        inputTrue.name = "boolean";
+                        inputTrue.value = "True";
+                        labelTrue.textContent = "True/Yes";
+                        labelTrue.appendChild(inputTrue);
+
+                        let labelFalse = document.createElement('label');
+                        let inputFalse = document.createElement('input');
+                        inputFalse.type = "radio";
+                        inputFalse.name = "boolean";
+                        inputFalse.value = "False";
+                        labelFalse.textContent = "False/No";
+                        labelFalse.appendChild(inputFalse);
+
+                        document.getElementById('answer').appendChild(labelTrue);
+                        document.getElementById('answer').appendChild(labelFalse);
+                        
+                        document.getElementById('answer').appendChild(input);
+                        break;
+
+                    case 'MCQ':
+                        let select = document.createElement('select');
+                        select.id = 'multipleChoiceSelect';
+                        // Add options to the select element, you can customize this part according to your needs
+                        // For example:
+                        let option1 = document.createElement('option');
+                        option1.value = 'A';
+                        option1.textContent = 'A';
+                        select.appendChild(option1);
+
+                        let option2 = document.createElement('option');
+                        option2.value = 'B';
+                        option2.textContent = 'B';
+                        select.appendChild(option2);
+
+                        document.getElementById('answer').appendChild(select);
+                        
+                        document.getElementById('answer').appendChild(input);
+                        break;
+
+                    default:
+                        let inputText = document.createElement('input');
+                        inputText.type = 'text';
+                        inputText.id = 'inputField';
+                        // You can set additional attributes or properties for the text input here
+                        document.getElementById('answer').appendChild(inputText);
+                        
+                        document.getElementById('answer').appendChild(input);
+                        break;
+                }
                 if (jsonObject.canBeSkipped == false) {
                     skip.disabled = true;
                 } else {
@@ -150,16 +208,33 @@
                 }
                 getScore();
             });
-    }
 
+
+        }
+
+                // // Assuming questionType is a variable containing the type of the question
     getQuestion();
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer(){
         event.preventDefault();
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
-        let answer = document.getElementById('inputField').value;
-        document.getElementById("inputField").value = "";
+        let answer;
+
+        if (questionType === 'BOOLEAN') {
+        // For boolean questions, get the value of a checkbox or radio button
+            answer = document.querySelector('input[name="boolean"]:checked').value;
+        } else if(questionType === 'MCQ') {
+            answer = document.getElementById('multipleChoiceSelect').value;
+        }
+        
+        else {
+            // For other types of questions, get the value from a text input field
+            answer = document.getElementById('inputField').value;
+        }
+
+
+        // document.getElementById("inputField").value = "";
         //check if the user's answer is correct
         await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID  + "&answer=" + answer)
             .then(response => response.json())
