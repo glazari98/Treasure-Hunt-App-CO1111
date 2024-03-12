@@ -122,8 +122,8 @@
         askForLocation();
 
     }
-    // locationK();
-    // setInterval(locationK, 35000);
+    locationK();
+    setInterval(locationK, 35000);
     let scoreElement = document.getElementById('score');
     async function getScore(){
         await fetch("https://codecyprus.org/th/api/score?session=" + sessionID)
@@ -210,10 +210,9 @@
                 getScore();
             });
 
-
         }
 
-                // // Assuming questionType is a variable containing the type of the question
+
     getQuestion();
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
@@ -221,26 +220,31 @@
         event.preventDefault();
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
         let answer;
-
         if (questionType === 'BOOLEAN') {
-        // For boolean questions, get the value of a checkbox or radio button
+            // For boolean questions, get the value of a checkbox or radio button
             answer = document.querySelector('input[name="boolean"]:checked').value;
         } else if(questionType === 'MCQ') {
             answer = document.getElementById('multipleChoiceSelect').value;
         }
-        
+
         else {
             // For other types of questions, get the value from a text input field
             answer = document.getElementById('inputField').value;
         }
-
-
-        // document.getElementById("inputField").value = "";
+        //clear the answer element before appending the new inptu field
+        document.getElementById('answer').innerHTML = "";
         //check if the user's answer is correct
         await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID  + "&answer=" + answer)
             .then(response => response.json())
             .then(jsonObject => {
+
                 console.log(jsonObject);
+                if(jsonObject.completed == false) {
+                    alert(jsonObject.message);
+                }
+                else{
+                    alert("You finished the treasure hunt quiz");
+                }
                 getQuestion();
                 location.reload();
             });
