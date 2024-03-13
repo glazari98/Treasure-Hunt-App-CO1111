@@ -241,12 +241,15 @@
                 console.log(jsonObject);
                 if(jsonObject.completed == false) {
                     alert(jsonObject.message);
+                    getQuestion();
+                    location.reload();
                 }
                 else{
                     alert("You finished the treasure hunt quiz");
+                    window.location.href = "scoreboard.html";
+
                 }
-                getQuestion();
-                location.reload();
+
             });
 
 
@@ -256,19 +259,20 @@
         await fetch("https://codecyprus.org/th/api/skip?session=" + sessionID)
             .then(response => response.json())
             .then(jsonObject => {
-                getQuestion();
-            });
-        window.location.reload();
-    }
-
-    //redirect to scoreboard + check if is question over
-    await fetch("https://codecyprus.org/th/api/question?session=" + sessionID)
-            .then(response => response.json())
-            .then(jsonObject => {
-                if (jsonObject.gameOver) {
+                if(jsonObject.completed == false) {
+                    alert(jsonObject.message);
+                    getQuestion();
+                    window.location.reload();
+                }
+                else{
+                    alert("You finished the treasure hunt quiz");
                     window.location.href = "scoreboard.html";
                 }
             });
+
+    }
+
+
 
 
 
