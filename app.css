@@ -119,6 +119,40 @@ ul {
     cursor: not-allowed;
 }
 
+.score-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .score-table {
+    width: 50%; 
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  .score-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  
+  .score-text {
+    border: 2px solid #ccc; 
+    border-radius: 10px; 
+    padding: 20px; 
+    font-size: 24px; 
+  }
+  
+  .score-image {
+    position: absolute; 
+    bottom: 50px; 
+    right: 50px; 
+    width: 100px; 
+  }
 
 
 footer {

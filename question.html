@@ -261,6 +261,15 @@
         window.location.reload();
     }
 
+    //redirect to scoreboard + check if is question over
+    await fetch("https://codecyprus.org/th/api/question?session=" + sessionID)
+            .then(response => response.json())
+            .then(jsonObject => {
+                if (jsonObject.gameOver) {
+                    window.location.href = "scoreboard.html";
+                }
+            });
+
 
 
 </script>
