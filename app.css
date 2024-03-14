@@ -144,15 +144,22 @@ ul {
     border: 2px solid #ccc; 
     border-radius: 10px; 
     padding: 20px; 
-    font-size: 24px; 
+    font-size: 24px;
+    text-align: center; 
   }
+
+  .congratulations {
+    font-weight: bold;
+    font-size: 30px;
+}
   
   .score-image {
-    position: absolute; 
-    bottom: 50px; 
-    right: 50px; 
-    width: 100px; 
-  }
+    position: flex; 
+    right: 4vh;
+    bottom: 4vh;
+    margin-left: 20px;
+    width: 180px; 
+}  
 
 
 footer {

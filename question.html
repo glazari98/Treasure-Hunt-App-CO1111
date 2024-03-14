@@ -130,6 +130,7 @@
             .then(response => response.json())
             .then(jsonObject => {
                 scoreElement.innerText = "Score: " + jsonObject.score;
+                sessionStorage.setItem("playerScore", jsonObject.score);
             });
 
     }
@@ -239,17 +240,23 @@
             .then(jsonObject => {
 
                 console.log(jsonObject);
-                if(jsonObject.completed == false) {
+                if(jsonObject.completed === false) {
+                    console.log(jsonObject.completed);
                     alert(jsonObject.message);
                     getQuestion();
                     location.reload();
+                    
                 }
                 else{
                     alert("You finished the treasure hunt quiz");
-                    window.location.href = "scoreboard.html";
-
+                    console.log("Attempting to redirect...");
+                    setTimeout(function() {
+                        window.location.assign("scoreboard.html");
+                    }, 1000);
+                    
+                    
                 }
-
+                
             });
 
 
