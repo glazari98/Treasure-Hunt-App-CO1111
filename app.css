@@ -119,13 +119,22 @@ ul {
     cursor: not-allowed;
 }
 
-.score-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.congratulations-block {
+    text-align: center; 
+    margin-bottom: 20px; 
   }
   
+  .congratulations {
+    font-weight: bold;
+    font-size: 50px;
+  }
+  
+  .quiz-finished {
+    margin-top: 10px; 
+    font-size: 25px;
+  }
+
+
   .score-table {
     width: 50%; 
     border-collapse: collapse;
@@ -134,6 +143,7 @@ ul {
   
   .score-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -144,22 +154,19 @@ ul {
     border: 2px solid #ccc; 
     border-radius: 10px; 
     padding: 20px; 
-    font-size: 24px;
+    font-size: 30px;
     text-align: center; 
   }
 
-  .congratulations {
-    font-weight: bold;
-    font-size: 30px;
-}
   
   .score-image {
     position: flex; 
     right: 4vh;
     bottom: 4vh;
     margin-left: 20px;
-    width: 180px; 
+    width: 22vh; 
 }  
+
 
 
 footer {
