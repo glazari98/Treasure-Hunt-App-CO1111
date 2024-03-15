@@ -12,7 +12,7 @@
     <div  class="navigation">
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="leaderboard.html">Leaderboard</a></li>
+            <li><a href="app.html">Treasure Hunts</a></li>
             <li><a href="index.html#aims" >About Us</a></li>
         </ul>
     </div>
@@ -20,10 +20,17 @@
 
 <body>
     
-  <div class="score-container">
-    <div class="score-text" id="score">
-      Your Score: 0
+  
+  <div class="score-container"> 
+    <div class="congratulations-block">
+      <h1 class="congratulations">Congratulations!</h1> <!-- Надпись "Congratulations!" -->
+      <p class="quiz-finished">You finished the treasure hunt quiz</p> <!-- Сообщение "You finished the treasure hunt quiz" -->
     </div>
+    <div class="score-text" id="score">
+      <h2>Your Score:</h2> 
+      <span id="playerScore">0</span>
+    </div>
+    <input type="button" name="Leaderboard" value="Leaderboard" onclick="location.href = 'leaderboard.html'" id="leadbutton">
       <img src="resources/chest.png" alt="Image" class="score-image">
   </div>
 

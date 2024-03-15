@@ -14,10 +14,10 @@ fetch("https://codecyprus.org/th/api/list").then(response => response.json())
     const li = document.createElement('li');
     li.innerHTML = element.name;
     if(!valid) li.classList.add('invalid');
+    else { li.classList.add('valid'); }
     li.classList.add('alertbutton');
     ul.appendChild(li);
-
-    
+   
 
       li.addEventListener('click', function() {
         let huntName = li.textContent;

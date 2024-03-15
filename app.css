@@ -76,8 +76,7 @@ ul {
   }
 
 .container {
-    /* width: 100%;
-    height: 100vh; */
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,8 +93,16 @@ ul {
 }
 
 .container ul {
-    padding-left: 0;
-    /* width: 30%; */
+  padding-left: 0;
+  margin: 0;
+  margin-right: 3%;
+  align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    width: 100%;
     /* height: 30%;
     display: flex;
     flex-direction: column;
@@ -105,7 +112,7 @@ ul {
 .container ul li {
     margin: 5%;
     padding: 3%;
-    width: 100%;
+    width: 80%;
     height: 10%;
     text-align: center; /* Align text to the center */
     background-color: rgb(53, 25, 115);
@@ -115,17 +122,30 @@ ul {
     /* cursor: pointer; */
 }
 
+.valid:hover {
+  background-color: rgb(93, 8, 110); 
+}
+
 .invalid {
     cursor: not-allowed;
 }
 
-.score-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.congratulations-block {
+    text-align: center; 
+    margin-bottom: 20px; 
   }
   
+  .congratulations {
+    font-weight: bold;
+    font-size: 5vw;
+  }
+  
+  .quiz-finished {
+    margin-top: 10px; 
+    font-size: 2vw;
+  }
+
+
   .score-table {
     width: 50%; 
     border-collapse: collapse;
@@ -134,6 +154,7 @@ ul {
   
   .score-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -144,15 +165,19 @@ ul {
     border: 2px solid #ccc; 
     border-radius: 10px; 
     padding: 20px; 
-    font-size: 24px; 
+    font-size: 30px;
+    text-align: center; 
   }
+
   
   .score-image {
-    position: absolute; 
-    bottom: 50px; 
-    right: 50px; 
-    width: 100px; 
-  }
+    position: flex; 
+    right: 4vh;
+    bottom: 4vh;
+    margin-left: 20px;
+    width: 22vh; 
+}  
+
 
 
 footer {
@@ -169,6 +194,26 @@ footer {
     scroll-snap-stop: always;
 }
 
+#leadbutton {
+  width: 25%;
+  min-width: 155px;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: rgb(62, 21, 136);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+
+
+#leadbutton:hover {
+  background-color: rgb(93, 8, 110); 
+}
+
 /*Alert message*/
 
 
@@ -182,16 +227,23 @@ footer {
     }
     
     .container ul {
-        width: 50%;
+        width: 65%;
     }
 
     .container ul li {
-        font-size: 4vw;
+        font-size: 5vw;
     }
 
 
     .twitter-timeline {
         width: 70%;
+    }
+    .congratulations {
+      font-size: 11vw;
+    }
+
+    .quiz-finished { 
+      font-size: 5vw;
     }
 
 
