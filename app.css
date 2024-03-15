@@ -76,8 +76,7 @@ ul {
   }
 
 .container {
-    /* width: 100%;
-    height: 100vh; */
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,8 +93,16 @@ ul {
 }
 
 .container ul {
-    padding-left: 0;
-    /* width: 30%; */
+  padding-left: 0;
+  margin: 0;
+  margin-right: 3%;
+  align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    width: 100%;
     /* height: 30%;
     display: flex;
     flex-direction: column;
@@ -115,6 +122,10 @@ ul {
     /* cursor: pointer; */
 }
 
+.valid:hover {
+  background-color: rgb(93, 8, 110); 
+}
+
 .invalid {
     cursor: not-allowed;
 }
@@ -126,12 +137,12 @@ ul {
   
   .congratulations {
     font-weight: bold;
-    font-size: 50px;
+    font-size: 5vw;
   }
   
   .quiz-finished {
     margin-top: 10px; 
-    font-size: 25px;
+    font-size: 2vw;
   }
 
 
@@ -196,16 +207,23 @@ footer {
     }
     
     .container ul {
-        width: 50%;
+        width: 80%;
     }
 
     .container ul li {
-        font-size: 4vw;
+        font-size: 7vw;
     }
 
 
     .twitter-timeline {
         width: 70%;
+    }
+    .congratulations {
+      font-size: 11vw;
+    }
+
+    .quiz-finished { 
+      font-size: 5vw;
     }
 
 
