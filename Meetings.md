@@ -49,6 +49,16 @@ Members present: George, Vasili, Daria, Rafaella, Ahmed
 - Vasili has to impliment the scoreboard to show when a quiz finishes and the leaderboard buttion for the user to access the leaderboard.
 - Rafaella has to improve the design buy adding proper font sizes and headings for the start.html and question.html to make the design more user firendly and also place the text not center up in the window but center fo the screen.
 
-
+# Meeting 6 Date(March 15th 2024):
+## What has been done from last meeting:
+- George did the alert for showing if the answer was correct or not or when the user skips.
+- Vasili implimented the scoreboard and also added design to it
+- Vasili suggested to use sessionStorageinstead of cookies for saving the score in the browser.
+## Tasks until next meeting: 
+- Rafaella has to finish the design of question.html and start.html
+- Ahmed has to proceed with the testing
+- George fix bugs in question.html and start.html
+- Vasili proceed with recovering the social media accounts because of them getting suspended.
+  
 
 
