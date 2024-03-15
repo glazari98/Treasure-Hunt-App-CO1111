@@ -134,6 +134,7 @@
             .then(response => response.json())
             .then(jsonObject => {
                 scoreElement.innerText = "Score: " + jsonObject.score;
+                sessionStorage.setItem("playerScore", jsonObject.score);
             });
 
     }
@@ -250,10 +251,11 @@
                     getQuestion();
                     location.reload();
                 }
-                else{
-                    alert("You finished the treasure hunt quiz");
-                    window.location.href = "scoreboard.html";
-
+                else {
+                    console.log("Attempting to redirect...");
+                    setTimeout(function () {
+                        window.location.assign("scoreboard.html");
+                    }, 1000);
                 }
 
             });
