@@ -16,10 +16,14 @@
 </div>
 <div id="score"></div>
 <form id="answer" onsubmit="getQuestion()">
+    <div id="answerField"></div>
+    <div id="submitB"><input type="submit"  id="sub"></div>
 </form>
+
 <button id="skipButton">Skip</button>
 <button id="QR" onclick="QR()"><i class="fa-solid fa-qrcode"></i></button>
 <a href="leaderboard.html">Leaderboard</a>
+<h1 id='pleaseWaitMessage' style="display: none;">PLEASE WAIT ...</h1>
 <!-- <video id="preview"></video> -->
 <script>
 
@@ -136,6 +140,8 @@
     let questionType;
     //receive the question information and display the question
     async function getQuestion() {
+        document.getElementById('pleaseWaitMessage').style.display = 'none';
+        document.getElementById('question').style.display = 'block';
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(jsonObject => {
                 console.log(jsonObject);
@@ -144,9 +150,6 @@
                     alert("We need your location for this question");
                     locationK();
                 }
-                let input = document.createElement('input');
-                input.type = "submit";
-                input.value = "Submit";
                 questionType = jsonObject.questionType;
                 switch(questionType) {
                     case 'BOOLEAN':
@@ -166,10 +169,10 @@
                         labelFalse.textContent = "False/No";
                         labelFalse.appendChild(inputFalse);
 
-                        document.getElementById('answer').appendChild(labelTrue);
-                        document.getElementById('answer').appendChild(labelFalse);
-                        
-                        document.getElementById('answer').appendChild(input);
+                        document.getElementById('answerField').appendChild(labelTrue);
+                        document.getElementById('answerField').appendChild(labelFalse);
+
+
                         break;
 
                     case 'MCQ':
@@ -187,9 +190,8 @@
                         option2.textContent = 'B';
                         select.appendChild(option2);
 
-                        document.getElementById('answer').appendChild(select);
-                        
-                        document.getElementById('answer').appendChild(input);
+                        document.getElementById('answerField').appendChild(select);
+
                         break;
 
                     default:
@@ -197,9 +199,8 @@
                         inputText.type = 'text';
                         inputText.id = 'inputField';
                         // You can set additional attributes or properties for the text input here
-                        document.getElementById('answer').appendChild(inputText);
-                        
-                        document.getElementById('answer').appendChild(input);
+                        document.getElementById('answerField').appendChild(inputText);
+
                         break;
                 }
                 if (jsonObject.canBeSkipped == false) {
@@ -214,31 +215,37 @@
 
 
     getQuestion();
+
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer(){
         event.preventDefault();
+        document.getElementById('pleaseWaitMessage').style.display = 'block';
+        document.getElementById('question').style.display = 'none';
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
         let answer;
+
         if (questionType === 'BOOLEAN') {
             // For boolean questions, get the value of a checkbox or radio button
             answer = document.querySelector('input[name="boolean"]:checked').value;
-        } else if(questionType === 'MCQ') {
+        }
+        else if(questionType === 'MCQ') {
             answer = document.getElementById('multipleChoiceSelect').value;
         }
-
         else {
             // For other types of questions, get the value from a text input field
             answer = document.getElementById('inputField').value;
         }
+
         //clear the answer element before appending the new inptu field
         document.getElementById('answer').innerHTML = "";
+
         //check if the user's answer is correct
         await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID  + "&answer=" + answer)
             .then(response => response.json())
             .then(jsonObject => {
-
                 console.log(jsonObject);
+                //document.getElementById('sub').style.display = 'none';
                 if(jsonObject.completed == false) {
                     alert(jsonObject.message);
                     getQuestion();
