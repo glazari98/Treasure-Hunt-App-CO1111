@@ -112,7 +112,7 @@ ul {
 .container ul li {
     margin: 5%;
     padding: 3%;
-    width: 100%;
+    width: 80%;
     height: 10%;
     text-align: center; /* Align text to the center */
     background-color: rgb(53, 25, 115);
@@ -194,6 +194,26 @@ footer {
     scroll-snap-stop: always;
 }
 
+#leadbutton {
+  width: 25%;
+  min-width: 155px;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: rgb(62, 21, 136);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+
+
+#leadbutton:hover {
+  background-color: rgb(93, 8, 110); 
+}
+
 /*Alert message*/
 
 
@@ -211,7 +231,7 @@ footer {
     }
 
     .container ul li {
-        font-size: 7vw;
+        font-size: 5vw;
     }
 
 
