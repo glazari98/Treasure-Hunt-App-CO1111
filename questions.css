@@ -29,4 +29,11 @@ body, html {
     margin: 5px; /* Adjust as needed */
 }
 
+button {
+    cursor: pointer;
+}
+/*button:hover {*/
+/*    background-color: white;*/
+/*    border: none;*/
+/*}*/
 
