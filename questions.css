@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700;800&display=swap');
-body {
-    background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%);
-    font-family: 'Poppins', sans-serif;
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
-    height: 100vh; /* Ensure the body takes up the full height of the viewport */
-    margin: 0; /* Remove default body margin */
-    color: white;
-    text-align: center;
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700;800&display=swap');*/
+/*body {*/
+/*    background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%);*/
+/*    font-family: 'Poppins', sans-serif;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    height: 100vh; !* Ensure the body takes up the full height of the viewport *!*/
+/*    margin: 0; !* Remove default body margin *!*/
+/*    color: white;*/
+/*    text-align: center;*/
 
-}
+/*}*/
 #score{
     float: left;
 }
@@ -22,3 +22,40 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
+/*body, html {*/
+/*    height: 100%;*/
+/*    margin: 0;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*#question, #score, #answer, #submitB, #answerField, #skipButton, #QR, a {*/
+/*    margin: 10px; !* Adjust as needed *!*/
+/*}*/
+
+/*#submitB, #skipButton, #QR {*/
+/*    display: inline-block;*/
+/*}*/
+body {
+    background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#question, #score, #answer, #submitB, #answerField, #skipButton, #QR, a {
+    margin: 5px; /* Adjust as needed */
+}
+
+
