@@ -17,6 +17,11 @@ body {
 .submitButton{
     background: #c2c9ef;
     font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: white;
 }
 
 .username-text{
