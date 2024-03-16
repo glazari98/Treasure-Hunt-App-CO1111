@@ -11,10 +11,10 @@
 </head>
 <body>
 
-
 <div id="question">
 </div>
-<div id="score"></div>
+<div id="score">Score:
+<label id="scoreNumber"></label></div>
 <form id="answer" onsubmit="getQuestion()">
     <div id="answerField"></div>
     <div id="submitB"><input type="submit"  id="sub"></div>
@@ -101,39 +101,34 @@
     let question = document.getElementById('question');
     let formElement = document.getElementById('answer');
 
-    async function locationK(){
-        function askForLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            }
-            else {
-                //TODO - Geolocation is NOT supported by browser.
-            }
+
+    function askForLocation(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(locationK);
         }
-
-        let latitude = "";
-        let longitude = "";
-        async function showPosition(position) {
-            latitude = position.coords.latitude //Get the latitude
-            longitude = position.coords.longitude //Get the longitude
-
-            await fetch("https://codecyprus.org/th/api/location?session=" + sessionID + "&latitude=" + latitude + "&longitude=" + longitude)
-                .then(response => response.json())
-                .then(jsonObject => {
-                    console.log(jsonObject);
-                });
+        else{
+            alert("Geolocation is not supported by the browser");
         }
-        askForLocation();
-
     }
-    locationK();
-    setInterval(locationK, 35000);
-    let scoreElement = document.getElementById('score');
+    async function locationK(position) {
+        let latitude = position.coords.latitude //Get the latitude
+        let longitude = position.coords.longitude //Get the longitude
+
+        await fetch("https://codecyprus.org/th/api/location?session=" + sessionID + "&latitude=" + latitude + "&longitude=" + longitude)
+            .then(response => response.json())
+            .then(jsonObject => {
+                console.log(jsonObject);
+                sessionStorage.setItem("message",jsonObject.message);
+            });
+    }
+
+    setInterval(askForLocation, 30000);
+    let scoreElement = document.getElementById('scoreNumber');
     async function getScore(){
         await fetch("https://codecyprus.org/th/api/score?session=" + sessionID)
             .then(response => response.json())
             .then(jsonObject => {
-                scoreElement.innerText = "Score: " + jsonObject.score;
+                scoreElement.innerText = jsonObject.score;
                 sessionStorage.setItem("playerScore", jsonObject.score);
             });
 
@@ -143,15 +138,21 @@
     async function getQuestion() {
         document.getElementById('pleaseWaitMessage').style.display = 'none';
         document.getElementById('question').style.display = 'block';
+
+
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(jsonObject => {
                 console.log(jsonObject);
                 question.innerHTML = jsonObject.questionText;
-                if (jsonObject.requiresLocation == true) {
-                    alert("We need your location for this question");
-                    locationK();
+                if(jsonObject.currentQuestionIndex == 0){
+                    askForLocation();
                 }
-
+                if (jsonObject.requiresLocation == true) {
+                    askForLocation();
+                    if(sessionStorage.getItem("message") == "Ignored update as the previous update was less than 30 seconds earlier."){
+                        alert("Please wait at least 30 seconds until we update your position again")
+                    }
+                }
                 questionType = jsonObject.questionType;
                 switch(questionType) {
                     case 'BOOLEAN':
@@ -249,21 +250,20 @@
                 if(jsonObject.completed == false) {
                     alert(jsonObject.message);
                     getQuestion();
-                    location.reload();
+                    window.location.reload();
                 }
                 else {
-                    console.log("Attempting to redirect...");
+                    alert("You have finished the quiz!!!");
                     setTimeout(function () {
                         window.location.assign("scoreboard.html");
                     }, 1000);
                 }
-
             });
-
-
     }
 
     async function skipped(){
+        document.getElementById('pleaseWaitMessage').style.display = 'block';
+        document.getElementById('question').style.display = 'none';
         await fetch("https://codecyprus.org/th/api/skip?session=" + sessionID)
             .then(response => response.json())
             .then(jsonObject => {
