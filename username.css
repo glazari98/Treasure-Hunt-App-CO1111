@@ -4,7 +4,7 @@ body {
     font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
-    /*align-items: center;*/ /*if we want it in the middle of the screen (vertically)*/
+    align-items: center;
     height: 100vh; /* Ensure the body takes up the full height of the viewport */
     margin: 0; /* Remove default body margin */
 }
@@ -16,5 +16,12 @@ body {
 
 .submitButton{
     background: #c2c9ef;
+    font-family: 'Poppins', sans-serif;
+}
+
+.username-text{
+    position: fixed;
+    margin-bottom: 100px;
+    color: white;
     font-family: 'Poppins', sans-serif;
 }
