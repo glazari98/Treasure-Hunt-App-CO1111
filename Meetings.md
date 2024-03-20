@@ -3,7 +3,7 @@
   Members present: Giorgos Lazari, Rafaella
   Discussed some features about the landing page
   Twitter account made
-  Start button aded on landing page
+  Start button added on landing page
   Github repository exists, invited all collaborators
   Githib page is online
   Giorgos takes notes and updates in Github.
@@ -50,6 +50,7 @@ Members present: George, Vasili, Daria, Rafaella, Ahmed
 - Rafaella has to improve the design buy adding proper font sizes and headings for the start.html and question.html to make the design more user firendly and also place the text not center up in the window but center fo the screen.
 
 # Meeting 6 Date(March 15th 2024):
+Members present: George, Vasili, Daria
 ## What has been done from last meeting:
 - George did the alert for showing if the answer was correct or not or when the user skips.
 - Vasili implimented the scoreboard and also added design to it
@@ -59,6 +60,17 @@ Members present: George, Vasili, Daria, Rafaella, Ahmed
 - Ahmed has to proceed with the testing
 - George fix bugs in question.html and start.html
 - Vasili proceed with recovering the social media accounts because of them getting suspended.
-  
 
+# Meeting 7 Date(March 20th 2024):
+Members present: George, Vasili, Daria, Ahmed
+## What has been done from last meeting:
+- Ahmed created the testing page and started with some unit testing on the different types of input fields of questions
+- Rafaella worked on the design of start.html and questions.html
+- George modified a bit the design of question.html(added header, footer), placed the score on top and added timer for the treasure hunt
+## Tasks until next meeting: 
+- Vasili has to create new facebook and instagram account since they got suspended
+- Daria has to do some modifications the members' names and their roles so it;s more clear what is the role of everyone, change the picture in landing page from bubble to treasure, and write a better welcoming message.
+- Ahmed has to proceed with unit testing
+- George will assist Ahmed with the testing and also try to make it so that if a user completed a treasure hunt it doesnlt allow them to start it again or if they were left in a particular question to continue from that.
+- 
 
