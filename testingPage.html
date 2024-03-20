@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test getQuestion</title>
+</head>
+<body>
+<h1>Unit Testing</h1>
+<button id="getQuestion">get input test</button>
+<div id="question"></div>
+
+
+<button onclick="testgetAnswer()">getanswer test</button>
+<button onclick="testSkipped()">skipped test</button>
+<button onclick="getLeaderboardTest()">Leader test</button>
+
+
+<!-- Linking the JavaScript file -->
+<script>
+
+    
+
+    function mockFetch(url, options) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // Handle fetch for "get question"
+                if (url.includes('question')) {
+                    resolve({
+                        ok: true,
+                        json: () => Promise.resolve({
+                            questionText: 'What is the capital of France?',
+                            questionType: 'MCQ',
+                            options: ['Paris', 'Berlin', 'Madrid', 'Lisbon'],
+                            correct: 'Paris',
+                            completed: true,
+                            canBeSkipped: false,
+                            requiresLocation: false,
+                        })
+                    });
+                }
+                // Handle fetch for "submit answer"
+                else if (url.includes('answer') && options.method === 'POST') {
+                    const answer = JSON.parse(options.body).answer;
+                    resolve({
+                        ok: true,
+                        json: () => Promise.resolve({
+                            correct: answer === 'Paris', // Assuming "Paris" is the correct answer
+                            correctScore: 10,
+                            wrongScore: -5,
+                            skipScore: -2,
+                        })
+                    });
+                }
+                // Handle fetch for "skip question"
+                else if (url.includes('skip')) {
+                    resolve({
+                        ok: true,
+                        json: () => Promise.resolve({
+                            skipped: true,
+                            message: 'Question skipped successfully.',
+                        })
+                    });
+                }
+                // Handle fetch for "get leaderboard"
+                else if (url.includes('leaderboard')) {
+                    resolve({
+                        ok: true,
+                        json: () => Promise.resolve({
+                            leaderboard: [
+                                { rank: 1, name: 'Player1', score: 100 },
+                                { rank: 2, name: 'Player2', score: 90 },
+                                // Add more entries as needed
+                            ],
+                        })
+                    });
+                }
+                // Handle unrecognized URLs
+                else {
+                    reject(new Error('Unrecognized URL or unhandled request'));
+                }
+            }, 100); // Simulate network delay
+        });
+    }
+
+    let questionType;
+
+
+    let questionLoaded = false; // Flag to track if questions have been loaded
+
+    // Function to handle button click event
+    function buttonHandle() {
+        let questionDiv = document.getElementById('question');
+        if (!questionLoaded) {
+            // If questions have not been loaded, load them
+            testgetQuestion();
+            document.getElementById('getQuestion').innerText = "Hide";
+            questionLoaded = true;
+        } else {
+            if (questionDiv.style.display === "none") {
+                questionDiv.style.display = "block";
+                document.getElementById('getQuestion').innerText = "Hide";
+            } else {
+                questionDiv.style.display = "none";
+                document.getElementById('getQuestion').innerText = "get input test";
+            }
+        }
+    }
+    document.getElementById('getQuestion').addEventListener('click',buttonHandle);
+
+    //let question = document.getElementById("question");
+    let array = ["BOOLEAN","MCQ","INTEGER","TEXT"];
+    //receive the question information and display the question
+    async function testgetQuestion() {
+        // document.getElementById('pleaseWaitMessage').style.display = 'none';
+        // document.getElementById('question').style.display = 'block';
+
+        for(let i =0; i < array.length ; i++) {
+            let section = document.createElement('section');
+            let questionElement = document.createElement('div');
+            let inputElement = document.createElement('div');
+
+            await fetch("https://codecyprus.org/th/test-api/question?completed&question-type=" + array[i] + "&can-be-skipped&requires-location").then(response => response.json())
+                .then(jsonObject => {
+                    console.log(jsonObject);
+                    questionElement.innerHTML = jsonObject.questionText;
+                    section.appendChild(questionElement);
+
+                    if (jsonObject.currentQuestionIndex == 0) {
+                        //askForLocation();
+                    }
+                    if (jsonObject.requiresLocation == true) {
+                        //askForLocation();
+                        if (sessionStorage.getItem("message") == "Ignored update as the previous update was less than 30 seconds earlier.") {
+                            alert("Please wait at least 30 seconds until we update your position again")
+                        }
+                    }
+                    questionType = jsonObject.questionType;
+                    switch (questionType) {
+                        case 'BOOLEAN':
+                            let labelTrue = document.createElement('label');
+                            let inputTrue = document.createElement('input');
+                            inputTrue.type = "radio";
+                            inputTrue.name = "boolean";
+                            inputTrue.value = "True";
+                            labelTrue.textContent = "True/Yes";
+                            labelTrue.appendChild(inputTrue);
+
+                            let labelFalse = document.createElement('label');
+                            let inputFalse = document.createElement('input');
+                            inputFalse.type = "radio";
+                            inputFalse.name = "boolean";
+                            inputFalse.value = "False";
+                            labelFalse.textContent = "False/No";
+                            labelFalse.appendChild(inputFalse);
+
+                            inputElement.appendChild(labelTrue);
+                            inputElement.appendChild(labelFalse);
+                            section.appendChild(labelTrue);
+                            section.appendChild(labelFalse);
+
+
+                            break;
+
+                        case 'MCQ':
+                            let select = document.createElement('select');
+                            select.id = 'multipleChoiceSelect';
+                            // Add options to the select element, you can customize this part according to your needs
+                            // For example:
+                            let option1 = document.createElement('option');
+                            option1.value = 'A';
+                            option1.textContent = 'A';
+                            select.appendChild(option1);
+
+                            let option2 = document.createElement('option');
+                            option2.value = 'B';
+                            option2.textContent = 'B';
+                            select.appendChild(option2);
+
+                           inputElement.appendChild(select);
+                           section.appendChild(inputElement);
+
+
+                            break;
+
+                        default:
+                            let inputText = document.createElement('input');
+                            inputText.type = 'text';
+                            inputText.id = 'inputField';
+                            // You can set additional attributes or properties for the text input here
+                            inputElement.appendChild(inputText);
+                            section.appendChild(inputElement);
+
+
+                            break;
+                    }
+
+                    // if (jsonObject.canBeSkipped == false) {
+                    //     skip.disabled = true;
+                    // } else {
+                    //     skip.disabled = false;
+                    // }
+                    // getScore();
+                });
+            document.getElementById('question').appendChild(section);
+
+        }
+    }
+
+    
+    function testgetAnswer(answer) {
+        let responseElement = document.getElementById('response');
+
+        let url = "https://codecyprus.org/th/api/answer?session=ag9nfmNvZGVjeXBydXNvcmdyFAsSB1Nlc3Npb24YgICAoMa0gQoM&answer=42";
+        let payload = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ answer: answer })
+        };
+
+        fetch(url, payload)
+            .then(response => response.json())
+            .then(jsonObject => {
+                console.log(jsonObject);
+
+                if(jsonObject.correct) {
+                    responseElement.innerHTML = "Correct answer!";
+                } else {
+                    responseElement.innerHTML = "Wrong answer. Try again!";
+                }
+            });
+    }
+
+    function testSkipped() {
+        let responseElement = document.getElementById('response');
+        let url = "https://codecyprus.org/th/test-api/skip";
+        fetch(url, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(jsonObject => {
+                console.log(jsonObject); //
+                if(jsonObject.skipped) {
+                    responseElement.innerHTML = "Question skipped!";
+                } else {
+                    responseElement.innerHTML = "Skipping question failed!";
+                }
+            });
+    }
+
+    function getLeaderboardTest() {
+        let responseElement = document.getElementById('response');
+        let url = "https://codecyprus.org/th/test-api/leaderboard";
+        fetch(url)
+            .then(response => response.json())
+            .then(jsonObject => {
+                console.log(jsonObject);
+                responseElement.innerHTML = "Leaderboard Test Passed: " + JSON.stringify(jsonObject.leaderboard);
+            });
+    }
+
+
+
+
+
+
+    function runTests() {
+
+        const originalFetch = window.fetch;
+
+
+        window.fetch = mockFetch;
+
+
+        document.getElementById('response').innerHTML = '';
+
+
+        testgetQuestion();
+
+
+        setTimeout(() => {
+            const responseText = document.getElementById('response').innerHTML;
+            if (responseText.includes('true')) {
+                console.log('Test passed: The response div contains "true".');
+            } else {
+                console.error('Test failed: The response div does not contain "true".');
+            }
+
+
+            window.fetch = originalFetch;
+        }, 500);
+    }
+
+    function runTestsForAnswer() {
+        const originalFetch = window.fetch;
+        window.fetch = mockFetch;
+
+        document.getElementById('response').innerHTML = '';
+
+
+        testgetAnswer("sampleAnswer");
+
+        setTimeout(() => {
+            const responseText = document.getElementById('response').innerHTML;
+            if (responseText === "Correct answer!") {
+                console.log('Test passed: The response indicates a correct answer.');
+            } else {
+                console.error('Test failed: The response does not indicate a correct answer.');
+            }
+
+            window.fetch = originalFetch;
+        }, 500);
+    }
+
+
+
+</script>
+</body>
+</html>
