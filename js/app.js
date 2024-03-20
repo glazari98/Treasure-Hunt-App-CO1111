@@ -24,6 +24,7 @@ fetch("https://codecyprus.org/th/api/list").then(response => response.json())
         console.log(huntName);
         if(valid) alert("Starting treasure hunt " + huntName);
         window.location.href = "start.html?treasure-hunt-id=" + element.uuid;
+        localStorage.setItem("timeOfTH", element.maxDuration);
       });
 });
 });

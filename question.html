@@ -5,25 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="questions.css" />
+
     <title>Questions</title>
     <script src="js/instascan.min.js"></script>
     <script src="https://kit.fontawesome.com/a28250db7a.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<header>
+    <div  class="navigation">
+        <ul>
+            <li><a href="leaderboard.html">Leaderboard</a></li>
 
-<div id="question">
+            <li><button id="QR" onclick="QR()"><i class="fa-solid fa-qrcode"></i></button></li>
+            <li id="score">Score:
+                <label id="scoreNumber"></label></li>
+            <li id="timer"></li>
+        </ul>
+
+    </div>
+
+
+</header>
+<main>
+    <div id="question">
 </div>
-<div id="score">Score:
-<label id="scoreNumber"></label></div>
+
 <form id="answer" onsubmit="getQuestion()">
     <div id="answerField"></div>
     <div id="submitB"><input type="submit"  id="sub"></div>
 </form>
 
 <button id="skipButton">Skip</button>
-<button id="QR" onclick="QR()"><i class="fa-solid fa-qrcode"></i></button>
-<a href="leaderboard.html">Leaderboard</a>
+
+
 <h1 id='pleaseWaitMessage' style="display: none;">PLEASE WAIT ...</h1>
+</main>
+<footer>Copyright © 2024 UCLan Cyprus, All rights reserved. </footer>
 <!-- <video id="preview"></video> -->
 <script>
 
@@ -133,6 +150,42 @@
             });
 
     }
+    let intervalId; // Declare intervalId globally
+    function startTimer(duration) {
+        let timerDisplay = document.getElementById('timer');
+        let endTime = sessionStorage.getItem('endTime'); // Retrieve the end time from sessionStorage
+
+        intervalId = setInterval(function () {
+            let timeLeft = endTime - Date.now();
+
+            if (timeLeft <= 0) {
+                getScore();
+                sessionStorage.clear();
+                stopTimer();
+                alert("Time is up!!");
+                window.location.href = "scoreboard.html";
+            }
+            else {
+                let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+                let seconds = Math.floor((timeLeft / 1000) % 60);
+
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                timerDisplay.textContent = minutes + ':' + seconds;
+            }
+        },1000);
+    }
+
+    // Set the end time in sessionStorage
+
+    var endTime = sessionStorage.getItem('endTime');
+    if(!endTime){
+        let durationInMillis = parseInt(localStorage.getItem("timeOfTH"));
+        sessionStorage.setItem('endTime', Date.now() + durationInMillis);
+    }
+    startTimer();
+
     let questionType;
     //receive the question information and display the question
     async function getQuestion() {
@@ -218,7 +271,9 @@
 
         }
 
-
+    function stopTimer() {
+        clearInterval(intervalId);
+    }
     getQuestion();
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
@@ -253,6 +308,9 @@
                     window.location.reload();
                 }
                 else {
+                    getScore();
+                    sessionStorage.clear();
+                    stopTimer();
                     alert("You have finished the quiz!!!");
                     setTimeout(function () {
                         window.location.assign("scoreboard.html");
