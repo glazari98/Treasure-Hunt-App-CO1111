@@ -139,6 +139,7 @@ footer {
 #contact div{
     width: 30%;
     min-width: 300px;
+    max-height: 80%;
 }
 
 .hidden {
@@ -153,7 +154,15 @@ footer {
     filter: blur(0);
     transform: translateX(0);
 }
-@media (max-width: 700px) {
+
+.twitter-timeline {
+    max-height: 80%;
+}
+
+.ico {
+    display: none;
+}
+@media (max-width: 900px) {
 
     #ll{
         margin-left: 50%;
@@ -173,5 +182,19 @@ footer {
     }
     section {
         font-size: 20px;
+    }
+
+    .wid {
+        display: none;
+    }
+
+    .ico {
+        display: block;
+    }
+
+    #contact div{
+        width: 30%;
+        min-width: 300px;
+        max-height: 20%;
     }
 }
