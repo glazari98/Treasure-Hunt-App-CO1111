@@ -82,10 +82,13 @@
             }
 
             let playerName1 = entry['player'];
+            var alphanumericRegex = /^[a-zA-Z0-9]+$/;
             if(playerName1.length > 20){
                 playerName1 = playerName1.substring(0, 20);
             }
-
+            if(alphanumericRegex.test(playerName1) == false){
+                playerName1 = "'Error: Player name characters not recognised'";
+            }
             html.innerHTML =
                 "Player name: " + playerName1 + "<br>Points: " +
                 entry['score'] + "<br> Time completed: " +
