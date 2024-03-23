@@ -114,6 +114,7 @@ footer {
     width: 100%;
     height: 100%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 80%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 80%);
     transform: rotate(45deg);
     pointer-events: none;
     z-index: 1;
@@ -161,6 +162,18 @@ footer {
 
 .ico {
     display: none;
+}
+
+button:hover {
+    background-color: rgb(93, 8, 110);
+}
+input:hover {
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+/* For buttons */
+button:hover {
+    cursor: pointer; /* Change cursor to pointer */
 }
 @media (max-width: 900px) {
 
