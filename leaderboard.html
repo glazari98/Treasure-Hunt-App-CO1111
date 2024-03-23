@@ -62,6 +62,7 @@
         let leaderboardArray = leaderboard.leaderboard;
 
         for(const entry of leaderboardArray) {
+
             let html = document.createElement('li');
             if(entry.player == playerName){
                 if(count == 0) {
@@ -80,8 +81,15 @@
             else{
                 count++;
             }
+
+
+            let playerName1 = entry['player'];
+            if(playerName1.length > 20){
+                playerName1 = playerName1.substring(0, 20);
+            }
+
             html.innerHTML = 
-                "Player name: " + entry['player'] + "<br>Points: " +
+                "Player name: " + playerName1 + "<br>Points: " +
                 entry['score'] + "<br> Time completed: " +
                 new Date(entry['completionTime']).toLocaleString();
 

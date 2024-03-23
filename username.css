@@ -57,7 +57,7 @@ main {
     height: 2px;
     position: absolute;
     bottom: -2px;
-    left: 4%;
+    left: -4%;
     transform: scaleX(0);
     transform-origin: bottom right;
     transition: transform 0.3s ease;
