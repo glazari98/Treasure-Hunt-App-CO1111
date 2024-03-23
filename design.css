@@ -163,7 +163,15 @@ footer {
 .ico {
     display: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 700px) {
+
+    #logo {
+        margin-top: 20%; 
+    }
+
+    #welcome {
+        margin-top: -20%;
+      }
 
     #ll{
         margin-left: 50%;
@@ -197,4 +205,26 @@ footer {
         min-width: 300px;
         max-height: 20%;
     }
+    #scroll{
+        margin-bottom: -10%;
+        margin-left: 25%;
+    }
+
+    #start {
+        font-size: 1em; 
+        margin-top: -120px; 
+        width: 35%;
+        height: 20%
+    }
+    #aims,
+    #team {
+       font-size: 1.6em; 
+  }
+}
+
+@media (max-width: 670px) {
+    #aims,
+    #team {
+       font-size: 1.1em; 
+  }
 }
