@@ -72,5 +72,4 @@ Members present: George, Vasili, Daria, Ahmed
 - Daria has to do some modifications the members' names and their roles so it;s more clear what is the role of everyone, change the picture in landing page from bubble to treasure, and write a better welcoming message.
 - Ahmed has to proceed with unit testing
 - George will assist Ahmed with the testing and also try to make it so that if a user completed a treasure hunt it doesnlt allow them to start it again or if they were left in a particular question to continue from that.
-- 
 
