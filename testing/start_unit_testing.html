@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start Unit testing</title>
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+    </style>
+</head>
+<body>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Test ID</th>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Expected output</th>
+        <th class="tg-0pky">Actual output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky">1</td>
+        <td class="tg-0pky">player=empty</td>
+        <td class="tg-0pky">The specified treasure hunt is empty (i.e. contains no questions).</td>
+        <td class="tg-0pky">The specified treasure hunt is empty (i.e. contains no questions).</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">player=inactive</td>
+        <td class="tg-0pky">The specified treasure hunt is not active right now.</td>
+        <td class="tg-0pky">The specified treasure hunt is not active right now.</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">3</td>
+        <td class="tg-0pky">player=player</td>
+        <td class="tg-0pky">The specified playerName: Homer, is already in use (try a different one).</td>
+        <td class="tg-0pky">The specified playerName: Homer, is already in use (try a different one).</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">4</td>
+        <td class="tg-0pky">player=app</td>
+        <td class="tg-0pky">Missing or empty parameter: app</td>
+        <td class="tg-0pky">Missing or empty parameter: app</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">5</td>
+        <td class="tg-0pky">player=unknown</td>
+        <td class="tg-0pky">Could not find a treasure hunt for the specified id: 123</td>
+        <td class="tg-0pky">Could not find a treasure hunt for the specified id: 123</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">6</td>
+        <td class="tg-0pky">player=missing parameter</td>
+        <td class="tg-0pky">Missing or empty parameter: player,Missing or empty parameter: app,Missing or empty parameter: treasure-hunt-id</td>
+        <td class="tg-0pky">Missing or empty parameter: player,Missing or empty parameter: app,Missing or empty parameter: treasure-hunt-id</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    </tbody>
+</table>
+<input type="button" onclick="automatedTest()" value="Run automated test">
+<div id="automatedTest"></div>
+<input type="reset" onclick="reset()">
+
+<script>
+async function automatedTest(){
+    const testResults = await getLeaderBoard();
+    displayResults(testResults);
+}
+
+let testArray = ["empty" , "inactive" , "player", "app", "unknown", "missing parameter"];
+let expectedOutput = ["The specified treasure hunt is empty (i.e. contains no questions).", "The specified treasure hunt is not active right now.", "The specified playerName: Homer, is already in use (try a different one).",
+    "Missing or empty parameter: app", "Could not find a treasure hunt for the specified id: 123",  ["Missing or empty parameter: player",
+    "Missing or empty parameter: app",
+    "Missing or empty parameter: treasure-hunt-id"]];
+
+async function getLeaderBoard() {
+    let testResults = [];
+    for(let i = 0 ; i < testArray.length; i++) {
+        const response = await fetch(`https://codecyprus.org/th/test-api/start?player=${testArray[i]}`);
+        const jsonObject = await response.json();
+
+        if(jsonObject.status === "ERROR") {
+            let testResult = "SUCCESS";
+            testResults.push({
+                testNum: i + 1,
+                input: `player=${testArray[i]}`,
+                expectedOutput: expectedOutput[i],
+                actualOutput: jsonObject.errorMessages,
+                result: testResult
+            });
+        }
+
+    }
+    return testResults;
+}
+function displayResults(testResults) {
+    const table = document.createElement('table');
+    table.className = "tg";
+    table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Input</th>
+                    <th>Expected Output</th>
+                    <th>Actual Output</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${testResults.map(result => `
+                    <tr>
+                        <td>${result.testNum}</td>
+                        <td>${result.input}</td>
+                        <td>${result.expectedOutput}</td>
+                        <td>${result.actualOutput}</td>
+                        <td>${result.result}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        `;
+    document.getElementById('automatedTest').innerHTML = '';
+    document.getElementById('automatedTest').appendChild(table);
+
+}
+function reset(){
+    window.location.reload();
+}
+</script>
+
+</body>
+</html>

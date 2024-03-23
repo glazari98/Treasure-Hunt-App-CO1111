@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Unit testing</title>
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+    </style>
+</head>
+<body>
+
+
+
+<script>
+   async function automatedTest(){
+    const testResults = await runTests();
+    displayResults(testResults);
+    }
+
+    async function runTests() {
+        const testArray = [0, 2, "", null, 11, -1];
+        const expectedOutput = [0, 2, 10, 10, 11, 10];
+        const testResults = [];
+
+        for (let i = 0; i < testArray.length; i++) {
+            const testNumOfTH = testArray[i];
+            const response = await fetch(`https://codecyprus.org/th/test-api/list?number-of-ths=${testNumOfTH}`);
+            const jsonObject = await response.json();
+
+            let actualOutput;
+            if (jsonObject.status === "OK") {
+                actualOutput = jsonObject.treasureHunts.length;
+            } else {
+                actualOutput = "Error";
+            }
+
+            const result = expectedOutput[i] === actualOutput ? "SUCCESS" : "FAIL";
+            testResults.push({
+                testNum: i + 1,
+                input: testNumOfTH,
+                expectedOutput: expectedOutput[i],
+                actualOutput: actualOutput,
+                result: result
+            });
+        }
+        return testResults;
+    }
+
+    function displayResults(testResults) {
+        const table = document.createElement('table');
+        table.className = "tg";
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Input</th>
+                    <th>Expected Output</th>
+                    <th>Actual Output</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${testResults.map(result => `
+                    <tr>
+                        <td>${result.testNum}</td>
+                        <td>${result.input}</td>
+                        <td>${result.expectedOutput}</td>
+                        <td>${result.actualOutput}</td>
+                        <td>${result.result}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        `;
+        document.getElementById('automatedTest').innerHTML = '';
+        document.getElementById('automatedTest').appendChild(table);
+
+    }
+
+    async function runUserTest() {
+        const testResult = await getList();
+        displayUserResult(testResult);
+    }
+    async function getList() {
+        let userInput = document.getElementById('userInput').value;
+        let output;
+        let testResults = [];
+        await fetch(`https://codecyprus.org/th/test-api/list?number-of-ths=${userInput}`).then(response => response.json())
+            .then(jsonObject => {
+                let result;
+                if (jsonObject.status === "OK") {
+                    output = jsonObject.treasureHunts.length;
+                    result = "SUCCESS";
+                }
+                else {
+                    output = "Error";
+                    result = "FAIL";
+                }
+
+                testResults.push({
+                    input: userInput,
+                    output: output,
+                    result: result
+                });
+
+            });
+        return testResults;
+    }
+    function displayUserResult(testResults){
+        let input = document.getElementById('input');
+        let output = document.getElementById('output');
+        let result = document.getElementById('result');
+        const testResult = testResults[0]; // Assuming there's only one test result
+        input.innerHTML = testResult.input;
+        output.innerHTML = testResult.output;
+        result.innerHTML = testResult.result;
+    }
+    function reset(){
+       window.location.reload();
+    }
+</script>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Test ID</th>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Expected output</th>
+        <th class="tg-0pky">Actual output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky">1</td>
+        <td class="tg-0pky">0</td>
+        <td class="tg-0pky">0</td>
+        <td class="tg-0pky">0</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">3</td>
+        <td class="tg-0pky">""</td>
+        <td class="tg-0pky">10</td>
+        <td class="tg-0pky">10</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">4</td>
+        <td class="tg-0pky">null</td>
+        <td class="tg-0pky">10</td>
+        <td class="tg-0pky">10</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">5</td>
+        <td class="tg-0pky">11</td>
+        <td class="tg-0pky">11</td>
+        <td class="tg-0pky">11</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">6</td>
+        <td class="tg-0pky">-1</td>
+        <td class="tg-0pky">10</td>
+        <td class="tg-0pky">10</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<input type="button" onclick="automatedTest()" value="Automated Test">
+<div id="automatedTest">
+</div>
+<br>
+<form action="javascript:runUserTest()">
+    <label>User input test:</label>
+    <input type="number" step="1" id="userInput">
+    <input type="submit">
+</form>
+
+
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky" id="input"></td>
+        <td class="tg-0pky" id="output"></td>
+        <td class="tg-0pky" id="result"></td>
+    </tr>
+    </tbody>
+
+</table>
+<input type="reset" onclick="reset()">
+</body>
+</html>

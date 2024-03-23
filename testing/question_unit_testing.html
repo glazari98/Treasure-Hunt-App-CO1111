@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions Unit Testing</title>
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+    </style>
+</head>
+<body>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Test ID</th>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Expected output</th>
+        <th class="tg-0pky">Actual output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky">1</td>
+        <td class="tg-0pky">question-type=INTEGER can-be-skipped=true requires-location=true completed=false</td>
+        <td class="tg-0pky">question-type=INTEGER can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0pky">question-type=INTEGER can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">question-type=MCQ can-be-skipped=false requires-location=false completed=false</td>
+        <td class="tg-0pky">question-type=MCQ can-be-skipped=false requires-location=false completed=false</td>
+        <td class="tg-0pky">question-type=MCQ can-be-skipped=false requires-location=false completed=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">3</td>
+        <td class="tg-0pky">question-type=BOOLEAN can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0pky">question-type=BOOLEAN can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0pky">question-type=BOOLEAN can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">4</td>
+        <td class="tg-0pky">question-type=TEXT can-be-skipped=false requires-location=false completed=false</td>
+        <td class="tg-0pky">question-type=TEXT can-be-skipped=false requires-location=false completed=false</td>
+        <td class="tg-0pky">question-type=TEXT can-be-skipped=false requires-location=false completed=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">5</td>
+        <td class="tg-0pky">question-type=NUMERIC can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0pky">question-type=NUMERIC can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0pky">question-type=NUMERIC can-be-skipped=true requires-location=true completed=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    </tbody>
+</table>
+<form onsubmit="runUserTest()">
+<label>Type of Question</label>
+<select id="questionType">
+    <option value="INTEGER">INTEGER</option>
+    <option value="NUMERIC">NUMERIC</option>
+    <option value="MCQ">MULTIPLE CHOICE</option>
+    <option value="TEXT">TEXT</option>
+    <option value="BOOLEAN">BOOLEAN</option>
+</select>
+<br>
+<label>Skipping: </label>
+<select id="skipped">
+    <option value="can-be-skipped=true">Question can be skipped</option>
+    <option value="can-be-skipped=false">Question cannit be skipped</option>
+</select>
+<br>
+<label>Treausure Hunt Completed/Not completed: </label>
+<select id="completed">
+    <option value="completed=true">Last Question</option>
+    <option value="completed=false">Treasure Hunt continues</option>
+</select>
+<br>
+<label>Question requires location: </label>
+<select id="location">
+    <option value="requires-location=true">Question requires location</option>
+    <option value="requires-location=false">No location required</option>
+</select>
+<br>
+    <input type="submit">
+</form>
+<script>
+
+async function runUserTest() {
+    const testResult = await testgetQuestion();
+    displayUserResult(testResult);
+}
+async function testgetQuestion() {
+    event.preventDefault();
+    let testResults = [];
+    let questionType = document.getElementById('questionType').value;
+    let skipped = document.getElementById('skipped').value;
+    let location = document.getElementById('location').value;
+    let completed = document.getElementById('completed').value;
+    let expectedOutput = "question-type="+questionType + " " + skipped + " " + location + " " + completed;
+    await fetch(`https://codecyprus.org/th/test-api/question?${completed}&question-type=${questionType}&${skipped}&${location}`).then(response => response.json())
+        .then(jsonObject => {
+            if (jsonObject.status === "OK") {
+                console.log(jsonObject);
+
+
+                let actualOutput = "question-type="+jsonObject.questionType + " can-be-skipped=" + jsonObject.canBeSkipped + " requires-location=" + jsonObject.requiresLocation + " completed=" + jsonObject.completed;
+
+                let result = expectedOutput == actualOutput ? "SUCCESS" : "FAIL";
+
+                testResults.push({
+                    input: [questionType, skipped, location, completed],
+                    expectedOutput: expectedOutput,
+                    actualOutput: actualOutput,
+                    result: result
+                });
+            }
+        });
+    return testResults;
+}
+function displayUserResult(testResults){
+    let input = document.getElementById('input');
+    let expectedOutput = document.getElementById('expectedOutput');
+    let actualOutput = document.getElementById('actualOutput');
+    let result = document.getElementById('result');
+    const testResult = testResults[0]; // Assuming there's only one test result
+    input.innerHTML = "question-type= "+ testResult.input[0] + " " + testResult.input[1] +" " +  testResult.input[2] + " " +testResult.input[3];
+    expectedOutput.innerHTML = testResult.expectedOutput;
+    actualOutput.innerHTML = testResult.actualOutput;
+    result.innerHTML = testResult.result;
+}
+function reset(){
+    window.location.reload();
+}
+</script>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Expected Output</th>
+        <th class="tg-0pky">Actual Output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky" id="input"></td>
+        <td class="tg-0pky" id="expectedOutput"></td>
+        <td class="tg-0pky" id="actualOutput"></td>
+        <td class="tg-0pky" id="result"></td>
+    </tr>
+    </tbody>
+
+</table>
+<input type="reset" onclick="reset()">
+</body>
+</html>

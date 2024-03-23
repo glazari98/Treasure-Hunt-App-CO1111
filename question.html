@@ -214,7 +214,7 @@
                         inputTrue.type = "radio";
                         inputTrue.name = "boolean";
                         inputTrue.value = "True";
-                        labelTrue.textContent = "True/Yes";
+                        labelTrue.textContent = "True";
                         labelTrue.appendChild(inputTrue);
 
                         let labelFalse = document.createElement('label');
@@ -222,7 +222,7 @@
                         inputFalse.type = "radio";
                         inputFalse.name = "boolean";
                         inputFalse.value = "False";
-                        labelFalse.textContent = "False/No";
+                        labelFalse.textContent = "False";
                         labelFalse.appendChild(inputFalse);
 
                         document.getElementById('answerField').appendChild(labelTrue);
@@ -232,33 +232,75 @@
                         break;
 
                     case 'MCQ':
-                        let select = document.createElement('select');
-                        select.id = 'multipleChoiceSelect';
-                        // Add options to the select element, you can customize this part according to your needs
-                        // For example:
-                        let option1 = document.createElement('option');
-                        option1.value = 'A';
-                        option1.textContent = 'A';
-                        select.appendChild(option1);
+                        let optionA = document.createElement('input');
+                        let labelA = document.createElement('label');
+                        labelA.textContent = 'A';
+                        optionA.type = 'radio';
+                        optionA.name = 'MCQ';
+                        optionA.id = 'multipleChoiceSelect';
+                        optionA.value = 'A';
 
-                        let option2 = document.createElement('option');
-                        option2.value = 'B';
-                        option2.textContent = 'B';
-                        select.appendChild(option2);
 
-                        document.getElementById('answerField').appendChild(select);
-                        
+                        let optionB = document.createElement('input');
+                        let labelB = document.createElement('label');
+                        labelB.textContent = 'B';
+                        optionB.type = 'radio';
+                        optionB.name = 'MCQ';
+                        optionB.id = 'multipleChoiceSelect';
+                        optionB.value = 'B';
+
+
+                        let optionC = document.createElement('input');
+                        let labelC = document.createElement('label');
+                        labelC.textContent = 'C';
+                        optionC.type = 'radio';
+                        optionC.name = 'MCQ';
+                        optionC.id = 'multipleChoiceSelect';
+                        optionC.value = 'C';
+
+
+                        let optionD = document.createElement('input');
+                        let labelD = document.createElement('label');
+                        labelD.textContent = 'D';
+                        optionD.type = 'radio';
+                        optionD.name = 'MCQ';
+                        optionD.id = 'multipleChoiceSelect';
+                        optionD.value = 'D';
+                        optionD.innerHTML = 'D';
+
+                        document.getElementById('answerField').appendChild(labelA);
+                        document.getElementById('answerField').appendChild(optionA);
+                        document.getElementById('answerField').appendChild(labelB);
+                        document.getElementById('answerField').appendChild(optionB);
+                        document.getElementById('answerField').appendChild(labelC);
+                        document.getElementById('answerField').appendChild(optionC);
+                        document.getElementById('answerField').appendChild(labelD);
+                        document.getElementById('answerField').appendChild(optionD);
 
                         break;
-
+                    case 'INTEGER':
+                        let inputInteger = document.createElement(('input'));
+                        inputInteger.type = 'number';
+                        inputInteger.id = 'inputField';
+                        inputInteger.step= '1';
+                        inputInteger.placeholder = "Integer only"
+                        document.getElementById('answerField').appendChild(inputInteger);
+                        break;
+                    case 'NUMERIC':
+                        let inputNumeric = document.createElement('input');
+                        inputNumeric.type = 'number';
+                        inputNumeric.id = 'inputField';
+                        inputNumeric.step = '0.01';
+                        inputNumeric.placeholder = "Decimal/Integer";
+                        document.getElementById('answerField').appendChild(inputNumeric);
+                        break;
                     default:
                         let inputText = document.createElement('input');
                         inputText.type = 'text';
                         inputText.id = 'inputField';
+                        inputText.placeholder = "Text only";
                         // You can set additional attributes or properties for the text input here
                         document.getElementById('answerField').appendChild(inputText);
-                        
-
                         break;
                 }
                 if (jsonObject.canBeSkipped == false) {
@@ -300,7 +342,6 @@
         await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID  + "&answer=" + answer)
             .then(response => response.json())
             .then(jsonObject => {
-
                 console.log(jsonObject);
                 if(jsonObject.completed == false) {
                     alert(jsonObject.message);
