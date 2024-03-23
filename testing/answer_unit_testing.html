@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Answer Unit Testing</title>
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+    </style>
+</head>
+<body>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Test ID</th>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Expected output</th>
+        <th class="tg-0pky">Actual output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky">1</td>
+        <td class="tg-0pky">Correct=false ,Completed=false</td>
+        <td class="tg-0pky">Correct=false ,Completed=false</td>
+        <td class="tg-0pky">Correct=false ,Completed=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">Correct=true ,Completed=true</td>
+        <td class="tg-0pky">Correct=true ,Completed=true</td>
+        <td class="tg-0pky">Correct=true ,Completed=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">3</td>
+        <td class="tg-0pky">Correct=false ,Completed=true</td>
+        <td class="tg-0pky">Correct=false ,Completed=true</td>
+        <td class="tg-0pky">Correct=false ,Completed=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">4</td>
+        <td class="tg-0pky">Correct=true ,Completed=false</td>
+        <td class="tg-0pky">Correct=true ,Completed=false</td>
+        <td class="tg-0pky">Correct=true ,Completed=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    </tbody>
+</table>
+<form onsubmit="runUserTest()">
+    <label>Answer is correct:</label>
+    <select id="correct">
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select><br>
+    <label>Treasure Hunt quiz finished: </label>
+    <select id="finished">
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select><br>
+    <input type="submit">
+
+</form>
+
+
+<script>
+    async function runUserTest() {
+        const testResult = await testgetAnswer();
+        displayUserResult(testResult);
+    }
+    async function testgetAnswer(){
+    event.preventDefault();
+    let correct = document.getElementById('correct').value;
+    let thFinished = document.getElementById('finished').value;
+    let testResults = [];
+        //check if the user's answer is correct
+    await fetch(`https://codecyprus.org/th/test-api/answer?correct=${correct}&completed=${thFinished}`)
+        .then(response => response.json())
+        .then(jsonObject => {
+           if(jsonObject.status === "OK"){
+               let testResult = "SUCCESS";
+               testResults.push({
+                   input: [`Correct=${correct} `,`Completed=${thFinished}`],
+                   output: [`Correct=${jsonObject.correct} `,`Completed=${jsonObject.completed}`],
+                   result: testResult
+               });
+           }
+           else{
+                alert("Error in fetching from the API");
+           }
+        });
+    return testResults;
+    }
+    function displayUserResult(testResults){
+        let input = document.getElementById('input');
+        let output = document.getElementById('output');
+        let result = document.getElementById('result');
+        const testResult = testResults[0]; // Assuming there's only one test result
+        input.innerHTML = testResult.input;
+        output.innerHTML = testResult.output;
+        result.innerHTML = testResult.result;
+    }
+    function reset(){
+        window.location.reload();
+    }
+</script>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky" id="input"></td>
+        <td class="tg-0pky" id="output"></td>
+        <td class="tg-0pky" id="result"></td>
+    </tr>
+    </tbody>
+</table>
+<input type="reset" onclick="reset()">
+</body>
+</html>

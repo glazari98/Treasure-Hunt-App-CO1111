@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="app.css" />
-    <title>Scoreboard</title>
-    
-</head>
+    <script src="https://kit.fontawesome.com/a28250db7a.js" crossorigin="anonymous"></script>
 
+    <title>Scoreboard</title>
+</head>
+<body>
 <header>
     <div  class="navigation">
         <ul>
@@ -17,25 +18,21 @@
         </ul>
     </div>
 </header>
-
-<body>
-    
   
-  <div class="score-container"> 
-    <div class="congratulations-block">
-      <h1 class="congratulations">Congratulations!</h1> <!-- Надпись "Congratulations!" -->
-      <p class="quiz-finished">You finished the treasure hunt quiz</p> <!-- Сообщение "You finished the treasure hunt quiz" -->
-    </div>
-    <div class="score-text" id="score">
-      <h2>Your Score:</h2> 
-      <span id="playerScore">0</span>
-    </div>
-    <input type="button" name="Leaderboard" value="Leaderboard" onclick="location.href = 'leaderboard.html'" id="leadbutton">
-      <img src="resources/chest.png" alt="Image" class="score-image">
+<div class="score-container">
+<div class="congratulations-block">
+  <h1 class="congratulations">Congratulations!</h1>
+</div>
+<div class="score-text" >
+  <h2 id="score">Your Score:  <span id="playerScore">0</span></h2>
+    <img src="resources/chest.png" alt="Image" class="score-image">
+</div>
+  <div class="hidden twitter ico">
+      <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Finished the Treasure Hunt quiz. Loved the experience!!!!" data-via="groupA2GRAD" data-hashtags="CO1111" data-show-count="false">Tweet</a>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   </div>
-
-
-
+<input type="button" name="Leaderboard" value="Leaderboard" onclick="location.href='leaderboard.html'" id="leadbutton">
+</div>
 
 <footer>
     Copyright © 2024 UCLan Cyprus, All rights reserved. 

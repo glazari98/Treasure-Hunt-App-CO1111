@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Score Unit Testing</title>
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+    </style>
+</head>
+<body>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Test ID</th>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Expected output</th>
+        <th class="tg-0pky">Actual output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky">1</td>
+        <td class="tg-0pky">score=1</td>
+        <td class="tg-0pky">score=1</td>
+        <td class="tg-0pky">Score=1</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">score=0</td>
+        <td class="tg-0pky">score=0</td>
+        <td class="tg-0pky">score=0</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">3</td>
+        <td class="tg-0pky">score=""</td>
+        <td class="tg-0pky">score=42</td>
+        <td class="tg-0pky">score=42</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">4</td>
+        <td class="tg-0pky">score=null</td>
+        <td class="tg-0pky">score=42</td>
+        <td class="tg-0pky">score=42</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">5</td>
+        <td class="tg-0pky">score=-19999</td>
+        <td class="tg-0pky">score=-1000</td>
+        <td class="tg-0pky">score=-1000</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">6</td>
+        <td class="tg-0pky">score=19999</td>
+        <td class="tg-0pky">score=1000</td>
+        <td class="tg-0pky">score=1000</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    </tbody>
+</table>
+<form action="javascript:runUserTest()">
+    <label>User input test:</label>
+    <input type="number" step="1" id="userInput">
+    <input type="submit">
+</form>
+<script>async function runUserTest() {
+    const testResult = await testgeScore();
+    displayUserResult(testResult);
+}
+async function testgeScore() {
+    let userInput = document.getElementById('userInput').value;
+    let output;
+    let testResults = [];
+    await fetch(`https://codecyprus.org/th/test-api/score?score=${userInput}`).then(response => response.json())
+        .then(jsonObject => {
+            let result;
+            if (jsonObject.status === "OK") {
+                output = jsonObject.score;
+                result = "SUCCESS";
+            }
+            else {
+                output = jsonObject.errorMessages;
+                result = "FAIL";
+            }
+
+
+            testResults.push({
+                input: `Score=${userInput}`,
+                output: `Score=${output}`,
+                result: result
+            });
+
+        });
+    return testResults;
+}
+function displayUserResult(testResults){
+    let input = document.getElementById('input');
+    let output = document.getElementById('output');
+    let result = document.getElementById('result');
+    const testResult = testResults[0]; // Assuming there's only one test result
+    input.innerHTML = testResult.input;
+    output.innerHTML = testResult.output;
+    result.innerHTML = testResult.result;
+}
+function reset(){
+    window.location.reload();
+}
+</script>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky" id="input"></td>
+        <td class="tg-0pky" id="output"></td>
+        <td class="tg-0pky" id="result"></td>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaderboard Unit Testing</title>
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+    </style>
+</head>
+<body>
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Test ID</th>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Expected output</th>
+        <th class="tg-0pky">Actual output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky">1</td>
+        <td class="tg-0pky">Num of players=1,Sorted=true</td>
+        <td class="tg-0pky">Num of players=1,Sorted=true</td>
+        <td class="tg-0pky">Num of players=1,Sorted=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">2</td>
+        <td class="tg-0pky">Num of players=0,Sorted=true</td>
+        <td class="tg-0pky">Num of players=0,Sorted=true</td>
+        <td class="tg-0pky">Num of players=0,Sorted=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">3</td>
+        <td class="tg-0pky">Num of players=-1,Sorted=false</td>
+        <td class="tg-0pky">Num of players=42,Sorted=false</td>
+        <td class="tg-0pky">Num of players=42,Sorted=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">4</td>
+        <td class="tg-0pky">Num of players=null,Sorted=false</td>
+        <td class="tg-0pky">Num of players=42,Sorted=false</td>
+        <td class="tg-0pky">Num of players=42,Sorted=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">5</td>
+        <td class="tg-0pky">Num of players="",Sorted=truee</td>
+        <td class="tg-0pky">Num of players=42,Sorted=true</td>
+        <td class="tg-0pky">Num of players=42,Sorted=true</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">6</td>
+        <td class="tg-0pky">Num of players=12,Sorted=false</td>
+        <td class="tg-0pky">Num of players=12,Sorted=false</td>
+        <td class="tg-0pky">Num of players=12,Sorted=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    <tr>
+        <td class="tg-0pky">7</td>
+        <td class="tg-0pky">Num of players=52,Sorted=false</td>
+        <td class="tg-0pky">Num of players=52,Sorted=false</td>
+        <td class="tg-0pky">Num of players=52,Sorted=false</td>
+        <td class="tg-0lax">SUCCESS</td>
+    </tr>
+    </tbody>
+</table>
+<input type="button" onclick="automatedTest()" value="Run Leaderboard Test">
+<div id="automatedTest">
+
+</div>
+<form onsubmit="runUserTest()">
+    <label>Number of players in leaderboard</label>
+    <input type="number" step="1" id="numOfPlayers"><br>
+    <label>leaderboard sorted</label>
+    <select id="sorted">
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select><br>
+    <input type="submit">
+</form>
+    <script>
+        async function automatedTest(){
+            const testResults = await getLeaderBoard();
+            displayResults(testResults);
+        }
+
+        let testArray = [1, 0 , -1 , null, "", 12, 52];
+        let expectedOutput = [1, 0, 42, 42, 42, 12, 52];
+        let testSorted = ["true" , "true", "false", "false", "true", "false","false"];
+        let expectedSorted = [true , true, false, false, true, false, false];
+        async function getLeaderBoard() {
+            let testResults = [];
+            for(let i = 0 ; i < testArray.length; i++) {
+                const response = await fetch(`https://codecyprus.org/th/test-api/leaderboard?sorted=${testSorted[i]}&size=${testArray[i]}`);
+                const jsonObject = await response.json();
+
+                let testResult = (expectedOutput[i] === jsonObject.numOfPlayers) && (expectedSorted[i] === jsonObject.sorted) ? "SUCCESS" : "FAIL";
+                testResults.push({
+                    testNum: i + 1,
+                    input: [`Num of players=${testArray[i]}`, `Sorted=${testSorted[i]}`],
+                    expectedOutput: [`Num of playes=${expectedOutput[i]}`, `Sorted=${expectedSorted[i]}`],
+                    actualOutput: [`Num of players=${jsonObject.numOfPlayers}` , `Sorted=${jsonObject.sorted}`],
+                    result: testResult
+                });
+
+            }
+            return testResults;
+        }
+        function displayResults(testResults) {
+            const table = document.createElement('table');
+            table.className = "tg";
+            table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Input</th>
+                    <th>Expected Output</th>
+                    <th>Actual Output</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${testResults.map(result => `
+                    <tr>
+                        <td>${result.testNum}</td>
+                        <td>${result.input}</td>
+                        <td>${result.expectedOutput}</td>
+                        <td>${result.actualOutput}</td>
+                        <td>${result.result}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        `;
+            document.getElementById('automatedTest').innerHTML = '';
+            document.getElementById('automatedTest').appendChild(table);
+
+        }
+
+        async function runUserTest() {
+            const testResult = await testLeaderBoard();
+            displayUserResult(testResult);
+        }
+        async function testLeaderBoard() {
+            event.preventDefault();
+            let testResults = [];
+            let sorted = document.getElementById('sorted').value;
+            let numOfPlayers = document.getElementById('numOfPlayers').value;
+                const response = await fetch(`https://codecyprus.org/th/test-api/leaderboard?sorted=${sorted}&size=${numOfPlayers}`);
+                const jsonObject = await response.json();
+
+                let testResult = "SUCCESS";
+                testResults.push({
+                    input: [`Num of players=${numOfPlayers}`, `Sorted=${sorted}`],
+                    output: [`Num of playes=${jsonObject.numOfPlayers}`, `Sorted=${jsonObject.sorted}`],
+                    result: testResult
+                });
+            return testResults;
+        }
+
+
+        function displayUserResult(testResults){
+            let input = document.getElementById('input');
+            let output = document.getElementById('output');
+            let result = document.getElementById('result');
+            const testResult = testResults[0]; // Assuming there's only one test result
+            input.innerHTML = testResult.input;
+            output.innerHTML = testResult.output;
+            result.innerHTML = testResult.result;
+        }
+        function reset(){
+            window.location.reload();
+        }
+
+    </script><table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0pky">Input</th>
+        <th class="tg-0pky">Output</th>
+        <th class="tg-0lax">Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0pky" id="input"></td>
+        <td class="tg-0pky" id="output"></td>
+        <td class="tg-0pky" id="result"></td>
+    </tr>
+    </tbody>
+</table>
+
+<input type="reset" onclick="reset()">
+</body>
+</html>

@@ -15,6 +15,7 @@
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="app.html">Treasure Hunts</a></li>
+            <li><a href="scoreboard.html">Scoreboard</a></li>
             <li><a href="index.html#aims" >About Us</a></li>
         </ul>
     </div>
@@ -22,15 +23,12 @@
 <main>
     <div class="container">
         <p>Leaderboard</p>
+        <h2 id="ranking"></h2>
         <ul id="challenges"></ul>
     </div>
 </main>
 
-<footer>
-    Copyright © 2024 UCLan Cyprus, All rights reserved.
-</footer>
 <script>
-
     const TH_API_URL = "https://codecyprus.org/th/api/";
     // the API base url/*** This is a function to access the /leaderboard at the specified URL*/
     function getLeaderBoard(url) {
@@ -38,36 +36,67 @@
     }
 
     var cookies1 = document.cookie;
-    function getCookieValue(cookieName){
+    function getCookieValue(cookieName, parameter){
         let array = cookieName.split("; ");
         for(let i=0; i < array.length; i++){
             let cookie = array[i];
             let [name,value] =  cookie.split("=");
-            if (name == "session"){
+            if (name == parameter){
                 return value;
             }
         }
     }
-    let sessionID = getCookieValue(cookies1);
+
+    let sessionID = getCookieValue(cookies1,"session");
     //let session = sessionStorage.getItem('session');
     let url = TH_API_URL + "leaderboard?sorted&session=" + sessionID; // form url
     getLeaderBoard(url);
 
+
+    let playerName = getCookieValue(cookies1,"playerName");
+    console.log(playerName);
+    let count = 0;
     function handleLeaderboard(leaderboard) {
         let htm = document.getElementById('challenges'); // used to include HTML code for the table rows
+        let rankingElement = document.getElementById('ranking');
         let leaderboardArray = leaderboard.leaderboard;
+
         for(const entry of leaderboardArray) {
             let html = document.createElement('li');
-            html.innerHTML = 
-                entry['player'] + " - " +
-                entry['score'] + " - " +
+            if(entry.player == playerName){
+                if(count == 0) {
+                    rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "st";
+                }
+                if(count == 1){
+                    rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "nd";
+                }
+                if(count == 2){
+                    rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "rd";
+                }
+                if(count > 2){
+                    rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "th";
+                }
+            }
+            else{
+                count++;
+            }
+
+            let playerName1 = entry['player'];
+            if(playerName1.length > 20){
+                playerName1 = playerName1.substring(0, 20);
+            }
+
+            html.innerHTML =
+                "Player name: " + playerName1 + "<br>Points: " +
+                entry['score'] + "<br> Time completed: " +
                 new Date(entry['completionTime']).toLocaleString();
 
             htm.appendChild(html);
-            
+
         }
+        console.log(count);
         // append generated HTML to existing
-        console.log(leaderboardArray);
+
     }
 </script>
 
