@@ -88,8 +88,8 @@ footer {
 
 
 #game {
-    justify-self: center; /* Horizontally center the item within its grid cell */
-    align-self: center; /* Vertically center the item within its grid cell */
+    justify-self: center; 
+    align-self: center; 
 }
 
 #start {
@@ -162,13 +162,26 @@ footer {
 .ico {
     display: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 700px) {
+
+    #scroll{
+        margin-left: 8%;
+    }
+
+    #game {
+        margin-left: 5%;
+    }
+
+
+    section ul {
+        padding-left: 10%;
+        position: relative;
+    }
 
     #ll{
         margin-left: 50%;
-        /* position:absolute;
-        top: 30%;
-        right: 5%; */
+         width: 45%;
+        height: 45%;
     }
     
     
