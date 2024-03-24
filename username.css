@@ -31,6 +31,8 @@ main {
     top: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    height: 74px;
+    padding-top: 5px;
 }
 
 .navigation li {
@@ -75,13 +77,23 @@ main {
     background-color: rgb(62, 21, 136);
     border: none;
     color: white;
-    padding: 10px 20px;
-    font-size: 20px;
+    font-size: 18px;
+    padding: 10px 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     position: relative;
+    height: 40px;
+
 }
 #leadbutton:hover {
     background-color: rgb(93, 8, 110);
+}
+input{
+    width: 241px;
+    height: 29px;
+    border-radius: 10px;
+}
+h2{
+    font-size: 2em;
 }
 input:hover {
     cursor: pointer; /* Change cursor to pointer */
@@ -103,4 +115,37 @@ footer {
     text-align: center;
     justify-content: center;
     scroll-snap-stop: always;
+}
+@media (max-width: 768px) {
+    h2{
+        font-size: 3em;
+    }
+    .navigation li a{
+        font-size: 2em;
+    }
+    footer{
+        font-size: 30px;
+
+    }
+}
+@media (max-width: 426px) {
+    footer{
+        font-size: 17px;
+
+    }
+    .navigation li a {
+        font-size: 3em;
+    }
+    .navigation {
+        height: 61px;
+        padding-top: 5px;
+    }
+    .navigation li{
+        padding: 2% 2%;
+    }
+}
+@media (max-width: 320px){
+    .navigation {
+        height: 55px;
+    }
 }

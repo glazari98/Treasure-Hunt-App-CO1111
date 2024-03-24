@@ -35,6 +35,28 @@ main {
 #question, #answer, #submitB, #answerField, #skipButton a {
     margin: 5px; /* Adjust as needed */
 }
+#inputField {
+    height: 26px;
+    border-radius: 10px;
+    width: 183px;
+}
+#sub, #skipButton {
+    font-size: 20px;
+    border-radius: 10px;
+    color: yellow;
+    background-color: transparent;
+}
+#sub:active, #skipButton:active{
+    background-color: deepskyblue;
+}
+label{
+    font-size: 30px;
+
+}
+#question{
+    font-size: 40px;
+    text-align: center;
+}
 
 button {
     cursor: pointer;
@@ -52,11 +74,12 @@ ul {
     top: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    font-size: 24px;
 }
 .navigation li {
     display: inline;
     position: relative;
-    padding: 2% 5%;
+    padding: 2% 2%;
 }
 
 .navigation li a {
@@ -122,4 +145,32 @@ input:hover {
 /* For buttons */
 button:hover {
     cursor: pointer; /* Change cursor to pointer */
+}
+@media (max-width: 768px) {
+    .navigation{
+        font-size: 25px;
+    }
+    #leadbutton{
+        width: 67%;
+    }
+}
+@media (max-width: 426px){
+    .navigation{
+        font-size: 17px;
+    }
+    #question {
+        font-size: 22px;
+    }
+    #scoreNumber{
+        font-size: 20px;
+    }
+    .navigation li {
+        padding: 2% 1%;
+    }
+    footer{
+        font-size: 15px;
+
+    }
+
+
 }

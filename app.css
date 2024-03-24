@@ -32,6 +32,7 @@ main .leaderboard{
 }
 ul {
     list-style-type: none;
+    padding-left: 17px;
 }
 
 .navigation {
@@ -50,7 +51,50 @@ ul {
 .navigation li a {
     text-decoration: none;
     color: #d6dff7;
-    size-adjust: 10%;
+    font-size: 30px;
+    position: relative;
+}
+
+.navigation li a:hover {
+    color: rgb(255, 255, 255);
+}
+
+.navigation li a::after {
+    content: "";
+    background-color: rgb(255, 255, 255);
+    width: 110%;
+    height: 2px;
+    position: absolute;
+    bottom: -2px;
+    left: -4%;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.navigation li a:hover::after {
+    transform: scaleX(1);
+}
+.container ul li #text{
+    width: 20%;
+}
+.navigation {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.navigation li {
+    display: inline;
+    position: relative;
+    padding: 2% 5%;
+}
+
+.navigation li a {
+    text-decoration: none;
+    color: #d6dff7;
+    font-size: 30px;
     position: relative;
 }
 
@@ -211,8 +255,87 @@ ul {
     color: white;
     font-size: 30px;
 }
+.navigationLeaderBoard {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
 
+.navigationLeaderBoard li {
+    display: inline;
+    position: relative;
+    padding: 2% 5%;
+}
 
+.navigationLeaderBoard li a {
+    text-decoration: none;
+    color: #d6dff7;
+    font-size: 30px;
+    position: relative;
+}
+
+.navigationLeaderBoard li a:hover {
+    color: rgb(255, 255, 255);
+}
+
+.navigationLeaderBoard li a::after {
+    content: "";
+    background-color: rgb(255, 255, 255);
+    width: 110%;
+    height: 2px;
+    position: absolute;
+    bottom: -2px;
+    left: -4%;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.navigationLeaderBoard li a:hover::after {
+    transform: scaleX(1);
+}
+
+.navigationScoreboard {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.navigationScoreboard li {
+    display: inline;
+    position: relative;
+    padding: 2% 5%;
+}
+
+.navigationScoreboard li a {
+    text-decoration: none;
+    color: #d6dff7;
+    font-size: 30px;
+    position: relative;
+}
+
+.navigationScoreboard li a:hover {
+    color: rgb(255, 255, 255);
+}
+
+.navigationScoreboard li a::after {
+    content: "";
+    background-color: rgb(255, 255, 255);
+    width: 110%;
+    height: 2px;
+    position: absolute;
+    bottom: -2px;
+    left: -4%;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.navigationScoreboard li a:hover::after {
+    transform: scaleX(1);
+}
 
 footer {
     display: flex;
@@ -248,24 +371,44 @@ footer {
     background-color: rgb(93, 8, 110);
 }
 
-/*Alert message*/
+#playerName{
+    color: yellow;
+    font-weight: bold;
+}
+#points{
+    color: red;
+    font-weight: bold;
+}
+#time{
+    color: chartreuse;
+    font-weight: bold;
+}
 
-
-@media (max-width: 700px){
+@media (max-width: 768px){
     body {
-        font-size: 4vw;
+        font-size: 3vw;
     }
-
+    .navigationLeaderBoard{
+        font-size: 1em;
+    }
+    .navigationLeaderBoard li a{
+        font-size: 23px;
+    }
+    .navigation li a{
+        font-size: 1em;
+    }
     .container p {
         font-size: 5vw;
     }
 
     .container ul {
         width: 65%;
+        margin-right: 6%;
     }
 
     .container ul li {
-        font-size: 5vw;
+        font-size: 3.5vw;
+        width: 90%;
     }
 
 
@@ -282,9 +425,82 @@ footer {
 
 
 }
+@media (max-width: 426px){
+    h2{
+        font-size: 22px;
+    }
+    .container p {
+        font-size: 10vw;
+    }
+    .navigation li a{
+        font-size: 2em;
+    }
+    .navigationScoreboard{
+        padding-top: 10px;
+    }
+    .navigationScoreboard li a {
+        font-size: 18px;
+    }
+    .score-text{
+        padding: 0px;
+        font-size: 22px;
+    }
+    .container ul{
+        margin-right: 18%;
+    }
+    .container ul li{
+        font-size: 4.5vw;
+        width: 104%;
+    }
+    .navigationLeaderBoard{
+        padding-top: 10px;
+    }
+    .navigationLeaderBoard li{
+        padding: 2% 2%;
+    }
+    .navigationLeaderBoard li a{
+        font-size: 17px;
+    }
+}
+@media (max-width: 376px){
+    h2{
+        font-size: 19px;
+
+    }
+    .score-text {
+        padding: 5px;
+        font-size: 18px;
+    }
+    .navigationScoreboard li a {
+        font-size: 16px;
+    }
+    .navigationLeaderBoard li a {
+        font-size: 15px;
+    }
+}
 
 
+@media (max-width: 321px){
+    h2{
+        font-size: 17px;
 
+    }
+    .navigation li a {
+        font-size: 3em;
+    }
+    .navigationScoreboard li a {
+        font-size: 15px;
+    }
+    .navigationLeaderBoard li a {
+        font-size: 18px;
+    }
+    .navigationLeaderBoard li {
+        padding: 2% 1%;
+    }
+    .navigationLeaderBoard li a {
+        font-size: 14px;
+    }
+}
 
 
 

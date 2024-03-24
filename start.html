@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="username.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
 </head>
 <body>
@@ -49,6 +50,7 @@
                if(jsonObject.status === "OK") {
                    setCookie("session", jsonObject.session, 10);
                    setCookie('playerName',player,5);
+                   document.getElementById('player').innerHTML = "";
                    window.location.href = "question.html";
 
                }

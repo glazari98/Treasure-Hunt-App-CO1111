@@ -15,7 +15,7 @@
     <div  class="navigation">
         <ul>
             <li><a href="app.html">List of treasure hunts</a></li>
-            <li>QR code scanner: <button id="QR" onclick="QR()" ><i class="fa-solid fa-qrcode"></i></button></li>
+            <li>QR scanner: <button id="QR" onclick="QR()" ><i class="fa-solid fa-qrcode"></i></button></li>
             <li id="score">Score:
                 <label id="scoreNumber"></label></li>
             <li id="timer"></li>
@@ -38,7 +38,7 @@
 
 
 
-<h1 id='pleaseWaitMessage' style="display: none;">PLEASE WAIT ...</h1>
+<h1 id='pleaseWaitMessage' style="display: none;">LOADING ...</h1>
 <input type="button" id='leadbutton' onclick="toScoreboard()" value="Go to scoreboard" style="display: none">
 </main>
 <footer>Copyright © 2024 UCLan Cyprus, All rights reserved. </footer>
@@ -179,7 +179,7 @@
                 minutes = minutes < 10 ? '0' + minutes : minutes;
                 seconds = seconds < 10 ? '0' + seconds : seconds;
 
-                timerDisplay.textContent = minutes + ':' + seconds;
+                timerDisplay.textContent = "Time left: " + minutes + ':' + seconds;
             }
         },1000);
     }
@@ -202,7 +202,9 @@
     async function getQuestion() {
         document.getElementById('pleaseWaitMessage').style.display = 'none';
         document.getElementById('question').style.display = 'block';
-
+        document.getElementById('skipButton').style.display = 'block';
+        document.getElementById('answerField').style.display = 'block';
+        document.getElementById('sub').style.display = 'block';
 
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(jsonObject => {
@@ -355,6 +357,7 @@
         event.preventDefault();
         document.getElementById('pleaseWaitMessage').style.display = 'block';
         document.getElementById('question').style.display = 'none';
+        document.getElementById('skipButton').style.display = 'none';
         //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
         let answer;
         if (questionType === 'BOOLEAN') {
@@ -391,6 +394,7 @@
                     getScore();
                     sessionStorage.clear();
                     stopTimer();
+                    window.location.href = "scoreboard.html";
                 }
             });
 
@@ -401,6 +405,9 @@
     async function skipped(){
         document.getElementById('pleaseWaitMessage').style.display = 'block';
         document.getElementById('question').style.display = 'none';
+        document.getElementById('skipButton').style.display = 'none';
+        document.getElementById('answerField').style.display = 'none';
+        document.getElementById('sub').style.display = 'none';
         await fetch("https://codecyprus.org/th/api/skip?session=" + sessionID)
             .then(response => response.json())
             .then(jsonObject => {

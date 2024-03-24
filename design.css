@@ -163,6 +163,9 @@ footer {
 .ico {
     display: none;
 }
+.socialMedia{
+    color: white;
+}
 @media (max-width: 700px) {
 
     #logo {
