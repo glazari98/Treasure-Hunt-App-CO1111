@@ -13,6 +13,14 @@
     <script src="https://kit.fontawesome.com/a28250db7a.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<script>
+    function buttonConfirmation(){
+        let confirm = window.confirm("Are you sure you want to proceed?");
+        if(confirm){
+            window.location.href = "app.html";
+        }
+    }
+</script>
     <main>
         <section id="welcome" class="hidden">
             <img src="resources/logo.png" alt="logo" id="logo">
@@ -22,7 +30,7 @@
             </div>
             
             <div id="game">
-                <input type="button" name="start" value="START" onclick="location.href = 'app.html'" id="start">
+                <input type="button" name="start" value="START" onclick="buttonConfirmation()" id="start">
                 <p>Here goes our <b>Treasure Hunt game</b></p>
                 <label id="scroll">Scroll to learn more about the project</label>
             </div>
@@ -99,7 +107,7 @@
 
         </section>
     </main>
-</body>
+
 <footer>
     Copyright © 2024 UCLan Cyprus, All rights reserved. 
 </footer>

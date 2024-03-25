@@ -166,11 +166,7 @@
             let timeLeft = endTime - Date.now();
 
             if (timeLeft <= 0) {
-                getScore();
-                sessionStorage.clear();
-                stopTimer();
-                alert("Time is up!!");
-                window.location.href = "scoreboard.html";
+                getAnswer();
             }
             else {
                 let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
@@ -195,7 +191,11 @@
 
 
     function toScoreboard(){
-        window.location.href = "scoreboard.html";
+        let confirm = window.confirm("Are you sure you want to proceed to the Scoreboard?");
+        if(confirm){
+            window.location.href = "scoreboard.html";
+        }
+
     }
     let questionType;
     //receive the question information and display the question
@@ -210,14 +210,15 @@
             .then(jsonObject => {
                 if(jsonObject.status === "OK") {
                     console.log(jsonObject);
-                    question.innerHTML = jsonObject.questionText;
+                    question.innerHTML = "Question: " + (jsonObject.currentQuestionIndex + 1)  + "/" + jsonObject.numOfQuestions + " '" + jsonObject.questionText + "'ma";
                     if (jsonObject.currentQuestionIndex == 0) {
                         askForLocation();
                     }
                     if (jsonObject.requiresLocation == true) {
                         askForLocation();
                         if (sessionStorage.getItem("message") == "Ignored update as the previous update was less than 30 seconds earlier.") {
-                            alert("Please wait at least 30 seconds until we update your position again")
+                            alert("If you are at the right location, PLEASE WAIT at least 30 seconds until we update your position again");
+
                         }
                     }
                     if(jsonObject.numOfQuestions == jsonObject.currentQuestionIndex){
@@ -333,14 +334,26 @@
                             document.getElementById('answerField').appendChild(inputText);
                             break;
                     }
-                    if (jsonObject.canBeSkipped == false) {
+                    if (jsonObject.canBeSkipped == false && jsonObject.currentQuestionIndex != jsonObject.numOfQuestions) {
                         skip.disabled = true;
+                        alert("This question cannot be skipped");
+                        document.getElementById('skipButton').style.display = 'none';
                     } else {
                         skip.disabled = false;
                     }
                     getScore();
                 }else{
+                    if(jsonObject.errorMessages[0] == "Finished session. The specified session has run out of time."){
+                        alert(jsonObject.errorMessages[0]);
+                        getScore();
+                        sessionStorage.clear();
+                        stopTimer();
+                        window.location.href = "scoreboard.html";
+                    }
                     alert(jsonObject.errorMessages);
+                    getScore();
+                    sessionStorage.clear();
+                    stopTimer();
                     window.location.href = "scoreboard.html";
                 }
             });
@@ -354,65 +367,73 @@
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer() {
-        event.preventDefault();
-        document.getElementById('pleaseWaitMessage').style.display = 'block';
-        document.getElementById('question').style.display = 'none';
-        document.getElementById('skipButton').style.display = 'none';
-        //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
-        let answer;
-        if (questionType === 'BOOLEAN') {
-            // For boolean questions, get the value of a checkbox or radio button
-            answer = document.querySelector('input[name="boolean"]:checked').value;
-        } else if (questionType === 'MCQ') {
-            answer = document.getElementById('multipleChoiceSelect').value;
-        } else {
-            // For other types of questions, get the value from a text input field
-            answer = document.getElementById('inputField').value;
-        }
-        //clear the answer element before appending the new inptu field
-        document.getElementById('answer').innerHTML = "";
-        //check if the user's answer is correct
-        await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID + "&answer=" + answer)
-            .then(response => response.json())
-            .then(jsonObject => {
-                if (jsonObject.status === "OK") {
-                    console.log(jsonObject);
-                    if (jsonObject.completed == false) {
-                        alert(jsonObject.message);
-                        getQuestion();
-                        window.location.reload();
-                    } else {
+        let confirm = window.confirm("Are you sure you want to submit your answer?");
+        if(confirm){
+            event.preventDefault();
+            document.getElementById('pleaseWaitMessage').style.display = 'block';
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('skipButton').style.display = 'none';
+            //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
+            let answer;
+            if (questionType === 'BOOLEAN') {
+                // For boolean questions, get the value of a checkbox or radio button
+                answer = document.querySelector('input[name="boolean"]:checked').value;
+            } else if (questionType === 'MCQ') {
+                answer = document.getElementById('multipleChoiceSelect').value;
+            } else {
+                // For other types of questions, get the value from a text input field
+                answer = document.getElementById('inputField').value;
+            }
+            //clear the answer element before appending the new inptu field
+            document.getElementById('answer').innerHTML = "";
+            //check if the user's answer is correct
+            await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID + "&answer=" + answer)
+                .then(response => response.json())
+                .then(jsonObject => {
+                    if (jsonObject.status === "OK") {
+                        console.log(jsonObject);
+                        if (jsonObject.completed == false) {
+                            if(jsonObject.correct){
+                                alert(jsonObject.message + " Your answer is correct!");
+                            }
+                            else{
+                                alert(jsonObject.message + " Try again!");
+                            }
+                            getQuestion();
+                            window.location.reload();
+                        } else {
+                            getScore();
+                            sessionStorage.clear();
+                            stopTimer();
+                            window.location.reload();
+                        }
+                    }
+                    else
+                    {
+                        alert(jsonObject.errorMessages);
                         getScore();
                         sessionStorage.clear();
                         stopTimer();
-                        window.location.reload();
+                        window.location.href = "scoreboard.html";
                     }
-                }
-                else
-                {
-                    alert(jsonObject.errorMessages);
-                    getScore();
-                    sessionStorage.clear();
-                    stopTimer();
-                    window.location.href = "scoreboard.html";
-                }
-            });
-
+                });
+        }
 
 
     }
 
     async function skipped(){
-        document.getElementById('pleaseWaitMessage').style.display = 'block';
-        document.getElementById('question').style.display = 'none';
-        document.getElementById('skipButton').style.display = 'none';
-        document.getElementById('answerField').style.display = 'none';
-        document.getElementById('sub').style.display = 'none';
-        await fetch("https://codecyprus.org/th/api/skip?session=" + sessionID)
-            .then(response => response.json())
-            .then(jsonObject => {
+        let confirm = window.confirm("Are you sure you want to skip the question?")
+        if(confirm){
+            document.getElementById('pleaseWaitMessage').style.display = 'block';
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('skipButton').style.display = 'none';
+            document.getElementById('answerField').style.display = 'none';
+            document.getElementById('sub').style.display = 'none';
+            await fetch("https://codecyprus.org/th/api/skip?session=" + sessionID)
+                .then(response => response.json())
+                .then(jsonObject => {
                     if (jsonObject.completed == false) {
-                        alert(jsonObject.message);
                         getQuestion();
                         window.location.reload();
                     } else {
@@ -420,11 +441,11 @@
                         sessionStorage.clear();
                         stopTimer();
                         window.location.reload();
-                        // alert("You finished the treasure hunt quiz");
-                        // window.location.href = "scoreboard.html";
                     }
 
-            });
+                });
+        }
+
 
     }
 
