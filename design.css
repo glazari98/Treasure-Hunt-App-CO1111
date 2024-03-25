@@ -64,6 +64,7 @@ footer {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 /* #picture {
@@ -88,6 +89,8 @@ footer {
 
 
 #game {
+    display: flex;
+    flex-direction: row;
     justify-self: center; 
     align-self: center; 
 }
@@ -126,15 +129,19 @@ footer {
 }
 
 #scroll{
-    position: absolute;
-    right: 10%;
-    bottom: 5%;
+    padding-top: 27px;
+    margin-left: 140px;
 }
+#game p{
+    margin-top: 29px;
 
+
+}
 #contact {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    margin-left: 0;
 }
 
 #contact div{
@@ -148,6 +155,7 @@ footer {
     transition: all 1s;
     filter: blur(5px);
     transform: translateX(-100%);
+
 }
 
 .show {
@@ -167,8 +175,11 @@ footer {
     color: white;
 }
 
-@media (max-width: 700px) {
-
+@media (max-width: 769px) {
+    /*#scroll {*/
+    /*    padding-top: 29px;*/
+    /*    margin-left: 110px;*/
+    /*}*/
     #logo {
         margin-top: 20%; 
     }
@@ -178,16 +189,18 @@ footer {
       }
 
     #ll{
-        margin-left: 50%;
-         width: 45%;
-        height: 45%;
+        margin-left: 5%;
+        width: 40%;
+        margin-top: 25%;
+
     }
-    
+
     
     section h1 {
-        margin-left: 0;
+        margin-left: 3%;
         margin-top: 45%;
         font-size: 70px;
+
     }
     section h2 {
         font-size: 50px;
@@ -209,14 +222,12 @@ footer {
         min-width: 300px;
         max-height: 20%;
     }
-    #scroll{
-        margin-bottom: -10%;
-        margin-left: 25%;
+    #scroll {
+        padding-top: 55px;
     }
 
     #start {
-        font-size: 1em; 
-        margin-top: -120px; 
+        font-size: 1em;
         width: 35%;
         height: 20%
     }
@@ -231,4 +242,53 @@ footer {
     #team {
        font-size: 1.1em; 
   }
+}
+@media (max-width: 426px){
+    section h1 {
+        font-size: 43px;
+    }
+    #ll{
+        margin-left: 0;
+        margin-top: 35%;
+    }
+    #welcome div{
+        margin-bottom: 93px;
+    }
+    #start {
+        margin-bottom: 10px;
+        width: 43%;
+    }
+    #game p{
+        font-size: 90%;
+        margin-top: 31px;
+        margin-left: 7%;
+    }
+    #scroll{
+        padding-top: 55px;
+        padding-left: 30px;
+        margin-left: 0;
+    }
+}
+@media (max-width: 376px){
+    #welcome div {
+        margin-bottom: 45px;
+    }
+    #game p {
+        font-size: 87%;
+        margin-top: 2%;
+        margin-left: 6%;
+    }
+    #scroll {
+        padding-top: 27%;
+    }
+}
+@media (max-width: 321px) {
+#ll{
+    margin-top: 39%;
+    width: 28%;
+}
+#scroll{
+    padding-top: 33%;
+}
+
 }
