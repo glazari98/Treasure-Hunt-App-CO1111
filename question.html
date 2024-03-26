@@ -15,7 +15,7 @@
     <div  class="navigation">
         <ul>
             <li id="listOfTH"><a href="app.html">List of treasure hunts</a></li>
-            <li><button id="QR" onclick="QR()" ><i class="fa-solid fa-qrcode"></i></button></li>
+            <li><button id="QR" onclick="allowCamera()" ><i class="fa-solid fa-qrcode"></i></button></li>
             <li id="score">Score:
                 <label id="scoreNumber"></label></li>
             <li id="timer"></li>
@@ -24,6 +24,7 @@
 
 
 </header>
+
 <main>
 <p id="questionIndex"></p>
 <div id="question">
@@ -42,51 +43,65 @@
 <input type="button" id='leadbutton' onclick="window.location.href = 'scoreboard.html'" value="Go to scoreboard" style="display: none">
 </main>
 <footer>Copyright © GROUPA2 Treasure Hunt CO1111</footer>
-<!-- <video id="preview"></video> -->
+
+<div id="camera">
+    <div id="cameraContent"><video id="preview"></video></div>
+    <button onclick="closeCamera()">Close</button>
+</div>
 <script>
 
-    function QR () {
 
-        
- var opts = {//
-            // Whether to scan continuously for QR codes. If false, use scanner.scan() to//+ manually scan.
-            // If true, the scanner emits the "scan" event when a QR code is
-            // scanned. Default true.
-             continuous: true,
-            // The HTML element to use for the camera's video preview. Must be a <video>
-            // element. When the camera is active, this element will have the "active" CSS
-            // class, otherwise, it will have the "inactive" class. By default, an invisible
-            // element will be created to host the video.
-            video: document.getElementById('preview'),
-            // Whether to horizontally mirror the video preview. This is helpful when trying to
-            // scan a QR code with a user-facing camera. Default true.
-            mirror: true,
-            // Whether to include the scanned image data as part of the scan result. See the
-            // "scan" event for image format details. Default false.
-            captureImage: false,
-            // Only applies to continuous mode. Whether to actively scan when the tab is not
-            // active.
-            // When false, this reduces CPU usage when the tab is not active. Default true.
-            backgroundScan: true,
-            // Only applies to continuous mode. The period, in milliseconds, before the same QR
-            // code will be recognized in succession. Default 5000 (5 seconds).
-            refractoryPeriod: 5000,
-            // Only applies to continuous mode. The period, in rendered frames, between scans. A
-            // lower scan period increases CPU usage but makes scan response faster.
-            // Default 1 (i.e. analyze every frame).
-            scanPeriod: 1};
+    var opts = {
+        // Whether to scan continuously for QR codes. If false, use scanner.scan() to
+        // manually scan. If true, the scanner emits the "scan" event when a QR code is
+        // scanned. Default true.
+        continuous: true,
+        // The HTML element to use for the camera's video preview. Must be a <video>
+        // element. When the camera is active, this element will have the "active" CSS
+        // class, otherwise, it will have the "inactive" class. By default, an invisible
+        // element will be created to host the video.
+        video: document.getElementById('preview'),
+        // Whether to horizontally mirror the video preview. This is helpful when trying to
+        // scan a QR code with a user-facing camera. Default true.
+        mirror: true,
+        // Whether to include the scanned image data as part of the scan result. See the
+        // "scan" event for image format details. Default false.
+        captureImage: false,
+        // Only applies to continuous mode. Whether to actively scan when the tab is not
+        // active.
+        // When false, this reduces CPU usage when the tab is not active. Default true.
+        backgroundScan: true,
+        // Only applies to continuous mode. The period, in milliseconds, before the same QR
+        // code will be recognized in succession. Default 5000 (5 seconds).
+        refractoryPeriod: 5000,
+        // Only applies to continuous mode. The period, in rendered frames, between scans. A
+        // lower scan period increases CPU usage but makes scan response faster.
+        // Default 1 (i.e. analyze every frame).
+        scanPeriod: 1
+    };
+    var scanner = new Instascan.Scanner(opts);
+    var camerasList = [];
+    var currentCameraIndex = -1;
 
-
-
-        var scanner = new Instascan.Scanner(opts);
+    function allowCamera() {
+        let cameraDiv = document.getElementById('camera');
+        cameraDiv.style.display = "block";
         Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-        scanner.start(cameras[0]);
-    } else {
-        console.error('No cameras found.');alert("No cameras found.");}}).catch(function (e) {console.error(e);});
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
 
-        scanner.addListener('scan', function (content) {console.log(content); alert(content);});
-
+            } else {
+                console.error('No cameras found.');
+                alert("No cameras found.");
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
+    function closeCamera(){
+        let cameraDiv = document.getElementById('camera');
+        cameraDiv.style.display = "none";
+        scanner.stop();
     }
 
     var cookies1 = document.cookie;
@@ -158,7 +173,21 @@
             let timeLeft = endTime - Date.now();
 
             if (timeLeft <= 0) {
-                getAnswer();
+                alert("Finished session. The specified session has run out of time.")
+                getScore();
+                sessionStorage.clear();
+                stopTimer();
+                question.innerHTML = "Well Done!!! You reached the end of the treasure hunt";
+                document.getElementById('pleaseWaitMessage').style.display = 'none';
+                document.getElementById('questionIndex').style.display = 'none';
+                document.getElementById('sub').style.display = 'none';
+                document.getElementById('skipButton').style.display = 'none';
+                document.getElementById('answerField').style.display = 'none';
+                document.getElementById('leadbutton').style.display = 'block';
+                document.getElementById('listOfTH').style.display = 'none';
+                document.getElementById('QR').style.display = 'none';
+                document.getElementById('timer').style.display = 'none';
+                event.preventDefault();
             }
             else {
                 let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
@@ -172,7 +201,6 @@
         },1000);
     }
 
-    // Set the end time in sessionStorage
 
     var endTime = sessionStorage.getItem('endTime');
     if(!endTime){
@@ -204,10 +232,10 @@
                         askForLocation();
                     }
                     if (jsonObject.requiresLocation == true) {
+                        question.innerHTML += "(This question requires you to be at a specific location!";
                         askForLocation();
                         if (sessionStorage.getItem("message") == "Ignored update as the previous update was less than 30 seconds earlier.") {
                             alert("If you are at the right location, PLEASE WAIT at least 30 seconds until we update your position again");
-
                         }
                     }
                     if(jsonObject.numOfQuestions == jsonObject.currentQuestionIndex){
@@ -223,7 +251,8 @@
                         document.getElementById('leadbutton').style.display = 'block';
                         document.getElementById('listOfTH').style.display = 'none';
                         document.getElementById('QR').style.display = 'none';
-                        setCookie("session", "", 10);
+
+
                     }
                     questionType = jsonObject.questionType;
                     switch (questionType) {
@@ -345,19 +374,28 @@
                         skip.disabled = false;
                     }
                     getScore();
-                }else{
-                    if(jsonObject.errorMessages[0] == "Finished session. The specified session has run out of time."){
-                        alert(jsonObject.errorMessages[0]);
+                }else {
+                    if (jsonObject.errorMessages == "Finished session. The specified session has run out of time.") {
+                        alert(jsonObject.errorMessages);
+                        getScore();
+                        sessionStorage.clear();
+                        stopTimer();
+                        question.innerHTML = "Well Done!!! You reached the end of the treasure hunt";
+                        document.getElementById('pleaseWaitMessage').style.display = 'none';
+                        document.getElementById('questionIndex').style.display = 'none';
+                        document.getElementById('sub').style.display = 'none';
+                        document.getElementById('skipButton').style.display = 'none';
+                        document.getElementById('answerField').style.display = 'none';
+                        document.getElementById('leadbutton').style.display = 'block';
+                        document.getElementById('listOfTH').style.display = 'none';
+                        document.getElementById('QR').style.display = 'none';
+                    } else {
+                        alert(jsonObject.errorMessages);
                         getScore();
                         sessionStorage.clear();
                         stopTimer();
                         window.location.href = "scoreboard.html";
                     }
-                    alert(jsonObject.errorMessages);
-                    getScore();
-                    sessionStorage.clear();
-                    stopTimer();
-                    window.location.href = "scoreboard.html";
                 }
             });
 
@@ -370,32 +408,30 @@
     formElement.addEventListener('submit', getAnswer);
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer() {
+        event.preventDefault();
+        document.getElementById('questionIndex').style.display = 'none';
+        document.getElementById('pleaseWaitMessage').style.display = 'block';
+        document.getElementById('question').style.display = 'none';
+        document.getElementById('skipButton').style.display = 'none';
+        //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
+        let answer;
+        if (questionType === 'BOOLEAN') {
+            // For boolean questions, get the value of a checkbox or radio button
+            answer = document.querySelector('input[name="boolean"]:checked').value;
+        } else if (questionType === 'MCQ') {
+            answer = document.getElementById('multipleChoiceSelect').value;
+        } else {
+            // For other types of questions, get the value from a text input field
+            answer = document.getElementById('inputField').value;
+        }
+        //clear the answer element before appending the new inptu field
+        document.getElementById('answer').innerHTML = "";
         let confirm = window.confirm("Are you sure you want to submit your answer?");
-        if(confirm){
-            event.preventDefault();
-            document.getElementById('questionIndex').style.display = 'none';
-            document.getElementById('pleaseWaitMessage').style.display = 'block';
-            document.getElementById('question').style.display = 'none';
-            document.getElementById('skipButton').style.display = 'none';
-            //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
-            let answer;
-            if (questionType === 'BOOLEAN') {
-                // For boolean questions, get the value of a checkbox or radio button
-                answer = document.querySelector('input[name="boolean"]:checked').value;
-            } else if (questionType === 'MCQ') {
-                answer = document.getElementById('multipleChoiceSelect').value;
-            } else {
-                // For other types of questions, get the value from a text input field
-                answer = document.getElementById('inputField').value;
-            }
-            //clear the answer element before appending the new inptu field
-            document.getElementById('answer').innerHTML = "";
-            //check if the user's answer is correct
+        if(confirm) {
             await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID + "&answer=" + answer)
                 .then(response => response.json())
                 .then(jsonObject => {
-                    if (jsonObject.status === "OK") {
-                        console.log(jsonObject);
+                    if(jsonObject.status === "OK"){
                         if (jsonObject.completed == false) {
                             if(jsonObject.correct){
                                 alert(jsonObject.message + " Your answer is correct!");
@@ -412,19 +448,34 @@
                             window.location.reload();
                         }
                     }
-                    else
-                    {
-                        alert(jsonObject.errorMessages);
-                        getScore();
-                        sessionStorage.clear();
-                        stopTimer();
-                        window.location.href = "scoreboard.html";
+                    else{
+                        if (jsonObject.errorMessages == "Finished session. The specified session has run out of time.") {
+                            alert(jsonObject.errorMessages);
+                            getScore();
+                            sessionStorage.clear();
+                            stopTimer();
+                            question.innerHTML = "Well Done!!! You reached the end of the treasure hunt";
+                            document.getElementById('pleaseWaitMessage').style.display = 'none';
+                            document.getElementById('questionIndex').style.display = 'none';
+                            document.getElementById('sub').style.display = 'none';
+                            document.getElementById('skipButton').style.display = 'none';
+                            document.getElementById('answerField').style.display = 'none';
+                            document.getElementById('leadbutton').style.display = 'block';
+                            document.getElementById('listOfTH').style.display = 'none';
+                            document.getElementById('QR').style.display = 'none';
+                        }else {
+                            alert(jsonObject.errorMessages);
+                            getScore();
+                            sessionStorage.clear();
+                            stopTimer();
+                            window.location.href = "scoreboard.html";
+                        }
                     }
                 });
+
+            }
+
         }
-
-
-    }
 
     async function skipped(){
         let confirm = window.confirm("Are you sure you want to skip the question? You will loose 5 points")

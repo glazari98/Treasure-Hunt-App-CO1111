@@ -46,7 +46,7 @@ main {
     text-decoration: none;
     color: #d6dff7;
     /* size-adjust: 10%; */
-    font-size: 30px;
+    font-size: 1em;
     position: relative;
 }
 
@@ -145,9 +145,20 @@ footer {
     .navigation li{
         padding: 2% 2%;
     }
-}
-/* @media (max-width: 320px){
-    .navigation {
-        height: 55px;
+    .navigation li a {
+        font-size: 24px;
     }
-} */
+}
+@media (max-width: 376px) {
+    font-size: 22px;
+}
+
+@media (max-width: 320px){
+    .navigation li a{
+        font-size: 23px;
+
+    }
+    ul{
+        padding: 8px;
+    }
+}

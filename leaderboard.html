@@ -13,10 +13,9 @@
 
     <div  class="navigationLeaderBoard">
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="app.html">Treasure Hunts</a></li>
+            <li><a onclick="emptySession()" href="index.html">Home</a></li>
+            <li><a onclick="emptySession()" href="app.html">Treasure Hunts</a></li>
             <li><a href="scoreboard.html">Scoreboard</a></li>
-            <li><a href="index.html#aims" >About Us</a></li>
         </ul>
     </div>
 </header>
@@ -29,6 +28,9 @@
 </main>
 
 <script>
+    function emptySession (){
+        document.cookie = "session" + "=; expires=Mon, 01 Nov 1998 00:00:00 UTC; path=/;";
+    }
     const TH_API_URL = "https://codecyprus.org/th/api/";
     // the API base url/*** This is a function to access the /leaderboard at the specified URL*/
     function getLeaderBoard(url) {
@@ -52,7 +54,7 @@
     let url = TH_API_URL + "leaderboard?sorted&session=" + sessionID; // form url
     getLeaderBoard(url);
 
-
+    console.log(sessionID);
     let playerName = getCookieValue(cookies1,"playerName");
     console.log(playerName);
     let count = 0;
