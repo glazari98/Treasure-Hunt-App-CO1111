@@ -18,7 +18,7 @@
 <main>
     <h2 class="username-text">Please enter your username for the treasure hunt quiz to start</h2>
 <form method='get' onsubmit="startTH()" class="form">
-    <input type="text"  id="player" minlength="3" maxlength="20" placeholder="Type your username here" required>
+    <input type="text"  id="player" minlength="3" maxlength="20" required>
     <input type="submit" id="leadbutton" class="submitButton">
 </form>
 <script>
@@ -51,33 +51,31 @@
             }
         }
 
-    }
     //prompt the user to enter it;s username so the treasure hunt questions can start
-    var cookies =document.cookie;
-    console.log(cookies);
+
     async function startTH() {
         event.preventDefault();
         let player = document.getElementById('player').value;
         if(alphaNumeric.test(player) == false){
             alert("The characters you entered are not alphanumeric!! Enter a valid username");
         }
-        else{
+        else{            //prevent the page from refreshing when submit button is pressed
 
-        //prevent the page from refreshing when submit button is pressed
-        await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
-            .then(jsonObject => {
-                if (jsonObject.status === "OK") {
-                    setCookie("session", jsonObject.session, 10);
-                    setCookie('playerName', player, 5);
-                    document.getElementById('player').innerHTML = "";
-                    window.location.href = "question.html";
-                } else {
-                    alert(jsonObject.errorMessages);
-                }
-            });
+            let confirm = window.confirm("Are you sure you want to start the quiz?")
+            if (confirm) {
+                await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
+                    .then(jsonObject => {
+                        if (jsonObject.status === "OK") {
+                            setCookie("session", jsonObject.session, 10);
+                            setCookie('playerName', player, 5);
+                            document.getElementById('player').innerHTML = "";
+                            window.location.href = "question.html";
+                        } else {
+                            alert(jsonObject.errorMessages);
+                        }
+                    });
+            }
         }
-
-
 
 
     }
@@ -86,7 +84,7 @@
 </script>
 </main>
 <footer>
-   Copyright © GROUPA2 Treasure Hunt CO1111
+    Copyright © 2024 UCLan Cyprus, All rights reserved.
 </footer>
 </body>
 </html>

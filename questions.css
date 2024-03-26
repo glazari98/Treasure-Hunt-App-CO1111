@@ -51,7 +51,7 @@ main {
 
 
 #sub, #skipButton {
-    font-size: 30px;
+    font-size: 20px;
     border-radius: 10px;
     color: yellow;
     background-color: transparent;
@@ -90,11 +90,9 @@ a{
 #sub:hover, #skipButton:hover{
     background-color: blueviolet;
 }
-
 #sub:active, #skipButton:active{
     background-color: deepskyblue;
 }
-
 label{
     font-size: 30px;
 
@@ -196,6 +194,9 @@ button:hover {
     .navigation{
         font-size: 25px;
     }
+    /* .navigation li a{
+        font-size: 23px;
+    } */
     #leadbutton{
         width: 67%;
     }
@@ -207,25 +208,20 @@ button:hover {
         width: 143px;
     }
 }
-@media (max-width: 426px) {
-
-    .navigation {
+@media (max-width: 426px){
+    .navigation{
         font-size: 17px;
     }
-
     #question {
+        font-size: 22px;
+    }
+    #scoreNumber{
         font-size: 20px;
     }
-
-    #scoreNumber {
-        font-size: 20px;
-    }
-
     .navigation li {
-        padding: 2% 4%;
+        padding: 2% 1%;
     }
-
-    footer {
+    footer{
         font-size: 15px;
 
     }
