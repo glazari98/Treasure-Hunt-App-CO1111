@@ -338,6 +338,7 @@
                             document.getElementById('answerField').appendChild(inputText);
                             break;
                     }
+
                     if (jsonObject.canBeSkipped == false && jsonObject.currentQuestionIndex != jsonObject.numOfQuestions) {
                         skip.disabled = true;
                         document.getElementById('skipButton').style.display = 'none';
