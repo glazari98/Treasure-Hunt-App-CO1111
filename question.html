@@ -14,7 +14,7 @@
 <header>
     <div  class="navigation">
         <ul>
-            <li><a href="app.html">List of treasure hunts</a></li>
+            <li id="listOfTH"><a href="app.html">List of treasure hunts</a></li>
             <li><button id="QR" onclick="QR()" ><i class="fa-solid fa-qrcode"></i></button></li>
             <li id="score">Score:
                 <label id="scoreNumber"></label></li>
@@ -194,6 +194,7 @@
         document.getElementById('answerField').style.display = 'block';
         document.getElementById('sub').style.display = 'block';
 
+
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(jsonObject => {
                 if(jsonObject.status === "OK") {
@@ -221,6 +222,8 @@
                         document.getElementById('skipButton').style.display = 'none';
                         document.getElementById('answerField').style.display = 'none';
                         document.getElementById('leadbutton').style.display = 'block';
+                        document.getElementById('listOfTH').style.display = 'none';
+                        document.getElementById('QR').style.display = 'none';
                         setCookie("session", "", 10);
                     }
                     questionType = jsonObject.questionType;

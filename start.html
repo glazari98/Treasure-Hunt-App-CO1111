@@ -18,7 +18,7 @@
 <main>
     <h2 class="username-text">Please enter your username for the treasure hunt quiz to start</h2>
 <form method='get' onsubmit="startTH()" class="form">
-    <input type="text"  id="player" minlength="3" maxlength="20" required>
+    <input type="text"  id="player" minlength="3" maxlength="20" placeholder="Type your username here" required>
     <input type="submit" id="leadbutton" class="submitButton">
 </form>
 <script>
@@ -50,6 +50,7 @@
                 return value;
             }
         }
+    }
 
         //prompt the user to enter it;s username so the treasure hunt questions can start
 
@@ -58,27 +59,24 @@
             let player = document.getElementById('player').value;
             if (alphaNumeric.test(player) == false) {
                 alert("The characters you entered are not alphanumeric!! Enter a valid username");
-            } else {            //prevent the page from refreshing when submit button is pressed
-
-                let confirm = window.confirm("Are you sure you want to start the quiz?")
-                if (confirm) {
-                    await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
-                        .then(jsonObject => {
-                            if (jsonObject.status === "OK") {
-                                setCookie("session", jsonObject.session, 10);
-                                setCookie('playerName', player, 5);
-                                document.getElementById('player').innerHTML = "";
-                                window.location.href = "question.html";
-                            } else {
-                                alert(jsonObject.errorMessages);
-                            }
-                        });
-                }
-            }
-
-
+            } else {
+            await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
+                .then(jsonObject => {
+                    if (jsonObject.status === "OK") {
+                        setCookie("session", jsonObject.session, 10);
+                        setCookie('playerName', player, 5);
+                        document.getElementById('player').innerHTML = "";
+                        window.location.href = "question.html";
+                    } else {
+                        alert(jsonObject.errorMessages);
+                    }
+                });
         }
+
+
+
     }
+
 
 
 </script>

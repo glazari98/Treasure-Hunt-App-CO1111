@@ -39,8 +39,6 @@ fetch("https://codecyprus.org/th/api/list").then(response => response.json())
     }
     button.classList.add('alertbutton');
    container.appendChild(button);
-
-
         button.addEventListener('click', async function() {
             let huntName = button.textContent;
             console.log(huntName);
