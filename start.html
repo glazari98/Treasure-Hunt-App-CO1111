@@ -45,13 +45,14 @@
     //prompt the user to enter it;s username so the treasure hunt questions can start
 
     async function startTH() {
+        event.preventDefault();
         let player = document.getElementById('player').value;
         if(alphaNumeric.test(player) == false){
             alert("The characters you entered are not alphanumeric!! Enter a valid username");
         }
         else{
             //prevent the page from refreshing when submit button is pressed
-            event.preventDefault();
+            
             let confirm = window.confirm("Are you sure you want to start the quiz?")
             if (confirm) {
                 await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
