@@ -39,12 +39,14 @@ main {
     display: inline;
     position: relative;
     padding: 2% 5%;
+
 }
 
 .navigation li a {
     text-decoration: none;
     color: #d6dff7;
-    size-adjust: 10%;
+    /* size-adjust: 10%; */
+    font-size: 30px;
     position: relative;
 }
 
@@ -120,8 +122,8 @@ footer {
     h2{
         font-size: 3em;
     }
-    .navigation li a{
-        font-size: 2em;
+    .navigation {
+        font-size: 3vw;
     }
     footer{
         font-size: 30px;
@@ -133,8 +135,8 @@ footer {
         font-size: 17px;
 
     }
-    .navigation li a {
-        font-size: 3em;
+    .navigation {
+        font-size: 3vw;
     }
     .navigation {
         height: 61px;
@@ -144,8 +146,8 @@ footer {
         padding: 2% 2%;
     }
 }
-@media (max-width: 320px){
+/* @media (max-width: 320px){
     .navigation {
         height: 55px;
     }
-}
+} */

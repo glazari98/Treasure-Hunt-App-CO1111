@@ -87,18 +87,19 @@ ul {
     top: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    font-size: 24px;
 }
+
 .navigation li {
     display: inline;
     position: relative;
-    padding: 2% 2%;
+    padding: 2% 5%;
+    font-size: 147%;
 }
 
 .navigation li a {
     text-decoration: none;
     color: #d6dff7;
-    size-adjust: 10%;
+    font-size: 30px;
     position: relative;
 }
 
@@ -160,17 +161,29 @@ button:hover {
     cursor: pointer; /* Change cursor to pointer */
 }
 @media (max-width: 768px) {
-    .navigation{
-        font-size: 25px;
+    /* body {
+        font-size: 3vw;
+    } */
+    .navigation {
+        font-size: 3vw;
     }
+    /* .navigation li a{
+        font-size: 23px;
+    } */
     #leadbutton{
         width: 67%;
     }
 }
 @media (max-width: 426px){
+    /* body {
+        font-size: 3vw;
+    } */
     .navigation{
-        font-size: 17px;
+        font-size: 3vw;
     }
+    /* .navigation li a{
+        font-size: 23px;
+    } */
     #question {
         font-size: 22px;
     }
