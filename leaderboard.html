@@ -63,17 +63,21 @@
 
         for(const entry of leaderboardArray) {
             let html = document.createElement('li');
+            let positionString = "";
             if(entry.player == playerName){
                 if(count == 0) {
                     rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "st";
                 }
                 if(count == 1){
+
                     rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "nd";
                 }
                 if(count == 2){
+
                     rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "rd";
                 }
                 if(count > 2){
+
                     rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "th";
                 }
             }
@@ -89,7 +93,9 @@
             if(alphaNumeric.test(playerName1) == false){
                 playerName1 = "'Error: Player name characters not recognised'";
             }
-            html.innerHTML =
+
+
+            html.innerHTML = "<label id='position'>" + count  + "</label>"+
                 "<label id='playerName'>Player name: " + playerName1 + "</label><br><label id='points'>Points: " +
                 entry['score'] + "</label><br><label id='time'> Time completed: " +
                 new Date(entry['completionTime']).toLocaleString() +"</label>";

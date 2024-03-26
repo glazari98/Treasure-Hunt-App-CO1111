@@ -154,7 +154,12 @@ ul {
     flex-direction: column;
     flex-wrap: wrap; */
 }
-
+#position {
+    margin-right: 5px;
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
+}
 .container ul li {
     margin: 5%;
     padding: 3%;
@@ -167,7 +172,9 @@ ul {
     box-shadow: 5px 2px 20px rgba(0, 0, 0, 0.3);
     
 }
-
+#invalidTH{
+    background-color: rgb(78, 77, 86);
+}
 .valid:hover {
     background-color: rgb(93, 8, 110);
 }
@@ -512,6 +519,9 @@ footer {
     h2{
         font-size: 17px;
 
+    }
+    #position{
+        padding: 4px;
     }
     .navigation li a {
         font-size: 3em;

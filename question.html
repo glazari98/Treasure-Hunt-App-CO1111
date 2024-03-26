@@ -15,7 +15,7 @@
     <div  class="navigation">
         <ul>
             <li><a href="app.html">List of treasure hunts</a></li>
-            <li>QR scanner: <button id="QR" onclick="QR()" ><i class="fa-solid fa-qrcode"></i></button></li>
+            <li><button id="QR" onclick="QR()" ><i class="fa-solid fa-qrcode"></i></button></li>
             <li id="score">Score:
                 <label id="scoreNumber"></label></li>
             <li id="timer"></li>
@@ -26,7 +26,8 @@
 
 </header>
 <main>
-    <div id="question">
+<p id="questionIndex"></p>
+<div id="question">
 </div>
 
 <form id="answer" onsubmit="getQuestion()">
@@ -39,9 +40,9 @@
 
 
 <h1 id='pleaseWaitMessage' style="display: none;">LOADING ...</h1>
-<input type="button" id='leadbutton' onclick="toScoreboard()" value="Go to scoreboard" style="display: none">
+<input type="button" id='leadbutton' onclick="window.location.href = 'scoreboard.html'" value="Go to scoreboard" style="display: none">
 </main>
-<footer>Copyright © 2024 UCLan Cyprus, All rights reserved. </footer>
+<footer>Copyright © GROUPA2 Treasure Hunt CO1111</footer>
 <!-- <video id="preview"></video> -->
 <script>
 
@@ -190,16 +191,11 @@
     startTimer();
 
 
-    function toScoreboard(){
-        let confirm = window.confirm("Are you sure you want to proceed to the Scoreboard?");
-        if(confirm){
-            window.location.href = "scoreboard.html";
-        }
 
-    }
     let questionType;
     //receive the question information and display the question
     async function getQuestion() {
+        document.getElementById('questionIndex').style.display = 'block';
         document.getElementById('pleaseWaitMessage').style.display = 'none';
         document.getElementById('question').style.display = 'block';
         document.getElementById('skipButton').style.display = 'block';
@@ -210,7 +206,8 @@
             .then(jsonObject => {
                 if(jsonObject.status === "OK") {
                     console.log(jsonObject);
-                    question.innerHTML = "Question: " + (jsonObject.currentQuestionIndex + 1)  + "/" + jsonObject.numOfQuestions + " '" + jsonObject.questionText + "'ma";
+                    document.getElementById('questionIndex').innerHTML = "Question: " + (jsonObject.currentQuestionIndex+1) + "/" + jsonObject.numOfQuestions;
+                    question.innerHTML = jsonObject.questionText;
                     if (jsonObject.currentQuestionIndex == 0) {
                         askForLocation();
                     }
@@ -227,16 +224,19 @@
                         stopTimer();
                         question.innerHTML = "Well Done!!! You reached the end of the treasure hunt";
                         document.getElementById('pleaseWaitMessage').style.display = 'none';
+                        document.getElementById('questionIndex').style.display = 'none';
                         document.getElementById('sub').style.display = 'none';
                         document.getElementById('skipButton').style.display = 'none';
                         document.getElementById('answerField').style.display = 'none';
                         document.getElementById('leadbutton').style.display = 'block';
+                        setCookie("session", "", 10);
                     }
                     questionType = jsonObject.questionType;
                     switch (questionType) {
                         case 'BOOLEAN':
                             let labelTrue = document.createElement('label');
                             let inputTrue = document.createElement('input');
+                            labelTrue.className = 'inputTrueFalse';
                             inputTrue.required = true;
                             inputTrue.type = "radio";
                             inputTrue.name = "boolean";
@@ -246,6 +246,7 @@
 
                             let labelFalse = document.createElement('label');
                             let inputFalse = document.createElement('input');
+                            labelFalse.className = 'inputTrueFalse';
                             inputFalse.type = "radio";
                             inputFalse.name = "boolean";
                             inputFalse.value = "False";
@@ -261,21 +262,25 @@
                         case 'MCQ':
                             let optionA = document.createElement('input');
                             let labelA = document.createElement('label');
+                            labelA.className = 'MCQ';
                             labelA.textContent = 'A';
                             optionA.type = 'radio';
                             optionA.name = 'MCQ';
                             optionA.id = 'multipleChoiceSelect';
                             optionA.value = 'A';
                             optionA.required = true;
+                            labelA.appendChild(optionA);
 
                             let optionB = document.createElement('input');
                             let labelB = document.createElement('label');
+                            labelB.className = 'MCQ';
                             labelB.textContent = 'B';
                             optionB.type = 'radio';
                             optionB.name = 'MCQ';
                             optionB.id = 'multipleChoiceSelect';
                             optionB.value = 'B';
                             optionB.required = true;
+                            labelB.appendChild(optionB);
 
                             let optionC = document.createElement('input');
                             let labelC = document.createElement('label');
@@ -285,6 +290,8 @@
                             optionC.id = 'multipleChoiceSelect';
                             optionC.value = 'C';
                             optionC.required = true;
+                            labelC.appendChild(optionC);
+                            labelC.className = 'MCQ';
 
                             let optionD = document.createElement('input');
                             let labelD = document.createElement('label');
@@ -295,15 +302,17 @@
                             optionD.value = 'D';
                             optionD.innerHTML = 'D';
                             optionD.required = true;
+                            labelD.appendChild(optionD);
+                            labelD.className = 'MCQ';
 
                             document.getElementById('answerField').appendChild(labelA);
-                            document.getElementById('answerField').appendChild(optionA);
+                            //document.getElementById('answerField').appendChild(optionA);
                             document.getElementById('answerField').appendChild(labelB);
-                            document.getElementById('answerField').appendChild(optionB);
+                            //document.getElementById('answerField').appendChild(optionB);
                             document.getElementById('answerField').appendChild(labelC);
-                            document.getElementById('answerField').appendChild(optionC);
+                            //document.getElementById('answerField').appendChild(optionC);
                             document.getElementById('answerField').appendChild(labelD);
-                            document.getElementById('answerField').appendChild(optionD);
+                            //document.getElementById('answerField').appendChild(optionD);
 
                             break;
                         case 'INTEGER':
@@ -336,7 +345,6 @@
                     }
                     if (jsonObject.canBeSkipped == false && jsonObject.currentQuestionIndex != jsonObject.numOfQuestions) {
                         skip.disabled = true;
-                        alert("This question cannot be skipped");
                         document.getElementById('skipButton').style.display = 'none';
                     } else {
                         skip.disabled = false;
@@ -370,6 +378,7 @@
         let confirm = window.confirm("Are you sure you want to submit your answer?");
         if(confirm){
             event.preventDefault();
+            document.getElementById('questionIndex').style.display = 'none';
             document.getElementById('pleaseWaitMessage').style.display = 'block';
             document.getElementById('question').style.display = 'none';
             document.getElementById('skipButton').style.display = 'none';
@@ -423,8 +432,9 @@
     }
 
     async function skipped(){
-        let confirm = window.confirm("Are you sure you want to skip the question?")
+        let confirm = window.confirm("Are you sure you want to skip the question? You will loose 5 points")
         if(confirm){
+            document.getElementById('questionIndex').style.display = 'none';
             document.getElementById('pleaseWaitMessage').style.display = 'block';
             document.getElementById('question').style.display = 'none';
             document.getElementById('skipButton').style.display = 'none';
