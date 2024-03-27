@@ -156,6 +156,8 @@ footer {
     text-align: center;
     justify-content: center;
     scroll-snap-stop: always;
+    font-family: 'Poppins', sans-serif; 
+    font-size: 23.52px;
 }
 @media (max-width: 768px) {
     h2{
@@ -168,13 +170,13 @@ footer {
         font-size: 1em;
     }
     footer{
-        font-size: 30px;
+        font-size: 23.04px;
 
     }
 }
 @media (max-width: 426px) {
     footer{
-        font-size: 17px;
+        font-size: 12.75px;
 
     }
     .navigation {
@@ -192,7 +194,10 @@ footer {
     }
 }
 @media (max-width: 376px) {
-   
+    footer{
+        font-size: 11.28px;
+
+    }
 }
 
 @media (max-width: 320px){
@@ -202,5 +207,8 @@ footer {
     }
     ul{
         padding: 8px;
+    }
+    footer{
+        font-size: 9.57px;
     }
 }
