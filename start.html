@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="username.css" />
+    <link rel="stylesheet" href="design/start.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
 </head>
 <body>
 <header>
+    <!--Header for navigation between certain pages -->
     <div  class="navigation">
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -15,6 +16,7 @@
         </ul>
     </div>
 </header>
+<!--Form for registering the user to the treasure hunt -->
 <main>
     <h2 class="username-text">Please enter your username for the treasure hunt quiz to start</h2>
 <form method='get' onsubmit="startTH()" class="form">
@@ -22,6 +24,8 @@
     <input type="submit" id="leadbutton" class="submitButton">
 </form>
 <script>
+    //function to set a cookie value
+    //code taken form Worksheet 15a 'Cookies'
     function setCookie(cookieName, cookieValue, expireDays) {
         let date = new Date();
         date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
@@ -29,8 +33,7 @@
         document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
     }
 
-
-
+    //search the url to get the treasure hunt id
     const params = new URLSearchParams(location.search);
     let id = "";
     //get the treasure hunt id from the url to use it for the fetch funnction
@@ -38,9 +41,11 @@
         id = params.get("treasure-hunt-id");
     }
 
-    let string = "&app=treasureHuntGroupA2&treasure-hunt-id=" + id;
+    let urlString = "&app=treasureHuntGroupA2&treasure-hunt-id=" + id;
     let session = "";
+    //variable to test for alphanumeric characters
     let alphaNumeric = /^[a-zA-Z0-9]+$/;
+    //function to get the cookie value according to the cookie's name
     function getCookieValue(cookieName) {
         let array = cookieName.split("; ");
         for (let i = 0; i < array.length; i++) {
@@ -51,27 +56,28 @@
             }
         }
     }
-
-        //prompt the user to enter it;s username so the treasure hunt questions can start
-
-        async function startTH() {
-            event.preventDefault();
-            let player = document.getElementById('player').value;
-            if (alphaNumeric.test(player) == false) {
-                alert("The characters you entered are not alphanumeric!! Enter a valid username");
-            } else {
-            await fetch("https://codecyprus.org/th/api/start?player=" + player + string).then(response => response.json()) //Parse JSON text to JavaScript object
-                .then(jsonObject => {
-                    if (jsonObject.status === "OK") {
-                        setCookie("session", jsonObject.session, 10);
-                        setCookie('playerName', player, 5);
-                        document.getElementById('player').innerHTML = "";
-                        window.location.href = "question.html";
-                    } else {
-                        alert(jsonObject.errorMessages);
-                    }
-                });
-        }
+    //function that gets the session variable and the url string with treasure hunt and calls /start for the treasure hunt to start
+    async function startTH() {
+        event.preventDefault();
+        let player = document.getElementById('player').value;
+        //user entered non-alphanumeric characters
+        if (alphaNumeric.test(player) == false) {
+            alert("The characters you entered are not alphanumeric!! Enter a valid username");
+        } else {
+        await fetch("https://codecyprus.org/th/api/start?player=" + player + urlString).then(response => response.json()) //Parse JSON text to JavaScript object
+            .then(jsonObject => {
+                if (jsonObject.status === "OK") {
+                    //set the session cookie and playerName cookie
+                    setCookie("session", jsonObject.session, 10);
+                    setCookie('playerName', player, 5);
+                    document.getElementById('player').innerHTML = "";
+                    //navigate to questions page
+                    window.location.href = "question.html";
+                } else {
+                    alert(jsonObject.errorMessages);
+                }
+            });
+    }
     }
 
 

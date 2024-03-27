@@ -1,5 +1,5 @@
 const cacheName = 'treasure-hunt';
-const filesToCache = ['/','index.html','app.css',"main.js",'app.html','leadrboard.html','question.html','scoreboard.html','start.html','design.css','question.css','username.css',"app.js","index.js","instascan.min.js","scoreboard.js"];
+const filesToCache = ['/','index.html','app.css',"main.js",'app.html','leadrboard.html','question.html','scoreboard.html','start.html','indexPage.css','question.css','start.css',"app.js","index.js","instascan.min.js","scoreboard.js"];
 //Start the service worker and cache all of the app's content.
 self.addEventListener('install', function(e) {
     e.waitUntil(caches.open(cacheName)

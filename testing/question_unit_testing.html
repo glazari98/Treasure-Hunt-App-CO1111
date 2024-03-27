@@ -15,6 +15,7 @@
 <body>
 <a href="unit_testing.html">Go back to uni testing page</a>
 <h2>Tests on /question API call:</h2>
+<!-- unit testing performed by us-->
 <table class="tg">
     <thead>
     <tr>
@@ -64,6 +65,7 @@
     </tbody>
 </table>
 <h3>User input test:</h3>
+<!--inputu field sfor the user to make their own question and fetch it from the server for testing-->
 <form onsubmit="runUserTest()">
 <label>Type of Question</label>
 <select id="questionType">
@@ -95,7 +97,7 @@
     <input type="submit">
 </form>
 <script>
-
+//user input test
 async function runUserTest() {
     const testResult = await testgetQuestion();
     displayUserResult(testResult);
@@ -103,10 +105,12 @@ async function runUserTest() {
 async function testgetQuestion() {
     event.preventDefault();
     let testResults = [];
+    //get values from the form
     let questionType = document.getElementById('questionType').value;
     let skipped = document.getElementById('skipped').value;
     let location = document.getElementById('location').value;
     let completed = document.getElementById('completed').value;
+    //use them to fetch the question
     let expectedOutput = "question-type="+questionType + " " + skipped + " " + location + " " + completed;
     await fetch(`https://codecyprus.org/th/test-api/question?${completed}&question-type=${questionType}&${skipped}&${location}`).then(response => response.json())
         .then(jsonObject => {
@@ -115,7 +119,7 @@ async function testgetQuestion() {
 
 
                 let actualOutput = "question-type="+jsonObject.questionType + " can-be-skipped=" + jsonObject.canBeSkipped + " requires-location=" + jsonObject.requiresLocation + " completed=" + jsonObject.completed;
-
+                //compare expected output with use input
                 let result = expectedOutput == actualOutput ? "SUCCESS" : "FAIL";
 
                 testResults.push({
@@ -128,6 +132,7 @@ async function testgetQuestion() {
         });
     return testResults;
 }
+//display user results in the table for user testing
 function displayUserResult(testResults){
     let input = document.getElementById('input');
     let expectedOutput = document.getElementById('expectedOutput');
@@ -143,6 +148,7 @@ function reset(){
     window.location.reload();
 }
 </script>
+<!--user testing table-->
 <table class="tg">
     <thead>
     <tr>

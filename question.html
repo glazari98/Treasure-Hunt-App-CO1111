@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="questions.css" />
+    <link rel="stylesheet" href="design/questions.css" />
 
     <title>Questions</title>
     <script src="js/instascan.min.js" ></script>
@@ -12,6 +12,7 @@
 </head>
 <body>
 <header>
+    <!--Header containing QR code scanner, score , time left and navigation to list of treasure hunts-->
     <div  class="navigation">
         <ul>
             <li id="listOfTH"><a href="app.html">List of treasure hunts</a></li>
@@ -21,10 +22,8 @@
             <li id="timer"></li>
         </ul>
     </div>
-
-
 </header>
-
+<!--Contains the question index, question text, input fields, submit/skip button and loading message-->
 <main>
 <p id="questionIndex"></p>
 <div id="question">
@@ -37,27 +36,27 @@
 
 <button id="skipButton">Skip</button>
 
-
-
 <h1 id='pleaseWaitMessage' style="display: none;">LOADING ...</h1>
+<!--When user finishes they can navigate to the scoreboard -->
 <input type="button" id='leadbutton' onclick="window.location.href = 'scoreboard.html'" value="Go to scoreboard" style="display: none">
 </main>
 <footer>Copyright © GROUPA2 Treasure Hunt CO1111</footer>
-
+<!--QR code scanner camera appears upon pressign the QR button-->
 <div id="camera">
     <div id="cameraContent">
         <video id="preview"></video>
         <div style="background-color: black; color: white; text-align: center;" id="content">
         </div>
+        <!--copy QR text to clipboard -->
         <button onclick="copyToClipboard()">Copy QR text</button>
     </div>
-
+    <!--close QR scanner -->
     <button onclick="closeCamera()">Close</button>
     <input type="button" value="NEXT CAMERA" onclick="nextCamera()">
 </div>
 <script>
-
-
+    //code for QR scanner
+    //taken from worksheet 16 'Embedding QR Code readers'
     var opts = {
         // Whether to scan continuously for QR codes. If false, use scanner.scan() to
         // manually scan. If true, the scanner emits the "scan" event when a QR code is
@@ -89,11 +88,12 @@
     var scanner = new Instascan.Scanner(opts);
     var camerasList = [];
     var currentCameraIndex = 0;
-
+    //display contents of the QR code in the contents div
     scanner.addListener('scan', function (content) {
         console.log(content);
         document.getElementById("content").innerHTML = content;
     });
+    //pressing the qr button shows the camera
     function allowCamera() {
         let cameraDiv = document.getElementById('camera');
         cameraDiv.style.display = "block";
@@ -110,10 +110,12 @@
             console.error(e);
         });
     }
+    //access other avialble cameras of the device
     function nextCamera() {
         currentCameraIndex = (currentCameraIndex + 1) % camerasList.length;
         scanner.start(camerasList[currentCameraIndex]);
     }
+    //close the qr scanner camera
     function closeCamera(){
         let cameraDiv = document.getElementById('camera');
         cameraDiv.style.display = "none";
@@ -121,7 +123,7 @@
         let qrText = document.getElementById('content');
         qrText.innerText = "";
     }
-
+    //copy text shown in contents div to the clipboard
     function copyToClipboard() {
         let qrText = document.getElementById('content').innerText;
         // Copy text to clipboard
@@ -129,8 +131,7 @@
         alert("copied to clipboard");
         qrText = "";
     }
-    var cookies1 = document.cookie;
-    console.log(cookies1);
+    //function to get the cookie value for treasure hunt session
     function getCookieValue(cookieName){
         let array = cookieName.split("; ");
         for(let i=0; i < array.length; i++){
@@ -142,16 +143,15 @@
         }
 
     }
+    let cookies1 = document.cookie;
+    //treasureHunt session ID to be used for API calls
     let sessionID = getCookieValue(cookies1);
 
-    let skip =  document.getElementById('skipButton')
-    skip.addEventListener('click',skipped);
 
 
-    let question = document.getElementById('question');
-    let formElement = document.getElementById('answer');
 
-
+    //function to get the location of user
+    //code taken from worksheet 15b Geolocation with HTML & JS
     function askForLocation(){
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(locationK);
@@ -160,20 +160,18 @@
             alert("Geolocation is not supported by the browser");
         }
     }
+    //get the location of the user every 30 seconds and update it on the server
+    setInterval(askForLocation, 30000);
+    //sent location of user to the server
     async function locationK(position) {
-        let latitude = position.coords.latitude //Get the latitude
-        let longitude = position.coords.longitude //Get the longitude
-
+        let latitude = position.coords.latitude
+        let longitude = position.coords.longitude
         await fetch("https://codecyprus.org/th/api/location?session=" + sessionID + "&latitude=" + latitude + "&longitude=" + longitude)
             .then(response => response.json())
             .then(jsonObject => {
                 if(jsonObject.status === "OK") {
                     console.log(jsonObject);
                     sessionStorage.setItem("message", jsonObject.message);
-                }
-                else{
-                    // alert(jsonObject.errorMessages);
-                    // window.location.href = "scoreboard.html";
                 }
             });
     }
@@ -182,23 +180,27 @@
     // Retrieves the score element by its ID
     // Defines an asynchronous function to fetch the player's score from an API using the session ID
     let scoreElement = document.getElementById('scoreNumber');
+    //function to get the score and put the value in the score div
     async function getScore(){
         await fetch("https://codecyprus.org/th/api/score?session=" + sessionID)
             .then(response => response.json())
             .then(jsonObject => {
                 scoreElement.innerText = jsonObject.score;
+                //put the score in the session storage
                 sessionStorage.setItem("playerScore", jsonObject.score);
             });
 
     }
-    let intervalId; // Declare intervalId globally
+    let timeUpdate;
+    //function for the time countdown of the treasure hunt
     function startTimer(duration) {
         let timerDisplay = document.getElementById('timer');
-        let endTime = sessionStorage.getItem('endTime'); // Retrieve the end time from sessionStorage
+        let endTime = sessionStorage.getItem('endTime'); //when the teasure hunt ends
 
-        intervalId = setInterval(function () {
+        timeUpdate = setInterval(function () {
+            //time left is the end time minus the current time
             let timeLeft = endTime - Date.now();
-
+            //if time left is 0 inform the user and show the completion of the treasure hunt message
             if (timeLeft <= 0) {
                 alert("Finished session. The specified session has run out of time.")
                 getScore();
@@ -217,54 +219,62 @@
                 event.preventDefault();
             }
             else {
+                //show the minutes and seconds
                 let minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
                 let seconds = Math.floor((timeLeft / 1000) % 60);
-
                 minutes = minutes < 10 ? '0' + minutes : minutes;
                 seconds = seconds < 10 ? '0' + seconds : seconds;
-
                 timerDisplay.textContent = "Time left: " + minutes + ':' + seconds;
             }
+            //update the time every one second
         },1000);
     }
 
-
-    var endTime = sessionStorage.getItem('endTime');
+    //if the end time in sessionStorage is empty then retrieve the time from local storage
+    let endTime = sessionStorage.getItem('endTime');
     if(!endTime){
         let durationInMillis = parseInt(localStorage.getItem("timeOfTH"));
         sessionStorage.setItem('endTime', Date.now() + durationInMillis);
     }
-    startTimer();
+    startTimer(); //call the function to show the time
+    //function to stop the timer
+    function stopTimer() {
+        clearInterval(timeUpdate); //clear the interval started by setInterval in startTimer function
+    }
 
 
-
+    let question = document.getElementById('question');
     let questionType;
-    //receive the question information and display the question
+    //receive question info and display the question text
     async function getQuestion() {
-        document.getElementById('questionIndex').style.display = 'block';
-        document.getElementById('pleaseWaitMessage').style.display = 'none';
-        document.getElementById('question').style.display = 'block';
-        document.getElementById('skipButton').style.display = 'block';
-        document.getElementById('answerField').style.display = 'block';
-        document.getElementById('sub').style.display = 'block';
-
+        //show the following every time the function is called
+        document.getElementById('questionIndex').style.display = 'block'; //question index
+        document.getElementById('pleaseWaitMessage').style.display = 'none'; //hide the loading message
+        document.getElementById('question').style.display = 'block'; //question text div
+        document.getElementById('skipButton').style.display = 'block'; //skip button
+        document.getElementById('answerField').style.display = 'block'; //answer input field
+        document.getElementById('sub').style.display = 'block'; //submit button
 
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(jsonObject => {
                 if(jsonObject.status === "OK") {
-                    console.log(jsonObject);
+                    //question index
                     document.getElementById('questionIndex').innerHTML = "Question: " + (jsonObject.currentQuestionIndex+1) + "/" + jsonObject.numOfQuestions;
-                    question.innerHTML = jsonObject.questionText;
+                    question.innerHTML = jsonObject.questionText; //question text
+                    //ask fro location on first question
                     if (jsonObject.currentQuestionIndex == 0) {
                         askForLocation();
                     }
+                    //ask for location if it is a location required question
                     if (jsonObject.requiresLocation == true) {
                         question.innerHTML += "(This question requires you to be at a specific location!)";
                         askForLocation();
                         if (sessionStorage.getItem("message") == "Ignored update as the previous update was less than 30 seconds earlier.") {
+                            //inform the user if the last update of location was less than 30 seconds
                             alert("If you are at the right location, PLEASE WAIT at least 30 seconds until we update your position again");
                         }
                     }
+                    //when last question is completed hide everything and display the congradulating message
                     if(jsonObject.numOfQuestions == jsonObject.currentQuestionIndex){
                         getScore();
                         sessionStorage.clear();
@@ -279,11 +289,12 @@
                         document.getElementById('listOfTH').style.display = 'none';
                         document.getElementById('QR').style.display = 'none';
 
-
                     }
                     questionType = jsonObject.questionType;
+                    //display different input field according to the type of question
                     switch (questionType) {
                         case 'BOOLEAN':
+                            //label and radio button for true
                             let labelTrue = document.createElement('label');
                             let inputTrue = document.createElement('input');
                             labelTrue.className = 'inputTrueFalse';
@@ -293,7 +304,7 @@
                             inputTrue.value = "True";
                             labelTrue.textContent = "True";
                             labelTrue.appendChild(inputTrue);
-
+                            //label and radio button for false
                             let labelFalse = document.createElement('label');
                             let inputFalse = document.createElement('input');
                             labelFalse.className = 'inputTrueFalse';
@@ -302,14 +313,13 @@
                             inputFalse.value = "False";
                             labelFalse.textContent = "False";
                             labelFalse.appendChild(inputFalse);
-
+                            //insert them into the answer field div
                             document.getElementById('answerField').appendChild(labelTrue);
                             document.getElementById('answerField').appendChild(labelFalse);
-
-
                             break;
 
-                        case 'MCQ':
+                        case 'MCQ': //Multiple choice question
+                            //label and radio button for option A
                             let optionA = document.createElement('input');
                             let labelA = document.createElement('label');
                             labelA.className = 'MCQ';
@@ -320,7 +330,7 @@
                             optionA.value = 'A';
                             optionA.required = true;
                             labelA.appendChild(optionA);
-
+                            //label and radio button for option B
                             let optionB = document.createElement('input');
                             let labelB = document.createElement('label');
                             labelB.className = 'MCQ';
@@ -332,6 +342,7 @@
                             optionB.required = true;
                             labelB.appendChild(optionB);
 
+                            //label and radio button for option C
                             let optionC = document.createElement('input');
                             let labelC = document.createElement('label');
                             labelC.textContent = 'C';
@@ -343,6 +354,7 @@
                             labelC.appendChild(optionC);
                             labelC.className = 'MCQ';
 
+                            //label and radio button for option C
                             let optionD = document.createElement('input');
                             let labelD = document.createElement('label');
                             labelD.textContent = 'D';
@@ -355,35 +367,31 @@
                             labelD.appendChild(optionD);
                             labelD.className = 'MCQ';
 
+                            //label and radio button for option D
                             document.getElementById('answerField').appendChild(labelA);
-                            //document.getElementById('answerField').appendChild(optionA);
                             document.getElementById('answerField').appendChild(labelB);
-                            //document.getElementById('answerField').appendChild(optionB);
                             document.getElementById('answerField').appendChild(labelC);
-                            //document.getElementById('answerField').appendChild(optionC);
                             document.getElementById('answerField').appendChild(labelD);
-                            //document.getElementById('answerField').appendChild(optionD);
-
                             break;
-                        case 'INTEGER':
+                        case 'INTEGER'://integer question
                             let inputInteger = document.createElement(('input'));
                             inputInteger.type = 'number';
                             inputInteger.id = 'inputField';
-                            inputInteger.step = '1';
+                            inputInteger.step = '1'; //increase by one
                             inputInteger.placeholder = "Integer only"
                             inputInteger.required = true;
                             document.getElementById('answerField').appendChild(inputInteger);
                             break;
-                        case 'NUMERIC':
+                        case 'NUMERIC': //numeric question
                             let inputNumeric = document.createElement('input');
                             inputNumeric.required = true;
                             inputNumeric.type = 'number';
                             inputNumeric.id = 'inputField';
-                            inputNumeric.step = '0.01';
+                            inputNumeric.step = '0.01'; //increase by 0.01 to accept both decimals and integers
                             inputNumeric.placeholder = "Decimal/Integer";
                             document.getElementById('answerField').appendChild(inputNumeric);
                             break;
-                        default:
+                        default://text question
                             let inputText = document.createElement('input');
                             inputText.required = true;
                             inputText.type = 'text';
@@ -393,15 +401,16 @@
                             document.getElementById('answerField').appendChild(inputText);
                             break;
                     }
-
+                    //if question cannot be skipped and its not the last one then don;t display the sip button
                     if (jsonObject.canBeSkipped == false && jsonObject.currentQuestionIndex != jsonObject.numOfQuestions) {
                         skip.disabled = true;
                         document.getElementById('skipButton').style.display = 'none';
                     } else {
-                        skip.disabled = false;
+                        skip.disabled = false; //if the question can be skipped enable the skip button
                     }
                     getScore();
                 }else {
+                    //if the error message for running out of time then display the ending message for the user and their score achieved
                     if (jsonObject.errorMessages == "Finished session. The specified session has run out of time.") {
                         alert(jsonObject.errorMessages);
                         getScore();
@@ -417,6 +426,7 @@
                         document.getElementById('listOfTH').style.display = 'none';
                         document.getElementById('QR').style.display = 'none';
                     } else {
+                        //if there is any other error show an alert and take the user to the scoreboard
                         alert(jsonObject.errorMessages);
                         getScore();
                         sessionStorage.clear();
@@ -428,47 +438,53 @@
 
         }
 
-    function stopTimer() {
-        clearInterval(intervalId);
-    }
     getQuestion();
-    formElement.addEventListener('submit', getAnswer);
+    //form that contains the answer field
+    let formElement = document.getElementById('answer');
+    formElement.addEventListener('submit', getAnswer); //link the get answer function with pressing the submit button
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer() {
-        event.preventDefault();
+        event.preventDefault();//prevent submission of the form every time we refresh
+        //when the user answers the question text, index, answer field, skip button are removed and the loading message appears
         document.getElementById('questionIndex').style.display = 'none';
         document.getElementById('pleaseWaitMessage').style.display = 'block';
         document.getElementById('question').style.display = 'none';
         document.getElementById('skipButton').style.display = 'none';
-        //prevent the submission of the form so the page doesn't reload so we don't loose the session id from the url
+
         let answer;
+        //get the answer value according to the type of question
         if (questionType === 'BOOLEAN') {
-            // For boolean questions, get the value of a checkbox or radio button
+            //get value of radio button from true false question
             answer = document.querySelector('input[name="boolean"]:checked').value;
         } else if (questionType === 'MCQ') {
+            //get value of radio button from multiple choice question
             answer = document.getElementById('multipleChoiceSelect').value;
         } else {
-            // For other types of questions, get the value from a text input field
+            //for any other type of question get the value from the input field
             answer = document.getElementById('inputField').value;
         }
-        //clear the answer element before appending the new inptu field
+        //clear the answer element before appending the new input field
         document.getElementById('answer').innerHTML = "";
+        //ask the user to confirm they want to submit their answer
         let confirm = window.confirm("Are you sure you want to submit your answer?");
         if(confirm) {
             await fetch("https://codecyprus.org/th/api/answer?session=" + sessionID + "&answer=" + answer)
                 .then(response => response.json())
                 .then(jsonObject => {
                     if(jsonObject.status === "OK"){
+                        //correct answer
                         if (jsonObject.completed == false) {
                             if(jsonObject.correct){
                                 alert(jsonObject.message + " Your answer is correct!");
                             }
-                            else{
+                            else{//false answer
                                 alert(jsonObject.message + " Try again!");
                             }
+                            //fetch next question and reload the page
                             getQuestion();
                             window.location.reload();
                         } else {
+                            //if quiz is completed
                             getScore();
                             sessionStorage.clear();
                             stopTimer();
@@ -476,6 +492,7 @@
                         }
                     }
                     else{
+                        //run out of time
                         if (jsonObject.errorMessages == "Finished session. The specified session has run out of time.") {
                             alert(jsonObject.errorMessages);
                             getScore();
@@ -491,6 +508,7 @@
                             document.getElementById('listOfTH').style.display = 'none';
                             document.getElementById('QR').style.display = 'none';
                         }else {
+                            //if there is any error message display the message and take user to scoreboard
                             alert(jsonObject.errorMessages);
                             getScore();
                             sessionStorage.clear();
@@ -502,11 +520,15 @@
 
             }
 
-        }
-
+    }
+    //skip button
+    let skip =  document.getElementById('skipButton')
+    skip.addEventListener('click',skipped);
     async function skipped(){
+        //confirm that the user wants to skip
         let confirm = window.confirm("Are you sure you want to skip the question? You will loose 5 points")
         if(confirm){
+            //hide everything, show loading message
             document.getElementById('questionIndex').style.display = 'none';
             document.getElementById('pleaseWaitMessage').style.display = 'block';
             document.getElementById('question').style.display = 'none';
@@ -516,10 +538,12 @@
             await fetch("https://codecyprus.org/th/api/skip?session=" + sessionID)
                 .then(response => response.json())
                 .then(jsonObject => {
+                    //if the quiz is not completed, fetch the next question and relaod
                     if (jsonObject.completed == false) {
                         getQuestion();
                         window.location.reload();
                     } else {
+                        //if quiz completed get score and reload
                         getScore();
                         sessionStorage.clear();
                         stopTimer();
@@ -531,10 +555,6 @@
 
 
     }
-
-
-
-
 
 </script>
 </body>

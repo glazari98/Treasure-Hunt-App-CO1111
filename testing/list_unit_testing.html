@@ -15,12 +15,13 @@
 <body>
 <a href="unit_testing.html">Go back to uni testing page</a>
 <script>
+    //user automated test
    async function automatedTest(){
-    const testResults = await runTests();
+    const testResults = await testTreasureHuntList();
     displayResults(testResults);
     }
 
-    async function runTests() {
+    async function testTreasureHuntList() {
         const testArray = [0, 2, "", null, 11, -1];
         const expectedOutput = [0, 2, 10, 10, 11, 10];
         const testResults = [];
@@ -48,7 +49,7 @@
         }
         return testResults;
     }
-
+    //display results of automated test in table
     function displayResults(testResults) {
         const table = document.createElement('table');
         table.className = "tg";
@@ -63,6 +64,7 @@
                 </tr>
             </thead>
             <tbody>
+            <!-- iterate over each element in testResults and create a new array containing html content for each row in the table
                 ${testResults.map(result => `
                     <tr>
                         <td>${result.testNum}</td>
@@ -78,12 +80,12 @@
         document.getElementById('automatedTest').appendChild(table);
 
     }
-
+    //user input test
     async function runUserTest() {
-        const testResult = await testTreasureHuntList();
+        const testResult = await testTreasureHuntList1();
         displayUserResult(testResult);
     }
-    async function testTreasureHuntList() {
+    async function testTreasureHuntList1() {
         let userInput = document.getElementById('userInput').value;
         let output;
         let testResults = [];
@@ -98,7 +100,7 @@
                     output = "Error";
                     result = "FAIL";
                 }
-
+                //push user test data and result into the testResults array and return it
                 testResults.push({
                     input: userInput,
                     output: output,
@@ -108,6 +110,7 @@
             });
         return testResults;
     }
+    //display the user input data and results in the table
     function displayUserResult(testResults){
         let input = document.getElementById('input');
         let output = document.getElementById('output');
@@ -190,7 +193,7 @@
     <input type="submit">
 </form>
 
-
+<!--user input table-->
 <table class="tg">
     <thead>
     <tr>

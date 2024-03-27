@@ -13,7 +13,9 @@
     </style>
 </head>
 <body>
+<a href="unit_testing.html">Go back to unit testing page</a>
 <h2>Tests on /answer API call:</h2>
+<!-- our testing for /answer -->
 <table class="tg">
     <thead>
     <tr>
@@ -73,16 +75,13 @@
 
 
 <script>
-    async function runUserTest() {
-        const testResult = await testgetAnswer();
-        displayUserResult(testResult);
-    }
+
     async function testgetAnswer(){
     event.preventDefault();
+    //get values from the user and use them to fetch
     let correct = document.getElementById('correct').value;
     let thFinished = document.getElementById('finished').value;
     let testResults = [];
-        //check if the user's answer is correct
     await fetch(`https://codecyprus.org/th/test-api/answer?correct=${correct}&completed=${thFinished}`)
         .then(response => response.json())
         .then(jsonObject => {
@@ -100,6 +99,12 @@
         });
     return testResults;
     }
+    //when the user presses submit
+    async function runUserTest() {
+        const testResult = await testgetAnswer();
+        displayUserResult(testResult);
+    }
+    //display results for user
     function displayUserResult(testResults){
         let input = document.getElementById('input');
         let output = document.getElementById('output');
@@ -109,11 +114,12 @@
         output.innerHTML = testResult.output;
         result.innerHTML = testResult.result;
     }
+    //reload the page
     function reset(){
         window.location.reload();
     }
 </script>
-
+<!--user input table -->
 <table class="tg">
     <thead>
     <tr>

@@ -15,6 +15,7 @@
 <body>
 <a href="unit_testing.html">Go back to uni testing page</a>
 <h2>Tests on /start API call:</h2>
+<!-- test performed by our team-->
 <table class="tg">
     <thead>
     <tr>
@@ -70,18 +71,21 @@
     </tr>
     </tbody>
 </table>
+<!-- user can run our tests by pressing the button-->
 <h3>User automated test:</h3>
 <input type="button" onclick="automatedTest()" value="Run automated test">
 <div id="automatedTest"></div>
 <input type="reset" onclick="reset()">
 
 <script>
+//user automated test
 async function automatedTest(){
     const testResults = await testStart();
     displayResults(testResults);
 }
-
+//test cases
 let testArray = ["empty" , "inactive" , "player", "app", "unknown", "missing parameter"];
+//expected results
 let expectedOutput = ["The specified treasure hunt is empty (i.e. contains no questions).", "The specified treasure hunt is not active right now.", "The specified playerName: Homer, is already in use (try a different one).",
     "Missing or empty parameter: app", "Could not find a treasure hunt for the specified id: 123",  ["Missing or empty parameter: player",
     "Missing or empty parameter: app",
@@ -107,6 +111,7 @@ async function testStart() {
     }
     return testResults;
 }
+//create dynamically a table and display the results from the automated test
 function displayResults(testResults) {
     const table = document.createElement('table');
     table.className = "tg";
@@ -121,6 +126,7 @@ function displayResults(testResults) {
                 </tr>
             </thead>
             <tbody>
+            <!-- iterate through the array of testresults and create a new array containing data for each row of testing-->
                 ${testResults.map(result => `
                     <tr>
                         <td>${result.testNum}</td>
