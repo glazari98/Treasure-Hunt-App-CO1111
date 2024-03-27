@@ -413,6 +413,9 @@ footer {
     .navigationLeaderBoard li a{
         font-size: 23px;
     }
+    .navigation {
+        font-size: 3vw;
+    }
     .navigation li a{
         font-size: 1em;
     }
@@ -458,6 +461,12 @@ footer {
 
 
 }
+
+@media (max-width: 768px){
+
+}
+
+
 @media (max-width: 426px){
     h2{
         font-size: 22px;
