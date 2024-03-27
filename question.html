@@ -47,7 +47,9 @@
 <div id="camera">
     <div id="cameraContent">
         <video id="preview"></video>
-        <div style="margin: 20px; padding: 20px; background-color: black; color: white; text-align: center;" id="content"></div>
+        <div style="background-color: black; color: white; text-align: center;" id="content">
+        </div>
+        <button onclick="copyToClipboard()">Copy QR text</button>
     </div>
 
     <button onclick="closeCamera()">Close</button>
@@ -116,8 +118,17 @@
         let cameraDiv = document.getElementById('camera');
         cameraDiv.style.display = "none";
         scanner.stop();
+        let qrText = document.getElementById('content');
+        qrText.innerText = "";
     }
 
+    function copyToClipboard() {
+        let qrText = document.getElementById('content').innerText;
+        // Copy text to clipboard
+        navigator.clipboard.writeText(qrText);
+        alert("copied to clipboard");
+        qrText = "";
+    }
     var cookies1 = document.cookie;
     console.log(cookies1);
     function getCookieValue(cookieName){
