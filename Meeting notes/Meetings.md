@@ -72,7 +72,7 @@ Members present: George, Vasili, Daria, Ahmed
 - Daria has to do some modifications the members' names and their roles so it;s more clear what is the role of everyone, change the picture in landing page from bubble to treasure, and write a better welcoming message.
 - Ahmed has to proceed with unit testing
 - George will assist Ahmed with the testing and also try to make it so that if a user completed a treasure hunt it doesnlt allow them to start it again or if they were left in a particular question to continue from that.
-# Meeting 8 (Date 27th Mrach 2024):
+# Meeting 8 (Date 26th Mrach 2024):
 Members present: Daria, George, Vasili, Ahmed
 ## What has been done from last meeting:
 - Rafaella has not done any design so George did it
@@ -85,4 +85,15 @@ Members present: Daria, George, Vasili, Ahmed
 - Maybe try and do the progressive app functionality.
 - Proceed with unit testing and heuristics.
 - Add comments and tidy app the code.
-
+# Meeting 9 (Date 27th March 2024):
+Members present: Daria, George, Vasili, Ahmed
+## What has been done from last meeting:
+- Daria did the progressive app functionality and add an icon for our app to show when downloaded
+- Vasilui fixed some styling
+- Comments added by George
+- George changed some directory names and file names to tidy up the code
+- Ahmed and George are proceedign with the user acceptance and heuristic evaluation
+## Tasks until next meeting:
+- Finish with comments
+- Add the accceptance testing data to the pages
+- Finish with heuristic evaluation
