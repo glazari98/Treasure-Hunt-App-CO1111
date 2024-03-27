@@ -179,6 +179,8 @@
     }
 
     setInterval(askForLocation, 30000);
+    // Retrieves the score element by its ID
+    // Defines an asynchronous function to fetch the player's score from an API using the session ID
     let scoreElement = document.getElementById('scoreNumber');
     async function getScore(){
         await fetch("https://codecyprus.org/th/api/score?session=" + sessionID)

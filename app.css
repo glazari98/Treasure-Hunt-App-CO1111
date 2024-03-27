@@ -264,6 +264,7 @@ ul {
     color: white;
     font-size: 30px;
 }
+/* Styles for navigation bar for leaderboard page */
 .navigationLeaderBoard {
     position: absolute;
     top: 0;
@@ -304,7 +305,7 @@ ul {
 .navigationLeaderBoard li a:hover::after {
     transform: scaleX(1);
 }
-
+/* Styles for navigation bar for scoreboard page */
 .navigationScoreboard {
     position: absolute;
     top: 0;
@@ -346,6 +347,9 @@ ul {
     transform: scaleX(1);
 }
 
+    /* Styles for the footer */
+    /* Sets the footer to be a flex container */
+    /* Fixes the position of the footer to the bottom of the viewport */
 footer {
     display: flex;
     position: fixed;
@@ -402,7 +406,14 @@ footer {
     transform: translateY(-5px);
 }
 
-
+/* Media queries for screens with a maximum width of 768px */
+/* Adjusts font size of body relative to viewport width */
+/* Adjusts font size and layout of navigation elements */
+/* Adjusts font size of container content */
+/* Adjusts width and margin of container's unordered lists */
+/* Adjusts font size and width of list items within container */
+/* Adjusts width of Twitter timeline */
+/* Adjusts font size of various elements like congratulations message, quiz finished message, and score text */
 @media (max-width: 768px){
     body {
         font-size: 3vw;
@@ -445,6 +456,12 @@ footer {
         font-size: 5vw;
     }
 
+    /* Styles for the score text */
+    /* Adds padding around the text */
+    /* Sets font size to 18 pixels */
+    /* Displays the text in a flex container */
+    /* Centers the text horizontally and vertically */
+    /* Sets the height of the container to 20% of the viewport height */
     .score-text {
         padding: 5px;
         font-size: 18px;

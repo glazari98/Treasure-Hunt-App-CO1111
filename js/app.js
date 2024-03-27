@@ -1,3 +1,4 @@
+// Defines a function to retrieve the value of a cookie by its name
 function getCookieValue(cookieName) {
     let array = document.cookie.split("; ");
     for (let i = 0; i < array.length; i++) {

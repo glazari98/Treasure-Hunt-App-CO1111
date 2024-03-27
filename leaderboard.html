@@ -11,6 +11,8 @@
 
 <header>
 
+    <!-- Navigation bar for the leaderboard page -->
+    <!-- Contains links to Home, Treasure Hunts, and Scoreboard -->
     <div  class="navigationLeaderBoard">
         <ul>
             <li><a onclick="emptySession()" href="index.html">Home</a></li>
@@ -28,6 +30,7 @@
 </main>
 
 <script>
+    // Function to empty the session cookie by setting its expiration date to the past
     function emptySession (){
         document.cookie = "session" + "=; expires=Mon, 01 Nov 1998 00:00:00 UTC; path=/;";
     }
@@ -37,6 +40,9 @@
         fetch(url, { method: "GET" }).then(response => response.json()).then(json => handleLeaderboard(json));
     }
 
+
+    // Retrieves all cookies available in the document
+    // Defines a function to extract the value of a specific cookie parameter
     var cookies1 = document.cookie;
     function getCookieValue(cookieName, parameter){
         let array = cookieName.split("; ");
