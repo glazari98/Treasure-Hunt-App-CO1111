@@ -72,4 +72,17 @@ Members present: George, Vasili, Daria, Ahmed
 - Daria has to do some modifications the members' names and their roles so it;s more clear what is the role of everyone, change the picture in landing page from bubble to treasure, and write a better welcoming message.
 - Ahmed has to proceed with unit testing
 - George will assist Ahmed with the testing and also try to make it so that if a user completed a treasure hunt it doesnlt allow them to start it again or if they were left in a particular question to continue from that.
+# Meeting 8 (Date 27th Mrach 2024):
+Members present: Daria, George, Vasili, Ahmed
+## What has been done from last meeting:
+- Rafaella has not done any design so George did it
+- Ahmed didn't correctly do the unit testing functionality so George did.
+- Daria had an issue with QR scanner so George fixed it and now it works.
+- George modified the app according to Mr. Nicos' feedback.
+- Vasili and Daria did some design regarding responsiveness and the navigation bar.
+## Tasks until next meeting:
+- Vasili or Daria has to find a new logo for our app.
+- Maybe try and do the progressive app functionality.
+- Proceed with unit testing and heuristics.
+- Add comments and tidy app the code.
 
