@@ -13,9 +13,7 @@
     </style>
 </head>
 <body>
-
-
-
+<a href="unit_testing.html">Go back to uni testing page</a>
 <script>
    async function automatedTest(){
     const testResults = await runTests();
@@ -82,10 +80,10 @@
     }
 
     async function runUserTest() {
-        const testResult = await getList();
+        const testResult = await testTreasureHuntList();
         displayUserResult(testResult);
     }
-    async function getList() {
+    async function testTreasureHuntList() {
         let userInput = document.getElementById('userInput').value;
         let output;
         let testResults = [];
@@ -123,6 +121,7 @@
        window.location.reload();
     }
 </script>
+<h2>Tests on /list API call:</h2>
 <table class="tg">
     <thead>
     <tr>
@@ -179,10 +178,12 @@
     </tbody>
 </table>
 <br>
+<h3>User automated test: </h3>
 <input type="button" onclick="automatedTest()" value="Automated Test">
 <div id="automatedTest">
 </div>
 <br>
+<h3>User input test:</h3>
 <form action="javascript:runUserTest()">
     <label>User input test:</label>
     <input type="number" step="1" id="userInput">

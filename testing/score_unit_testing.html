@@ -13,6 +13,8 @@
     </style>
 </head>
 <body>
+<a href="unit_testing.html">Go back to uni testing page</a>
+<h2>Tests on /score API call:</h2>
 <table class="tg">
     <thead>
     <tr>
@@ -68,16 +70,16 @@
     </tr>
     </tbody>
 </table>
+<h3>User input test: </h3>
 <form action="javascript:runUserTest()">
-    <label>User input test:</label>
     <input type="number" step="1" id="userInput">
     <input type="submit">
 </form>
 <script>async function runUserTest() {
-    const testResult = await testgeScore();
+    const testResult = await testgetScore();
     displayUserResult(testResult);
 }
-async function testgeScore() {
+async function testgetScore() {
     let userInput = document.getElementById('userInput').value;
     let output;
     let testResults = [];

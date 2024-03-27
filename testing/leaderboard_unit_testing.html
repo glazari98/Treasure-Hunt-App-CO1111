@@ -13,6 +13,8 @@
     </style>
 </head>
 <body>
+<a href="unit_testing.html">Go back to uni testing page</a>
+<h2>Tests on /leaderboard API call:</h2>
 <table class="tg">
     <thead>
     <tr>
@@ -75,10 +77,12 @@
     </tr>
     </tbody>
 </table>
+<h3>User automated test:</h3>
 <input type="button" onclick="automatedTest()" value="Run Leaderboard Test">
 <div id="automatedTest">
 
 </div>
+<h3>User input test:</h3>
 <form onsubmit="runUserTest()">
     <label>Number of players in leaderboard</label>
     <input type="number" step="1" id="numOfPlayers"><br>
@@ -91,7 +95,7 @@
 </form>
     <script>
         async function automatedTest(){
-            const testResults = await getLeaderBoard();
+            const testResults = await testgetLeaderBoard();
             displayResults(testResults);
         }
 
@@ -99,7 +103,7 @@
         let expectedOutput = [1, 0, 42, 42, 42, 12, 52];
         let testSorted = ["true" , "true", "false", "false", "true", "false","false"];
         let expectedSorted = [true , true, false, false, true, false, false];
-        async function getLeaderBoard() {
+        async function testgetLeaderBoard() {
             let testResults = [];
             for(let i = 0 ; i < testArray.length; i++) {
                 const response = await fetch(`https://codecyprus.org/th/test-api/leaderboard?sorted=${testSorted[i]}&size=${testArray[i]}`);
