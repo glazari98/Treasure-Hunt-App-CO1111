@@ -15,6 +15,7 @@
 <body>
 <a href="unit_testing.html">Go back to uni testing page</a>
 <h2>Tests on /score API call:</h2>
+<!-- testing performed by our team -->
 <table class="tg">
     <thead>
     <tr>
@@ -71,53 +72,58 @@
     </tbody>
 </table>
 <h3>User input test: </h3>
+<!-- user input testing -->
 <form action="javascript:runUserTest()">
     <input type="number" step="1" id="userInput">
     <input type="submit">
 </form>
-<script>async function runUserTest() {
+<script>
+    async function runUserTest() {
     const testResult = await testgetScore();
     displayUserResult(testResult);
-}
-async function testgetScore() {
-    let userInput = document.getElementById('userInput').value;
-    let output;
-    let testResults = [];
-    await fetch(`https://codecyprus.org/th/test-api/score?score=${userInput}`).then(response => response.json())
-        .then(jsonObject => {
-            let result;
-            if (jsonObject.status === "OK") {
-                output = jsonObject.score;
-                result = "SUCCESS";
-            }
-            else {
-                output = jsonObject.errorMessages;
-                result = "FAIL";
-            }
+    }
+    async function testgetScore() {
+        let userInput = document.getElementById('userInput').value;
+        let output;
+        let testResults = [];
+        //user user input values to fetch the score
+        await fetch(`https://codecyprus.org/th/test-api/score?score=${userInput}`).then(response => response.json())
+            .then(jsonObject => {
+                let result;
+                if (jsonObject.status === "OK") {
+                    output = jsonObject.score;
+                    result = "SUCCESS";
+                }
+                else {
+                    output = jsonObject.errorMessages;
+                    result = "FAIL";
+                }
+                //put results in the array
+                testResults.push({
+                    input: `Score=${userInput}`,
+                    output: `Score=${output}`,
+                    result: result
+                });
 
-
-            testResults.push({
-                input: `Score=${userInput}`,
-                output: `Score=${output}`,
-                result: result
             });
-
-        });
-    return testResults;
-}
-function displayUserResult(testResults){
-    let input = document.getElementById('input');
-    let output = document.getElementById('output');
-    let result = document.getElementById('result');
-    const testResult = testResults[0]; // Assuming there's only one test result
-    input.innerHTML = testResult.input;
-    output.innerHTML = testResult.output;
-    result.innerHTML = testResult.result;
-}
-function reset(){
-    window.location.reload();
-}
+        return testResults;
+    }
+    //use the test Results array to display the user test
+    function displayUserResult(testResults){
+        let input = document.getElementById('input');
+        let output = document.getElementById('output');
+        let result = document.getElementById('result');
+        // Assuming there's only one test result
+        const testResult = testResults[0];
+        input.innerHTML = testResult.input;
+        output.innerHTML = testResult.output;
+        result.innerHTML = testResult.result;
+    }
+    function reset(){
+        window.location.reload();
+    }
 </script>
+<!-- user test table-->
 <table class="tg">
     <thead>
     <tr>
@@ -135,5 +141,6 @@ function reset(){
     </tbody>
 
 </table>
+<input type="reset" onclick="reset()">
 </body>
 </html>
