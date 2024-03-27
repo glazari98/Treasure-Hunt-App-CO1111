@@ -172,7 +172,8 @@ footer {
     left: 0px;
     top: 0px;
     width: 100%;
-    height: 100%;
+    height: 94%;
+    background-color: #FFFFFF;
 }
 #leadbutton {
     width: 25%;

@@ -46,7 +46,9 @@
 
 <div id="camera">
     <div id="cameraContent"><video id="preview"></video></div>
+    <div style="margin: 20px; padding: 20px; background-color: black; color: white; text-align: center;" id="content"></div>
     <button onclick="closeCamera()">Close</button>
+    <input type="button" value="NEXT CAMERA" onclick="nextCamera()">
 </div>
 <script>
 
@@ -88,7 +90,8 @@
         cameraDiv.style.display = "block";
         Instascan.Camera.getCameras().then(function (cameras) {
             if (cameras.length > 0) {
-                scanner.start(cameras[0]);
+                camerasList = cameras;
+                nextCamera();
 
             } else {
                 console.error('No cameras found.');
@@ -97,6 +100,10 @@
         }).catch(function (e) {
             console.error(e);
         });
+    }
+    function nextCamera() {
+        currentCameraIndex = (currentCameraIndex + 1) % camerasList.length;
+        scanner.start(camerasList[currentCameraIndex]);
     }
     function closeCamera(){
         let cameraDiv = document.getElementById('camera');
@@ -232,7 +239,7 @@
                         askForLocation();
                     }
                     if (jsonObject.requiresLocation == true) {
-                        question.innerHTML += "(This question requires you to be at a specific location!";
+                        question.innerHTML += "(This question requires you to be at a specific location!)";
                         askForLocation();
                         if (sessionStorage.getItem("message") == "Ignored update as the previous update was less than 30 seconds earlier.") {
                             alert("If you are at the right location, PLEASE WAIT at least 30 seconds until we update your position again");
