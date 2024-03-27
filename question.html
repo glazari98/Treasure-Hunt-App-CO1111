@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="questions.css" />
 
     <title>Questions</title>
-    <script src="js/instascan.min.js"></script>
+    <script src="js/instascan.min.js" ></script>
     <script src="https://kit.fontawesome.com/a28250db7a.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -45,8 +45,11 @@
 <footer>Copyright © GROUPA2 Treasure Hunt CO1111</footer>
 
 <div id="camera">
-    <div id="cameraContent"><video id="preview"></video></div>
-    <div style="margin: 20px; padding: 20px; background-color: black; color: white; text-align: center;" id="content"></div>
+    <div id="cameraContent">
+        <video id="preview"></video>
+        <div style="margin: 20px; padding: 20px; background-color: black; color: white; text-align: center;" id="content"></div>
+    </div>
+
     <button onclick="closeCamera()">Close</button>
     <input type="button" value="NEXT CAMERA" onclick="nextCamera()">
 </div>
@@ -83,8 +86,12 @@
     };
     var scanner = new Instascan.Scanner(opts);
     var camerasList = [];
-    var currentCameraIndex = -1;
+    var currentCameraIndex = 0;
 
+    scanner.addListener('scan', function (content) {
+        console.log(content);
+        document.getElementById("content").innerHTML = content;
+    });
     function allowCamera() {
         let cameraDiv = document.getElementById('camera');
         cameraDiv.style.display = "block";
