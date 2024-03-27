@@ -1,3 +1,4 @@
+//function to get the cookie value according to its name
 function getCookieValue(cookieName) {
     let array = document.cookie.split("; ");
     for (let i = 0; i < array.length; i++) {
@@ -8,27 +9,25 @@ function getCookieValue(cookieName) {
         }
     }
 }
-let cookies = document.cookie;
-console.log(cookies);
+//get the session cookie value
 let session = getCookieValue("session");
-console.log(session);
 
+//fetch to get the list of treasure hunts
 fetch("https://codecyprus.org/th/api/list").then(response => response.json())
 .then(jsonObject => {
-    console.log(jsonObject.treasureHunts);
-    //TODO - Success, do something with the data.
-    const container = document.getElementById("challenges");
-    // var array = jsonObject[0].name;
-    // console.log(array);
-    let cD = new Date();
-    cD = cD.getTime();
-    jsonObject.treasureHunts.forEach((element) => {
 
-    // console.log(element);
-    let valid = (element.startsOn <= cD) ?  true : false;
+    const containerElement = document.getElementById("treasureHunts");
+    //get the current date/time
+    let currentDate = new Date();
+    currentDate = currentDate.getTime();
+    //iterate through the treasure hunts array
+    jsonObject.treasureHunts.forEach((element) => {
+    //if the date that the treasure hunt starts is less than the current date then it means it is a valid treasure hunt
+    let validTreasureHunt = (element.startsOn <= currentDate) ?  true : false;
     const button = document.createElement('button');
     button.innerHTML = element.name;
-    if(!valid) {
+    //if it is invalid show the invalid cursor pointer
+    if(!validTreasureHunt) {
         button.classList.add('invalid');
         button.id = 'invalidTH';
     }
@@ -38,18 +37,22 @@ fetch("https://codecyprus.org/th/api/list").then(response => response.json())
         //button.addEventListener('onclick',buttonConfirmation);
     }
     button.classList.add('alertbutton');
-   container.appendChild(button);
+    //put the treasure hunt buttons in the div
+   containerElement.appendChild(button);
+   //when user clicks we check if there is a current session running
         button.addEventListener('click', async function() {
             let huntName = button.textContent;
             console.log(huntName);
-            if(valid) {
+            if(validTreasureHunt) {
                 await fetch("https://codecyprus.org/th/api/question?session=" + session).then(response => response.json())
                     .then(jsonObject => {
                         console.log(jsonObject);
+                        //continue the quiz
                         if(jsonObject.completed == false){
                             window.location.href = "question.html?";
                         }
                         else{
+                            //go to start page to register to start the quiz
                             window.location.href = "start.html?treasure-hunt-id=" + element.uuid;
                             localStorage.setItem("timeOfTH", element.maxDuration);
                         }

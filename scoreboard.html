@@ -3,33 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="design/app.css" />
     <script src="https://kit.fontawesome.com/a28250db7a.js" crossorigin="anonymous"></script>
 
     <title>Scoreboard</title>
 </head>
 <body>
+<!--For facebook share button -->
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0" nonce="7vA0HEyV"></script>
-<!--<header>-->
-<!--    <div  class="navigationScoreboard">-->
-<!--        <ul>-->
-<!--&lt;!&ndash;            <li><a href="index.html">Home</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;            <li><a href="app.html">Treasure Hunts</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;            <li><a href="index.html#aims" >About Us</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
-<!--    </div>-->
-<!--</header>-->
-  
+<
 <div class="score-container">
-<div class="congratulations-block">
+<div class="congratulations-block"><!--Div with congradulations message -->
   <h1 class="congratulations">Congratulations!</h1>
 </div>
-<div class="score-text" >
+<div class="score-text" ><!--Div with player score and image -->
   <h2 id="score">Your Score:  <span id="playerScore">0</span></h2>
     <img src="resources/chest.png" alt="Image" class="score-image">
 </div>
-    <div id="socialMedia">
+    <div id="socialMedia"><!--Div containing the twitter post and share button for the user to post when they finish the quiz -->
   <div class="hidden twitter ico">
       <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="Finished the Treasure Hunt quiz. Loved the experience!!!!" data-via="groupA2GRAD" data-hashtags="CO1111" data-show-count="false">Tweet</a>
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -38,15 +30,13 @@
     <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61557387192517&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a>
 </div>
     </div>
+    <!--the user can go to the leaderboard -->
 <input type="button" name="Leaderboard" value="Leaderboard" onclick="window.location.href = 'leaderboard.html'" id="leadbutton">
 </div>
 
 <footer>
     Copyright © GROUPA2 Treasure Hunt CO1111
 </footer><script src="js/scoreboard.js"></script>
-<script>
-var cookies = document.cookie;
-console.log(cookies);
-</script>
+
 </body>
 </html>

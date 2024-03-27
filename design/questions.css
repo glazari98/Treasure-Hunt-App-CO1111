@@ -1,0 +1,264 @@
+/*DESIGN FOR question.html*/
+/*background color and content alignment*/
+body{
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(5,1,71);
+    background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    width: 100%;
+    height: 100vh;
+    font-size: 2vw;
+}
+/*QR code button*/
+#QR{
+    transform: scale(1.5);
+    margin: 7px;
+}
+/*design for camera div*/
+#camera{
+    display: none;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 94%;
+    background-color: #FFFFFF;
+}
+main {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%
+}
+.navigation {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 24px;
+}
+ul {
+    list-style-type: none;
+}
+.navigation li {
+    display: inline;
+    position: relative;
+    padding: 2% 2%;
+}
+
+.navigation li a {
+    text-decoration: none;
+    color: #d6dff7;
+    size-adjust: 10%;
+    position: relative;
+}
+
+.navigation li a:hover {
+    color: rgb(255, 255, 255);
+}
+
+.navigation li a::after {
+    content: "";
+    background-color: rgb(255, 255, 255);
+    width: 110%;
+    height: 2px;
+    position: absolute;
+    bottom: -2px;
+    left: -4%;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.navigation li a:hover::after {
+    transform: scaleX(1);
+}
+/**design related to questions*/
+#question, #answer, #submitB, #answerField, #skipButton a {
+    margin: 5px; /* Adjust as needed */
+}
+#questionIndex{
+    font-size: 30px;
+    font-weight: bold;
+}
+label{
+    font-size: 30px;
+
+}
+#question{
+    font-size: 40px;
+    text-align: center;
+}
+/*input fields*/
+.MCQ{
+    margin-left: 11px;
+    margin-right: 22px;
+}
+#inputField {
+    border: 4px solid red;
+    height: 26px;
+    border-radius: 10px;
+    width: 183px;
+    outline: none;
+}
+#inputField:focus{
+    border-color: yellow;
+}
+
+/*submit and skip buttons design*/
+#sub, #skipButton {
+    font-size: 20px;
+    border-radius: 10px;
+    color: yellow;
+    background-color: transparent;
+    width: 143px;
+    border: 2px solid white;
+}
+
+#sub{
+    margin-top: 10px;
+}
+#skipButton{
+    font-size: 20px;
+    width: 109px;
+    position: relative;
+    margin-bottom: 20px;
+    bottom: -61px;
+}
+input[type="radio"]{
+    transform: scale(2.5);
+    margin-left: 17px;
+}
+.inputTrueFalse{
+    margin-left: 37px;
+    margin-right: 16px;
+}
+
+a{
+    color: red;
+}
+#sub:hover, #skipButton:hover{
+    background-color: blueviolet;
+}
+#sub:active, #skipButton:active{
+    background-color: deepskyblue;
+}
+input:hover {
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+/* For buttons */
+button:hover {
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+#answer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+footer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 7vh;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    scroll-snap-stop: always;
+}
+
+#leadbutton {
+    width: 25%;
+    min-width: 155px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: rgb(62, 21, 136);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+#leadbutton:hover {
+    background-color: rgb(93, 8, 110);
+}
+/*responsiveness fror tablet display*/
+@media (max-width: 768px) {
+    .navigation{
+        font-size: 25px;
+    }
+
+    #leadbutton{
+        width: 67%;
+    }
+    #skipButton{
+        bottom: -53px;
+    }
+    #sub, #skiButton{
+        font-size: 30px;
+        width: 143px;
+    }
+}
+/*responsiveness for mobile phone display*/
+@media (max-width: 426px){
+    .navigation{
+        font-size: 17px;
+    }
+    #question {
+        font-size: 22px;
+    }
+    #scoreNumber{
+        font-size: 20px;
+    }
+    .navigation li {
+        padding: 2% 3%;
+    }
+    footer{
+        font-size: 15px;
+
+    }
+    ul{
+        padding: 0px;
+    }
+
+    .MCQ {
+        margin-left: 15px;
+    }
+}
+
+@media (max-width: 376px){
+    .MCQ {
+        margin-left: 7px;
+    }
+    #skipButton{
+        bottom: -70px;
+    }
+}
+
+@media (max-width: 321px){
+    ul {
+        padding: 5px;
+    }
+    .navigation li {
+        padding: 2% 4%;
+    }
+    .MCQ {
+        margin-left: 3px;
+        margin-right: 17px;
+    }
+
+}

@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700;800&display=swap');
+body {
+    align-items: center;
+    align-content: center;
+    align-self: center;
+    margin: 0px;
+    padding: 0px;
+    background: rgb(5,1,71);
+    background: linear-gradient(90deg, rgba(5,1,71,1) 0%, rgb(15, 15, 99) 35%, rgba(73,10,125,1) 100%); 
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+main {
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+}
+section {
+    height: 100vh;
+    scroll-snap-align: start;
+    font-size: 1.5vw;
+    
+}
+
+section h1 {
+    margin-top: 15%;
+    margin-left: 10%;
+    font-weight: 800;
+    font-size: 9vw;
+
+}
+
+section h2 {
+    font-size: 7vw;
+    margin-top: 20%;
+    padding: 5%;
+
+}
+
+section ul {
+    padding-left: 5%;
+    position: relative;
+}
+
+
+footer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 7vh;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    scroll-snap-stop: always;
+}
+
+
+#welcome div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+
+
+#logo {
+    width: 20%;
+    min-width: 300px;
+    top: 0;
+    position: absolute;
+}
+
+#ll {
+    width: 30%;
+    height: 30%;
+}
+
+#game {
+    display: flex;
+    flex-direction: row;
+    justify-self: center; 
+    align-self: center; 
+}
+
+#start {
+    width: 15%;
+    min-width: 100px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: rgb(44, 8, 110);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+#start::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 80%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 80%);
+    transform: rotate(45deg);
+    pointer-events: none;
+    z-index: 1;
+}
+
+
+#start:hover {
+    background-color: rgb(93, 8, 110); 
+}
+
+#scroll{
+    padding-top: 27px;
+    margin-left: 140px;
+}
+#game p{
+    margin-top: 29px;
+
+
+}
+#contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-left: 0;
+}
+#testing{
+    border: 1px solid greenyellow;
+    color: greenyellow;
+    font-size: 94%;
+    border-radius: 5px;
+}
+#contact div{
+    width: 30%;
+    min-width: 300px;
+    max-height: 80%;
+}
+
+.hidden {
+    opacity: 0;
+    transition: all 1s;
+    filter: blur(5px);
+    transform: translateX(-100%);
+
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+}
+
+.twitter-timeline {
+    max-height: 80%;
+}
+
+.ico {
+    display: none;
+}
+.socialMedia{
+    color: white;
+}
+
+@media (max-width: 769px) {
+    /*#scroll {*/
+    /*    padding-top: 29px;*/
+    /*    margin-left: 110px;*/
+    /*}*/
+    #logo {
+        margin-top: 20%; 
+    }
+
+    #welcome {
+        margin-top: -20%;
+      }
+
+    #ll{
+        margin-left: 5%;
+        width: 40%;
+        margin-top: 25%;
+
+    }
+
+    
+    section h1 {
+        margin-left: 3%;
+        margin-top: 45%;
+        font-size: 70px;
+
+    }
+    section h2 {
+        font-size: 50px;
+    }
+    section {
+        font-size: 20px;
+    }
+
+    .wid {
+        display: none;
+    }
+
+    .ico {
+        display: block;
+    }
+
+    #contact div{
+        width: 30%;
+        min-width: 300px;
+        max-height: 20%;
+    }
+    #scroll {
+        padding-top: 55px;
+    }
+
+    #start {
+        font-size: 1em;
+        width: 35%;
+        height: 20%
+    }
+    #aims,
+    #team {
+       font-size: 1.6em; 
+  }
+}
+
+@media (max-width: 670px) {
+    #aims,
+    #team {
+       font-size: 1.1em; 
+  }
+}
+@media (max-width: 426px){
+    section h1 {
+        font-size: 43px;
+    }
+    #ll{
+        margin-left: 0;
+        margin-top: 35%;
+    }
+    #welcome div{
+        margin-bottom: 93px;
+    }
+    #start {
+        margin-bottom: 10px;
+        width: 43%;
+    }
+    #game p{
+        font-size: 90%;
+        margin-top: 31px;
+        margin-left: 7%;
+    }
+    #scroll{
+        padding-top: 55px;
+        padding-left: 30px;
+        margin-left: 0;
+    }
+}
+@media (max-width: 376px){
+    #welcome div {
+        margin-bottom: 45px;
+    }
+    #game p {
+        font-size: 87%;
+        margin-top: 2%;
+        margin-left: 6%;
+    }
+    #scroll {
+        padding-top: 27%;
+    }
+}
+@media (max-width: 321px) {
+#ll{
+    margin-top: 39%;
+    width: 28%;
+}
+#scroll{
+    padding-top: 33%;
+}
+
+}
