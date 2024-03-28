@@ -137,13 +137,14 @@
         for(let i=0; i < array.length; i++){
             let cookie = array[i];
             let [name,value] =  cookie.split("=");
-            if (name == "session"){
+            if (name == "sessionGame"){
                 return value;
             }
         }
 
     }
     let cookies1 = document.cookie;
+    console.log(cookies1);
     //treasureHunt session ID to be used for API calls
     let sessionID = getCookieValue(cookies1);
 
@@ -194,18 +195,18 @@
     let timeUpdate;
     //function for the time countdown of the treasure hunt
     function startTimer(duration) {
+
         let timerDisplay = document.getElementById('timer');
-        let endTime = sessionStorage.getItem('endTime'); //when the teasure hunt ends
+        let endTime = sessionStorage.getItem('endTime'); //when the treasure hunt ends
 
         timeUpdate = setInterval(function () {
             //time left is the end time minus the current time
             let timeLeft = endTime - Date.now();
             //if time left is 0 inform the user and show the completion of the treasure hunt message
             if (timeLeft <= 0) {
-                alert("Finished session. The specified session has run out of time.")
-                getScore();
-                sessionStorage.clear();
+                alert("Finished session. The specified session has run out of time.");
                 stopTimer();
+                sessionStorage.clear();
                 question.innerHTML = "Well Done!!! You reached the end of the treasure hunt";
                 document.getElementById('pleaseWaitMessage').style.display = 'none';
                 document.getElementById('questionIndex').style.display = 'none';
@@ -257,6 +258,7 @@
 
         await fetch("https://codecyprus.org/th/api/question?session=" + sessionID).then(response => response.json())
             .then(jsonObject => {
+                console.log(jsonObject);
                 if(jsonObject.status === "OK") {
                     //question index
                     document.getElementById('questionIndex').innerHTML = "Question: " + (jsonObject.currentQuestionIndex+1) + "/" + jsonObject.numOfQuestions;
@@ -413,7 +415,6 @@
                     //if the error message for running out of time then display the ending message for the user and their score achieved
                     if (jsonObject.errorMessages == "Finished session. The specified session has run out of time.") {
                         alert(jsonObject.errorMessages);
-                        getScore();
                         sessionStorage.clear();
                         stopTimer();
                         question.innerHTML = "Well Done!!! You reached the end of the treasure hunt";
@@ -439,12 +440,13 @@
         }
 
     getQuestion();
+
     //form that contains the answer field
     let formElement = document.getElementById('answer');
     formElement.addEventListener('submit', getAnswer); //link the get answer function with pressing the submit button
     //function to retrieve the answer and send it to the api to see if it's correct
     async function getAnswer() {
-        event.preventDefault();//prevent submission of the form every time we refresh
+        event.preventDefault();
         //when the user answers the question text, index, answer field, skip button are removed and the loading message appears
         document.getElementById('questionIndex').style.display = 'none';
         document.getElementById('pleaseWaitMessage').style.display = 'block';

@@ -46,16 +46,7 @@
     //variable to test for alphanumeric characters
     let alphaNumeric = /^[a-zA-Z0-9]+$/;
     //function to get the cookie value according to the cookie's name
-    function getCookieValue(cookieName) {
-        let array = cookieName.split("; ");
-        for (let i = 0; i < array.length; i++) {
-            let cookie = array[i];
-            let [name, value] = cookie.split("=");
-            if (name == "session") {
-                return value;
-            }
-        }
-    }
+
     //function that gets the session variable and the url string with treasure hunt and calls /start for the treasure hunt to start
     async function startTH() {
         event.preventDefault();
@@ -63,21 +54,24 @@
         //user entered non-alphanumeric characters
         if (alphaNumeric.test(player) == false) {
             alert("The characters you entered are not alphanumeric!! Enter a valid username");
-        } else {
+        }
+        else {
         await fetch("https://codecyprus.org/th/api/start?player=" + player + urlString).then(response => response.json()) //Parse JSON text to JavaScript object
             .then(jsonObject => {
                 if (jsonObject.status === "OK") {
                     //set the session cookie and playerName cookie
-                    setCookie("session", jsonObject.session, 10);
+                    setCookie("sessionGame", jsonObject.session, localStorage.getItem("timeOfTH"));
+                    setCookie("sessionLeaderboard", jsonObject.session, 5);
                     setCookie('playerName', player, 5);
                     document.getElementById('player').innerHTML = "";
                     //navigate to questions page
                     window.location.href = "question.html";
-                } else {
+                }
+                else {
                     alert(jsonObject.errorMessages);
                 }
             });
-    }
+        }
     }
 
 
