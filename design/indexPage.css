@@ -281,11 +281,14 @@ footer {
     }
 
     #scroll {
-        padding-top: 27%;
+        padding-top: 18%;
     }
 }
 
 @media (max-width: 321px) {
+    section h1{
+        margin-top: 51%;
+    }
     #ll{
         margin-top: 39%;
         width: 28%;
