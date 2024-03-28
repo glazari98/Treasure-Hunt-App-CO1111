@@ -97,3 +97,10 @@ Members present: Daria, George, Vasili, Ahmed
 - Finish with comments
 - Add the accceptance testing data to the pages
 - Finish with heuristic evaluation
+# Meeting 10 (Date 28th March 2024):
+Members present: Daria, George, Vasili, Ahmed
+## What has been done from last meeting:
+- Comments fully added
+- Vasili and Daria fixed some issues with styling
+- Ahmed added the user acceptance and heuristic evaluation data
+- Ahmed changed the logo of social media pages and made new posts
