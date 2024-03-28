@@ -120,12 +120,17 @@ label{
     border-radius: 10px;
     color: yellow;
     background-color: transparent;
-    width: 143px;
     border: 2px solid white;
 }
 
 #sub{
     margin-top: 10px;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 160px;
 }
 #skipButton{
     font-size: 20px;
