@@ -11,7 +11,7 @@ function getCookieValue(cookieName) {
     }
 }
 //get the session cookie value
-let session = getCookieValue("session");
+let session = getCookieValue("sessionGame");
 
 //fetch to get the list of treasure hunts
 fetch("https://codecyprus.org/th/api/list").then(response => response.json())
@@ -35,7 +35,6 @@ fetch("https://codecyprus.org/th/api/list").then(response => response.json())
     else {
         button.classList.add('valid');
 
-        //button.addEventListener('onclick',buttonConfirmation);
     }
     button.classList.add('alertbutton');
     //put the treasure hunt buttons in the div

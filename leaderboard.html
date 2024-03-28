@@ -10,7 +10,6 @@
 <body>
 
 <header>
-
     <!-- Navigation bar for the leaderboard page -->
     <!-- Contains links to Home, Treasure Hunts, and Scoreboard -->
     <div  class="navigationLeaderBoard">
@@ -25,24 +24,22 @@
     <div class="container">
         <p>Leaderboard</p>
         <h2 id="ranking"></h2>
-        <ul id="challenges"></ul>
+        <ul id="leaderBoard"></ul>
     </div>
 </main>
 
 <script>
-    // Function to empty the session cookie by setting its expiration date to the past
+    //empty the session of the game cookie by setting its expiration date to the past
     function emptySession (){
-        document.cookie = "session" + "=; expires=Mon, 01 Nov 1998 00:00:00 UTC; path=/;";
+        document.cookie = "sessionGame" + "=; expires=Mon, 01 Nov 1998 00:00:00 UTC; path=/;";
     }
     const TH_API_URL = "https://codecyprus.org/th/api/";
-    // the API base url/*** This is a function to access the /leaderboard at the specified URL*/
+    //function to access the /leaderboard at the specified URL*/
     function getLeaderBoard(url) {
         fetch(url, { method: "GET" }).then(response => response.json()).then(json => handleLeaderboard(json));
     }
 
-
-    // Retrieves all cookies available in the document
-    // Defines a function to extract the value of a specific cookie parameter
+    //a function to extract the value of a specific cookie
     var cookies1 = document.cookie;
     function getCookieValue(cookieName, parameter){
         let array = cookieName.split("; ");
@@ -54,24 +51,24 @@
             }
         }
     }
+    //session for leaderboard
+    let sessionID = getCookieValue(cookies1,"sessionLeaderboard");
 
-    let sessionID = getCookieValue(cookies1,"session");
-    //let session = sessionStorage.getItem('session');
     let url = TH_API_URL + "leaderboard?sorted&session=" + sessionID; // form url
     getLeaderBoard(url);
 
-    console.log(sessionID);
     let playerName = getCookieValue(cookies1,"playerName");
-    console.log(playerName);
+    //variable for showing the ranking
     let count = 0;
     function handleLeaderboard(leaderboard) {
-        let htm = document.getElementById('challenges'); // used to include HTML code for the table rows
+        let leaderBoardDiv = document.getElementById('leaderBoard'); // used to include HTML code for the table rows
         let rankingElement = document.getElementById('ranking');
         let leaderboardArray = leaderboard.leaderboard;
 
+        //for every element in the leadeboard create a list
         for(const entry of leaderboardArray) {
-            let html = document.createElement('li');
-            let positionString = "";
+            let listElement = document.createElement('li');
+            //ranking
             if(entry.player == playerName){
                 if(count == 0) {
                     rankingElement.innerHTML = "Your ranking in the leaderboard: " + (count + 1) + "st";
@@ -92,7 +89,7 @@
             else{
                 count++;
             }
-
+            //restrict the characters of names shown to 20 and show an error message if they are not alphanumeric
             let playerName1 = entry['player'];
            let alphaNumeric = /^[a-zA-Z0-9]+$/;
             if(playerName1.length > 20){
@@ -102,17 +99,15 @@
                 playerName1 = "'Error: Player name characters not recognised'";
             }
 
-
-            html.innerHTML = "<label id='position'>" + count  + "</label>"+
+            //insert the information from leaderboard array into the list
+            listElement.innerHTML = "<label id='position'>" + count  + "</label>"+
                 "<label id='playerName'>Player name: " + playerName1 + "</label><br><label id='points'>Points: " +
                 entry['score'] + "</label><br><label id='time'> Time completed: " +
                 new Date(entry['completionTime']).toLocaleString() +"</label>";
 
-            htm.appendChild(html);
+            leaderBoardDiv.appendChild(listElement);
 
         }
-        console.log(count);
-        // append generated HTML to existing
 
     }
 </script>
