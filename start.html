@@ -59,10 +59,10 @@
         await fetch("https://codecyprus.org/th/api/start?player=" + player + urlString).then(response => response.json()) //Parse JSON text to JavaScript object
             .then(jsonObject => {
                 if (jsonObject.status === "OK") {
-                    //set the session cookie and playerName cookie
+                    //set the session for playing the quiz
                     setCookie("sessionGame", jsonObject.session, localStorage.getItem("timeOfTH"));
-                    setCookie("sessionLeaderboard", jsonObject.session, 5);
-                    setCookie('playerName', player, 5);
+                    setCookie("sessionLeaderboard", jsonObject.session, 5); //cookie for showing the leaderboard
+                    setCookie('playerName', player, 5); //cookie for to used for showing the ranking in leaderboard
                     document.getElementById('player').innerHTML = "";
                     //navigate to questions page
                     window.location.href = "question.html";
