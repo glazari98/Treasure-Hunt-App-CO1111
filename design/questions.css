@@ -37,7 +37,9 @@ main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 100%
+    width: 100%;
+    position: relative;
+    top: -45px;
 }
 .navigation {
     position: absolute;
@@ -171,19 +173,6 @@ button:hover {
     flex-direction: column;
     align-items: center;
 }
-footer {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    height: 7vh;
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    scroll-snap-stop: always;
-}
 
 #leadbutton {
     width: 25%;
@@ -220,11 +209,17 @@ footer {
 }
 /*responsiveness for mobile phone display*/
 @media (max-width: 426px){
+    label {
+        font-size: 25px;
+    }
+    #questionIndex{
+        font-size: 25px;
+    }
     .navigation{
         font-size: 17px;
     }
     #question {
-        font-size: 22px;
+        font-size: 17px;
     }
     #scoreNumber{
         font-size: 20px;
@@ -242,6 +237,7 @@ footer {
 
     .MCQ {
         margin-left: 15px;
+        margin-right: 17px;
     }
 }
 
