@@ -460,7 +460,7 @@
             answer = document.querySelector('input[name="boolean"]:checked').value;
         } else if (questionType === 'MCQ') {
             //get value of radio button from multiple choice question
-            answer = document.getElementById('multipleChoiceSelect').value;
+            answer = document.querySelector('input[name="MCQ"]:checked').value;
         } else {
             //for any other type of question get the value from the input field
             answer = document.getElementById('inputField').value;
